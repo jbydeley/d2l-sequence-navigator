@@ -16,7 +16,7 @@
 			}
 		</style>
 		<slot></slot>
-		<button on-click='buttonClicked'>my button</button>
+		<h2>[[sirenEntity.class]]</h2>
 	</template>
 	<script>
 		class D2LSequenceViewer extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
@@ -27,16 +27,44 @@
 				return {
 					url: {
 						type: String,
-						value: "https://512f0713-cbf2-4395-8f25-cd7be603073b.sequences.api.dev.brightspace.com/123187/activity/104499"
+						observer: '_getSirenEntity',
+						value: ""
 					},
 					token: {
 						type: String,
-						value: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImQ4NjcwNDEyLTQ4MjYtNDNlZi04NzFlLTkxYjhlMWJmYmI4MSJ9.eyJzdWIiOiIxNzUiLCJ0ZW5hbnRpZCI6IjUxMmYwNzEzLWNiZjItNDM5NS04ZjI1LWNkN2JlNjAzMDczYiIsInNjb3BlIjoiKjoqOioiLCJqdGkiOiI0OTAxZGIwOS1jOTgzLTQzYmUtOTJhNC0zNmViYjgzZjRhYTciLCJpc3MiOiJodHRwczovL2FwaS5icmlnaHRzcGFjZS5jb20vYXV0aCIsImF1ZCI6Imh0dHBzOi8vYXBpLmJyaWdodHNwYWNlLmNvbS9hdXRoL3Rva2VuIiwiZXhwIjoxNTIzNjM1Njk2LCJuYmYiOjE1MjM2MzIwOTZ9.SAHsHC1zubPmCABhGgplkyJPKEfw_2-oVivNlB1O_-ereebQhkLmDcCV_CXab_HpaXbDKBhOM6idvr56r70fkrwliXgyiWLDl5mib88V7cJqDQNlkAkRc81zHNatNo-Ix7l1GlKvveuiH5XFGmdljkluU9gDRhFcPIYB2f1wclnFaz_TRtWVjAW_FCgCy9RaqdAqkZGd8XW4sMTeIGao4M3KyIrAm0tYx9TxzcwPg-xUJepLdtRnQpZYr4SRdHDmMpQgb7FNDJYXU1t0VmJI9nNdmsp7z3QJ2P83_79ud60qYhVUSFclhh_Ipy6gr-nrDSYcXmOtIO5ojNf37_evgA"
+						value: ""
+					},
+					sirenEntity: {
+						type: Object,
+						observer: '_fetchTree'
+					},
+					currentLink: {
+						type: String,
+						value: ""
 					}
 				}
 			}
-			buttonClicked() {
-				this._fetchEntityWithToken(this.url, () => Promise.resolve(this.token), null);
+			_getSirenEntity(){
+				var fetchEntity = async() => {
+					this.sirenEntity = await this._fetchEntityWithToken(
+						this.url,
+						() => Promise.resolve(this.token)
+						);	
+				}
+				fetchEntity()
+			}
+			_fetchTree(){
+				console.log(this.sirenEntity)
+				var parentLink = this.sirenEntity.getLinkByRel('up')
+				if( parentLink ) {
+					// If we have parentLink, then call up.
+					console.log("We need to go up!")
+					console.log(parentLink)
+					this.url = parentLink.href
+				} else {
+					console.log("We've found the root")
+					console.log(this.sirenEntity)
+				}
 			}
 			constructor() {
 				super();
