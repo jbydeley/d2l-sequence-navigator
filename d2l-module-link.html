@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
+<link rel="import" href="d2l-activity-link.html">
 
 <dom-module id="d2l-module-link">
 	<template>
@@ -12,12 +13,20 @@
 		<a>[[entity.properties.title]]</a>
 		<ul>
 		<template is="dom-repeat" items="[[entity.entities]]">
-			<template is="dom-if" if="[[showChild(item)]]">
+
+			<template is="dom-if" if="[[showChildModule(item)]]">
 				<li>
 					<d2l-module-link entity="[[item]]">
 					</d2l-module-link>
 				</li>
 			</template>
+			<template is="dom-if" if="[[showChildActivity(item)]]">
+				<li>
+					<d2l-activity-link entity="[[item]]">
+					</d2l-activity-link>
+				</li>
+			</template>
+		</li>
 		</template>
 		</ul>
 
@@ -34,8 +43,11 @@
 					}
 				}
 			}
-			showChild(childEntity){
+			showChildModule(childEntity){
 				return childEntity.class[1] === 'sequence-description';
+			}
+			showChildActivity(childEntity) {
+				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 
 			constructor() {
@@ -43,7 +55,6 @@
 			}
 			ready(){
 				super.ready();
-				console.log(this.entity);
 			}
 		}
 		customElements.define(D2LModuleLink.is, D2LModuleLink);

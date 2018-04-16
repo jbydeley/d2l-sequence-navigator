@@ -1,0 +1,37 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
+
+<dom-module id="d2l-activity-link">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<slot></slot>
+		<a>[[entity.properties.title]]</a>
+
+	</template>
+	<script>
+		class D2LActivityLink extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
+			static get is() {
+				return 'd2l-activity-link';
+			}
+			static get properties() {
+				return {
+					entity: {
+						type: Object
+					}
+				}
+			}
+
+			constructor() {
+				super();
+			}
+			ready(){
+				super.ready();
+			}
+		}
+		customElements.define(D2LActivityLink.is, D2LActivityLink);
+	</script>
+</dom-module>
