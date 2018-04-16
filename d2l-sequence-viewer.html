@@ -1,6 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
-
+<link rel="import" href="d2l-module-link.html">
 <!--
 'd2l-sequence-viewer'
 
@@ -16,7 +16,8 @@
 			}
 		</style>
 		<slot></slot>
-		<h2>[[sirenEntity.class]]</h2>
+		<h2>[[sirenEntity.properties.title]]</h2>
+		<d2l-module-link entity="{{sirenEntity}}"></d2l-module-link>
 	</template>
 	<script>
 		class D2LSequenceViewer extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
@@ -27,7 +28,6 @@
 				return {
 					url: {
 						type: String,
-						observer: '_getSirenEntity',
 						value: ""
 					},
 					token: {
@@ -35,8 +35,7 @@
 						value: ""
 					},
 					sirenEntity: {
-						type: Object,
-						observer: '_fetchTree'
+						type: Object
 					},
 					currentLink: {
 						type: String,
@@ -44,28 +43,28 @@
 					}
 				}
 			}
-			_getSirenEntity(){
-				var fetchEntity = async() => {
-					this.sirenEntity = await this._fetchEntityWithToken(
-						this.url,
-						() => Promise.resolve(this.token)
-						);	
+			async _fetchEntity ( entityUrl ) {
+
+				var currentSirenEntity = await this._fetchEntityWithToken(
+					entityUrl,
+					() => Promise.resolve(this.token)
+				);
+
+				var parentLink = currentSirenEntity.getLinkByRel('up');
+
+				if ( parentLink && parentLink.rel.length === 1 ) {
+					return this._fetchEntity(parentLink.href);
 				}
-				fetchEntity()
+				console.log(parentLink.rel);
+				return currentSirenEntity;
 			}
-			_fetchTree(){
-				console.log(this.sirenEntity)
-				var parentLink = this.sirenEntity.getLinkByRel('up')
-				if( parentLink ) {
-					// If we have parentLink, then call up.
-					console.log("We need to go up!")
-					console.log(parentLink)
-					this.url = parentLink.href
-				} else {
-					console.log("We've found the root")
-					console.log(this.sirenEntity)
-				}
+
+			async ready( ){
+				super.ready();
+				this.sirenEntity = await this._fetchEntity(this.url);
+
 			}
+
 			constructor() {
 				super();
 			}
