@@ -9,7 +9,10 @@
 			}
 		</style>
 		<slot></slot>
-		<a>[[entity.properties.title]]</a>
+    <a>[[entity.properties.title]]</a>
+    <template is="dom-if" if="[[isComplete()]]">
+      (completed)
+    </template>
 
 	</template>
 	<script>
@@ -31,6 +34,12 @@
 			ready(){
 				super.ready();
 			}
+      isComplete() {
+        return this.entity
+          .getSubEntityByRel("about")
+          .getSubEntityByClass("completion")
+          .hasClass("completed");
+      }
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);
 	</script>
