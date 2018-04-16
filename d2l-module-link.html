@@ -9,14 +9,13 @@
 			}
 		</style>
 		<slot></slot>
-		<a on-click="_raiseNavEvent">[[entity.properties.title]]</a>
+		<a>[[entity.properties.title]]</a>
 		<ul>
 		<template is="dom-repeat" items="[[entity.entities]]">
-			<d2l-module-link entity="item">
-					<li>
-					[[item.properties.title]]
-					</li>
+			<li>
+			<d2l-module-link entity="[[item]]">
 			</d2l-module-link>
+			</li>
 		</template>
 		</ul>
 
