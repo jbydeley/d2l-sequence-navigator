@@ -12,10 +12,12 @@
 		<a>[[entity.properties.title]]</a>
 		<ul>
 		<template is="dom-repeat" items="[[entity.entities]]">
-			<li>
-			<d2l-module-link entity="[[item]]">
-			</d2l-module-link>
-			</li>
+			<template is="dom-if" if="[[showChild(item)]]">
+				<li>
+					<d2l-module-link entity="[[item]]">
+					</d2l-module-link>
+				</li>
+			</template>
 		</template>
 		</ul>
 
@@ -31,6 +33,9 @@
 						type: Object
 					}
 				}
+			}
+			showChild(childEntity){
+				return childEntity.class[1] === 'sequence-description';
 			}
 
 			constructor() {
