@@ -16,6 +16,9 @@
     <template is="dom-if" if="[[isComplete()]]">
       (completed)
     </template>
+		<template is="dom-if" if="[[isCurrent()]]">
+      (active)
+    </template>
 
 	</template>
 	<script>
