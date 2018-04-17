@@ -17,7 +17,7 @@
 		</style>
 		<slot></slot>
 		<h2>[[sirenEntity.properties.title]]</h2>
-		<d2l-module-link entity="{{sirenEntity}}"></d2l-module-link>
+		<d2l-module-link entity="{{sirenEntity}}" current-activity="{{currentActivity}}"></d2l-module-link>
 	</template>
 	<script>
 		class D2LSequenceViewer extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
@@ -38,6 +38,10 @@
 						type: Object
 					},
 					currentLink: {
+						type: String,
+						value: ""
+					},
+					currentActivity: {
 						type: String,
 						value: ""
 					}

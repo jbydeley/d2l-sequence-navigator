@@ -16,13 +16,13 @@
 
 			<template is="dom-if" if="[[showChildModule(item)]]">
 				<li>
-					<d2l-module-link entity="[[item]]">
+					<d2l-module-link entity="[[item]]" current-activity="{{currentActivity}}">
 					</d2l-module-link>
 				</li>
 			</template>
 			<template is="dom-if" if="[[showChildActivity(item)]]">
 				<li>
-					<d2l-activity-link entity="[[item]]">
+					<d2l-activity-link entity="[[item]]" current-activity="{{currentActivity}}">
 					</d2l-activity-link>
 				</li>
 			</template>
@@ -40,6 +40,10 @@
 				return {
 					entity: {
 						type: Object
+					},
+					currentActivity: {
+						type: String,
+						value: ""
 					}
 				}
 			}
