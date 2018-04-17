@@ -7,14 +7,14 @@
 			:host {
 				display: block;
 			}
+			.current {
+				color: red;
+			}
 		</style>
 		<slot></slot>
-    <a>[[entity.properties.title]]</a>
+    <a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
     <template is="dom-if" if="[[isComplete()]]">
       (completed)
-    </template>
-		<template is="dom-if" if="[[isCurrent()]]">
-      (active)
     </template>
 
 	</template>
@@ -30,9 +30,14 @@
 					},
 					currentActivity: {
 						type: String,
-						value: ""
+						value: "",
+						observer: "isCurrent",
+						notify: true
 					}
 				}
+			}
+			setCurrent() {
+				this.currentActivity = this.entity.getLinkByRel("self").href;
 			}
 
 			constructor() {
@@ -48,9 +53,13 @@
           .hasClass("completed");
       }
 			isCurrent() {
-				console.log(this.entity);
-				console.log(this.entity.getLinkByRel("self"))
-				return this.entity.getLinkByRel("self").href == this.currentActivity;
+				var isCurrent = this.entity.getLinkByRel("self").href == this.currentActivity;
+				if(isCurrent) {
+					this.$.activityLink.classList.add("current");
+				}
+				else {
+					this.$.activityLink.classList.remove("current");
+				}
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);
