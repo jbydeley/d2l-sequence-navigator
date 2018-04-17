@@ -8,21 +8,31 @@
 			:host {
 				display: block;
 			}
+			.selected {
+				color: blue;
+			}
 		</style>
 		<slot></slot>
-		<a>[[entity.properties.title]]</a>
+		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]</a>
 		<ul>
 		<template is="dom-repeat" items="[[entity.entities]]">
 
 			<template is="dom-if" if="[[showChildModule(item)]]">
 				<li>
-					<d2l-module-link entity="[[item]]" current-activity="{{currentActivity}}">
+					<d2l-module-link
+						entity="[[item]]"
+						current-activity="{{currentActivity}}"
+						selected-module="{{selectedModule}}"
+					>
 					</d2l-module-link>
 				</li>
 			</template>
 			<template is="dom-if" if="[[showChildActivity(item)]]">
 				<li>
-					<d2l-activity-link entity="[[item]]" current-activity="{{currentActivity}}">
+					<d2l-activity-link
+						entity="[[item]]"
+						current-activity="{{currentActivity}}"
+					>
 					</d2l-activity-link>
 				</li>
 			</template>
@@ -45,6 +55,12 @@
 						type: String,
 						value: "",
 						notify: true
+					},
+					selectedModule: {
+						type: String,
+						value: "",
+						observer: "onSelectionChanged",
+						notify: true
 					}
 				}
 			}
@@ -53,6 +69,24 @@
 			}
 			showChildActivity(childEntity) {
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
+			}
+			toggleSelected() {
+				var isSelected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
+				if(isSelected) {
+					this.selectedModule = "";
+				}
+				else {
+					this.selectedModule = this.entity.getLinkByRel("self").href;
+				}
+			}
+			onSelectionChanged() {
+				var isSelected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
+				if(isSelected) {
+					this.$.moduleLink.classList.add("selected");
+				}
+				else {
+					this.$.moduleLink.classList.remove("selected");
+				}
 			}
 
 			constructor() {
