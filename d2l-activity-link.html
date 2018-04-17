@@ -53,15 +53,13 @@
           .hasClass("completed");
       }
 			onCurrentActivityChanged() {
-				if(this.isCurrent()) {
+				var current = this.entity.getLinkByRel("self").href == this.currentActivity;
+				if(current) {
 					this.$.activityLink.classList.add("current");
 				}
 				else {
 					this.$.activityLink.classList.remove("current");
 				}
-			}
-			isCurrent() {
-				return this.entity.getLinkByRel("self").href == this.currentActivity;
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);

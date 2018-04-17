@@ -71,7 +71,7 @@
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 			toggleSelected() {
-				if(this.isSelected()) {
+				if(this.$.moduleLink.classList.contains("selected")) {
 					this.selectedModule = "";
 				}
 				else {
@@ -79,15 +79,13 @@
 				}
 			}
 			onSelectedModuleChanged() {
-				if(this.isSelected()) {
+				var selected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;;
+				if(selected) {
 					this.$.moduleLink.classList.add("selected");
 				}
 				else {
 					this.$.moduleLink.classList.remove("selected");
 				}
-			}
-			isSelected() {
-				return this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
 			}
 
 			constructor() {
