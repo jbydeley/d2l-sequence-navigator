@@ -1,9 +1,9 @@
 {
-  "name": "d2l-sequence-viewer",
+  "name": "d2l-navigation-menu",
   "description": "",
   "license": "Apache-2.0",
-  "main": "d2l-sequence-viewer.html",
-  "homepage": "https://github.com/BrightspaceUI/sequence-viewer",
+  "main": "d2l-navigation-menu.html",
+  "homepage": "https://github.com/BrightspaceUI/navigation-menu",
   "ignore": [
     "test",
     ".editorconfig",
