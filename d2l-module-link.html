@@ -59,7 +59,7 @@
 					selectedModule: {
 						type: String,
 						value: "",
-						observer: "onSelectionChanged",
+						observer: "onSelectedModuleChanged",
 						notify: true
 					}
 				}
@@ -71,22 +71,23 @@
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 			toggleSelected() {
-				var isSelected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
-				if(isSelected) {
+				if(this.isSelected()) {
 					this.selectedModule = "";
 				}
 				else {
 					this.selectedModule = this.entity.getLinkByRel("self").href;
 				}
 			}
-			onSelectionChanged() {
-				var isSelected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
-				if(isSelected) {
+			onSelectedModuleChanged() {
+				if(this.isSelected()) {
 					this.$.moduleLink.classList.add("selected");
 				}
 				else {
 					this.$.moduleLink.classList.remove("selected");
 				}
+			}
+			isSelected() {
+				return this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;
 			}
 
 			constructor() {

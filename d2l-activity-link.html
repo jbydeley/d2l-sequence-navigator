@@ -31,7 +31,7 @@
 					currentActivity: {
 						type: String,
 						value: "",
-						observer: "onCurrentChanged",
+						observer: "onCurrentActivityChanged",
 						notify: true
 					}
 				}
@@ -52,14 +52,16 @@
           .getSubEntityByClass("completion")
           .hasClass("completed");
       }
-			onCurrentChanged() {
-				var isCurrent = this.entity.getLinkByRel("self").href == this.currentActivity;
-				if(isCurrent) {
+			onCurrentActivityChanged() {
+				if(this.isCurrent()) {
 					this.$.activityLink.classList.add("current");
 				}
 				else {
 					this.$.activityLink.classList.remove("current");
 				}
+			}
+			isCurrent() {
+				return this.entity.getLinkByRel("self").href == this.currentActivity;
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);
