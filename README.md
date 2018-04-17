@@ -1,6 +1,6 @@
 # d2l-sequence-viewer
 
-[Polymer](https://www.polymer-project.org)-based web component for D2L sequence-viewer.
+[Polymer](https://www.polymer-project.org)-based web component for D2L navigation-menu.
 
 
 For further information on this and other Brightspace UI components, see the docs at [ui.developers.brightspace.com](http://ui.developers.brightspace.com/).
@@ -8,7 +8,7 @@ For further information on this and other Brightspace UI components, see the doc
 ## Installation
 
 ```shell
-bower install d2l-sequence-viewer
+bower install d2l-navigation-menu
 ```
 
 ## Usage
@@ -46,4 +46,3 @@ To lint AND run local unit tests:
 ```shell
 npm test
 ```
-

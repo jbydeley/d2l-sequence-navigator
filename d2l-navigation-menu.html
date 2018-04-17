@@ -2,13 +2,13 @@
 <link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
 <link rel="import" href="d2l-module-link.html">
 <!--
-'d2l-sequence-viewer'
+'d2l-navigation-menu'
 
 
 @demo demo/index.hmtl
 -->
 
-<dom-module id="d2l-sequence-viewer">
+<dom-module id="d2l-navigation-menu">
 	<template>
 		<style>
 			:host {
@@ -20,9 +20,9 @@
 		<d2l-module-link entity="{{sirenEntity}}" current-activity="{{currentActivity}}"></d2l-module-link>
 	</template>
 	<script>
-		class D2LSequenceViewer extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
+		class D2LNavigationMenu extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
 			static get is() {
-				return 'd2l-sequence-viewer';
+				return 'd2l-navigation-menu';
 			}
 			static get properties() {
 				return {
@@ -72,6 +72,6 @@
 				super();
 			}
 		}
-		customElements.define(D2LSequenceViewer.is, D2LSequenceViewer);
+		customElements.define(D2LNavigationMenu.is, D2LNavigationMenu);
 	</script>
 </dom-module>
