@@ -16,9 +16,6 @@
     <template is="dom-if" if="[[isComplete()]]">
       (completed)
     </template>
-		<template is="dom-if" if="[[isCurrent()]]">
-      (active)
-    </template>
 
 	</template>
 	<script>
@@ -34,7 +31,7 @@
 					currentActivity: {
 						type: String,
 						value: "",
-						observer: "isCurrent",
+						observer: "onCurrentActivityChanged",
 						notify: true
 					}
 				}
@@ -55,9 +52,9 @@
           .getSubEntityByClass("completion")
           .hasClass("completed");
       }
-			isCurrent() {
-				var isCurrent = this.entity.getLinkByRel("self").href == this.currentActivity;
-				if(isCurrent) {
+			onCurrentActivityChanged() {
+				var current = this.entity.getLinkByRel("self").href == this.currentActivity;
+				if(current) {
 					this.$.activityLink.classList.add("current");
 				}
 				else {
