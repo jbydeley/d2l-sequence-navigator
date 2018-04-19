@@ -53,45 +53,45 @@
 					},
 					currentActivity: {
 						type: String,
-						value: "",
+						value: '',
 						notify: true
 					},
 					selectedModule: {
 						type: String,
-						value: "",
-						observer: "onSelectedModuleChanged",
+						value: '',
+						observer: 'onSelectedModuleChanged',
 						notify: true
 					}
-				}
+				};
 			}
-			showChildModule(childEntity){
+			showChildModule( childEntity ) {
 				return childEntity.class[1] === 'sequence-description';
 			}
-			showChildActivity(childEntity) {
+			showChildActivity( childEntity ) {
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 			toggleSelected() {
-				if(this.$.moduleLink.classList.contains("selected")) {
-					this.selectedModule = "";
+				if ( this.$.moduleLink.classList.contains('selected') ) {
+					this.selectedModule = '';
 				}
 				else {
-					this.selectedModule = this.entity.getLinkByRel("self").href;
+					this.selectedModule = this.entity.getLinkByRel('self').href;
 				}
 			}
 			onSelectedModuleChanged() {
-				var selected = this.entity && this.entity.getLinkByRel("self").href == this.selectedModule;;
-				if(selected) {
-					this.$.moduleLink.classList.add("selected");
+				var selected = this.entity && this.entity.getLinkByRel('self').href === this.selectedModule;
+				if ( selected ) {
+					this.$.moduleLink.classList.add('selected');
 				}
 				else {
-					this.$.moduleLink.classList.remove("selected");
+					this.$.moduleLink.classList.remove('selected');
 				}
 			}
 
 			constructor() {
 				super();
 			}
-			ready(){
+			ready() {
 				super.ready();
 			}
 		}

@@ -30,35 +30,35 @@
 					},
 					currentActivity: {
 						type: String,
-						value: "",
-						observer: "onCurrentActivityChanged",
+						value: '',
+						observer: 'onCurrentActivityChanged',
 						notify: true
 					}
-				}
+				};
 			}
 			setCurrent() {
-				this.currentActivity = this.entity.getLinkByRel("self").href;
+				this.currentActivity = this.entity.getLinkByRel('self').href;
 			}
 
 			constructor() {
 				super();
 			}
-			ready(){
+			ready() {
 				super.ready();
 			}
-      isComplete() {
-        return this.entity
-          .getSubEntityByRel("about")
-          .getSubEntityByClass("completion")
-          .hasClass("completed");
-      }
+			isComplete() {
+				return this.entity
+					.getSubEntityByRel('about')
+					.getSubEntityByClass('completion')
+					.hasClass('completed');
+			}
 			onCurrentActivityChanged() {
-				var current = this.entity.getLinkByRel("self").href == this.currentActivity;
-				if(current) {
-					this.$.activityLink.classList.add("current");
+				var current = this.entity.getLinkByRel('self').href === this.currentActivity;
+				if (current) {
+					this.$.activityLink.classList.add('current');
 				}
 				else {
-					this.$.activityLink.classList.remove("current");
+					this.$.activityLink.classList.remove('current');
 				}
 			}
 		}

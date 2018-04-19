@@ -5,7 +5,7 @@
 'd2l-navigation-menu'
 
 
-@demo demo/index.hmtl
+@demo demo/index.html
 -->
 
 <dom-module id="d2l-navigation-menu">
@@ -30,32 +30,32 @@
 			}
 			static get properties() {
 				return {
-					url: {
+					href: {
 						type: String,
-						value: ""
+						value: ''
 					},
 					token: {
 						type: String,
-						value: ""
+						value: ''
 					},
 					sirenEntity: {
 						type: Object
 					},
 					currentLink: {
 						type: String,
-						value: ""
+						value: ''
 					},
 					currentActivity: {
 						type: String,
-						value: ""
+						value: ''
 					},
 					selectedModule: {
 						type: String,
-						value: ""
+						value: ''
 					}
-				}
+				};
 			}
-			async _fetchEntity ( entityUrl ) {
+			async _fetchEntity( entityUrl ) {
 
 				var currentSirenEntity = await this._fetchEntityWithToken(
 					entityUrl,
@@ -70,9 +70,9 @@
 				return currentSirenEntity;
 			}
 
-			async ready( ){
+			async ready() {
 				super.ready();
-				this.sirenEntity = await this._fetchEntity(this.url);
+				this.sirenEntity = await this._fetchEntity(this.href);
 
 			}
 
