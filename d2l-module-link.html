@@ -13,11 +13,13 @@
 			}
 		</style>
 		<slot></slot>
-		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]</a>
+		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]
+			([[countCompletedActivities(entity)]]/[[countActivities(entity)]])
+		</a>
 		<ul>
 		<template is="dom-repeat" items="[[entity.entities]]">
 
-			<template is="dom-if" if="[[showChildModule(item)]]">
+			<template is="dom-if" if="[[isModule(item)]]">
 				<li>
 					<d2l-module-link
 						entity="[[item]]"
@@ -27,7 +29,7 @@
 					</d2l-module-link>
 				</li>
 			</template>
-			<template is="dom-if" if="[[showChildActivity(item)]]">
+			<template is="dom-if" if="[[isActivity(item)]]">
 				<li>
 					<d2l-activity-link
 						entity="[[item]]"
@@ -64,11 +66,46 @@
 					}
 				};
 			}
-			showChildModule( childEntity ) {
-				return childEntity.class[1] === 'sequence-description';
+			isModule( entity ) {
+				return entity.class[1] === 'sequence-description';
 			}
-			showChildActivity( childEntity ) {
-				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
+			isActivity( entity ) {
+				return entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
+			}
+			countCompletedActivities(entity) {
+				if (!entity.entities) return 0;
+				var total = 0;
+				for (var i = 0; i < entity.entities.length; i++) {
+					var child = entity.entities[i];
+					if (this.isActivity(child)) {
+						if (this.isComplete(child)) {
+							total++;
+						}
+					}
+					else if (this.isModule(child)) {
+						total += this.countCompletedActivities(child);
+					}
+				}
+				return total;
+			}
+			isComplete(activity) {
+				return activity
+					.getSubEntityByRel('about')
+					.getSubEntityByClass('completion')
+					.hasClass('completed');
+			}
+			countActivities(entity) {
+				var total = 0;
+				for (var i = 0; i < entity.entities.length; i++) {
+					var child = entity.entities[i];
+					if (this.isActivity(child)) {
+						total ++;
+					}
+					else if (this.isModule(child)) {
+						total += this.countActivities(child);
+					}
+				}
+				return total;
 			}
 			toggleSelected() {
 				if ( this.$.moduleLink.classList.contains('selected') ) {
