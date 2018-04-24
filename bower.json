@@ -16,7 +16,8 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "d2l-fetch-siren-entity-behavior": "brightspace/d2l-fetch-siren-entity-behavior#^4.0.2"
+    "d2l-fetch-siren-entity-behavior": "brightspace/d2l-fetch-siren-entity-behavior#^4.0.2",
+    "polymer-siren-mixins": "Brightspace/polymer-siren-mixins"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",

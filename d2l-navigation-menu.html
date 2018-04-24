@@ -1,5 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
+<link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
 <link rel="import" href="d2l-module-link.html">
 <!--
 'd2l-navigation-menu'
@@ -16,35 +16,25 @@
 			}
 		</style>
 		<slot></slot>
-		<h2>[[sirenEntity.properties.title]]</h2>
+		<h2>[[entity.properties.title]]</h2>
+
+
 		<d2l-module-link
-			entity="{{sirenEntity}}"
+			entity="{{entity}}"
 			current-activity="{{currentActivity}}"
 			selected-module="{{selectedModule}}"
 		></d2l-module-link>
 	</template>
 	<script>
-		class D2LNavigationMenu extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
+		/*
+		@mixes SirenEntityMixin
+		*/
+		class D2LNavigationMenu extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
 				return 'd2l-navigation-menu';
 			}
 			static get properties() {
 				return {
-					href: {
-						type: String,
-						value: ''
-					},
-					token: {
-						type: String,
-						value: ''
-					},
-					sirenEntity: {
-						type: Object
-					},
-					currentLink: {
-						type: String,
-						value: ''
-					},
 					currentActivity: {
 						type: String,
 						value: ''
@@ -55,25 +45,9 @@
 					}
 				};
 			}
-			async _fetchEntity( entityUrl ) {
 
-				var currentSirenEntity = await this._fetchEntityWithToken(
-					entityUrl,
-					() => Promise.resolve(this.token)
-				);
-
-				var parentLink = currentSirenEntity.getLinkByRel('up');
-
-				if ( parentLink && parentLink.rel.length === 1 ) {
-					return this._fetchEntity(parentLink.href);
-				}
-				return currentSirenEntity;
-			}
-
-			async ready() {
+			ready() {
 				super.ready();
-				this.sirenEntity = await this._fetchEntity(this.href);
-
 			}
 
 			constructor() {
