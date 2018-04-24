@@ -1,6 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
-<link rel="import" href="bower_components/d2l-accordion/d2l-accordion.html">
 <link rel="import" href="d2l-activity-link.html">
 
 <dom-module id="d2l-module-link">
@@ -9,31 +8,39 @@
 			:host {
 				display: block;
 			}
+			.selected {
+				color: blue;
+			}
 		</style>
 		<slot></slot>
-		<d2l-accordion-collapse on-click="toggleSelected" title="[[entity.properties.title]]" id="moduleAccordion" no-icons auto-close>
-			<div style="border: 1px solid red; padding:5px">
-				<d2l-accordion>
-					<template is="dom-repeat" items="[[entity.entities]]">
-						<template is="dom-if" if="[[isModule(item)]]">
-							<d2l-module-link
-								entity="[[item]]"
-								current-activity="{{currentActivity}}"
-								selected-module="{{selectedModule}}"
-							>
-							</d2l-module-link>
-						</template>
-						<template is="dom-if" if="[[isActivity(item)]]">
-							<d2l-activity-link
-								entity="[[item]]"
-								current-activity="{{currentActivity}}"
-							>
-							</d2l-activity-link>
-						</template>
-					</template>
-				</d2l-accordion>
-			</div>
-		</d2l-accordion-collapse>
+		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]
+			([[countCompletedActivities(entity)]]/[[countActivities(entity)]])
+		</a>
+		<ul>
+		<template is="dom-repeat" items="[[entity.entities]]">
+
+			<template is="dom-if" if="[[isModule(item)]]">
+				<li>
+					<d2l-module-link
+						entity="[[item]]"
+						current-activity="{{currentActivity}}"
+						selected-module="{{selectedModule}}"
+					>
+					</d2l-module-link>
+				</li>
+			</template>
+			<template is="dom-if" if="[[isActivity(item)]]">
+				<li>
+					<d2l-activity-link
+						entity="[[item]]"
+						current-activity="{{currentActivity}}"
+					>
+					</d2l-activity-link>
+				</li>
+			</template>
+		</li>
+		</template>
+		</ul>
 
 	</template>
 	<script>
@@ -101,26 +108,21 @@
 				return total;
 			}
 			toggleSelected() {
-				if ( this.$.moduleAccordion.classList.contains('selected') ) {
+				if ( this.$.moduleLink.classList.contains('selected') ) {
 					this.selectedModule = '';
 				}
 				else {
 					this.selectedModule = this.entity.getLinkByRel('self').href;
 				}
-				//this.$.moduleAccordion.opened = !this.$.moduleAccordion.opened;
 			}
 			onSelectedModuleChanged() {
 				var selected = this.entity && this.entity.getLinkByRel('self').href === this.selectedModule;
 				if ( selected ) {
-					this.$.moduleAccordion.classList.add('selected');
+					this.$.moduleLink.classList.add('selected');
 				}
 				else {
-					this.$.moduleAccordion.classList.remove('selected');
+					this.$.moduleLink.classList.remove('selected');
 				}
-			}
-			isSelected( entity ) {
-				var selected = entity.getLinkByRel('self').href === this.selectedModule;
-				return selected;
 			}
 
 			constructor() {
