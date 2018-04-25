@@ -15,9 +15,9 @@
 				display: block;
 			}
 		</style>
-		<h2>[[entity.properties.title]]</h2>
 		<d2l-module-link
-			entity="{{entity}}"
+			href="[[rootHref]]"
+			token="[[token]]"
 			current-activity="{{currentActivity}}"
 			selected-module="{{selectedModule}}"
 		></d2l-module-link>
@@ -39,6 +39,10 @@
 					selectedModule: {
 						type: String,
 						value: ''
+					},
+					rootHref: {
+						type: String,
+						computed: '_fetchRootLink(entity)'
 					}
 				};
 			}
@@ -50,6 +54,15 @@
 
 			constructor() {
 				super();
+			}
+
+			_fetchRootLink(entity) {
+				const upLink = this._getLinkByRel( entity, 'up' );
+				if ( upLink && upLink.rel.length === 1 ) {
+					this.href = upLink.href;
+				} else {
+					return this._getLinkByRel( entity, 'self' ).href;
+				}
 			}
 		}
 		customElements.define(D2LNavigationMenu.is, D2LNavigationMenu);

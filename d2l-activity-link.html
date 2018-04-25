@@ -1,5 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
+<link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
@@ -11,53 +11,66 @@
 				color: red;
 			}
 		</style>
-    <a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
-    <template is="dom-if" if="[[isComplete()]]">
-      (completed)
-    </template>
-
+		<a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
+		<template is="dom-if" if="[[showComplete]]">
+			(completed)
+		</template>
 	</template>
 	<script>
-		class D2LActivityLink extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
+		/*
+		@mixes SirenEntityMixin
+		*/
+		class D2LActivityLink extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
 				return 'd2l-activity-link';
 			}
 			static get properties() {
 				return {
-					entity: {
-						type: Object
-					},
 					currentActivity: {
 						type: String,
 						value: '',
-						observer: 'onCurrentActivityChanged',
 						notify: true
+					},
+					showComplete: {
+						type: Boolean,
+						value: false,
+						computed: 'isComplete(entity)'
 					}
 				};
 			}
-			setCurrent() {
-				this.currentActivity = this.entity.getLinkByRel('self').href;
+			static get observers() {
+				return [
+					'onCurrentActivityChanged(currentActivity, entity)'
+				];
 			}
 
 			constructor() {
 				super();
 			}
+
 			ready() {
 				super.ready();
 			}
-			isComplete() {
-				return this.entity
+
+			setCurrent() {
+				this.currentActivity = this._getLinkByRel( this.entity, 'self').href;
+			}
+
+			isComplete(entity) {
+				return entity
 					.getSubEntityByRel('about')
 					.getSubEntityByClass('completion')
 					.hasClass('completed');
 			}
-			onCurrentActivityChanged() {
-				var current = this.entity.getLinkByRel('self').href === this.currentActivity;
-				if (current) {
-					this.$.activityLink.classList.add('current');
-				}
-				else {
-					this.$.activityLink.classList.remove('current');
+
+			onCurrentActivityChanged( currentActivity, entity ) {
+				if ( currentActivity && entity ) {
+					var current = this._getLinkByRel( entity, 'self').href === currentActivity;
+					if ( current ) {
+						this.$.activityLink.classList.add('current');
+					} else {
+						this.$.activityLink.classList.remove('current');
+					}
 				}
 			}
 		}

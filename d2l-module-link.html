@@ -1,5 +1,5 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
-<link rel="import" href="bower_components/d2l-fetch-siren-entity-behavior/d2l-fetch-siren-entity-behavior.html">
+<link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
 <link rel="import" href="d2l-activity-link.html">
 
 <dom-module id="d2l-module-link">
@@ -19,20 +19,22 @@
 			([[completionCount.completed]] of [[completionCount.total]])
 		</a>
 		<ol>
-			<template is="dom-repeat" items="[[entity.entities]]">
-				<template is="dom-if" if="[[isModule(item)]]">
+			<template is="dom-repeat" items="[[entity.entities]]" as="childEntity">
+				<template is="dom-if" if="[[isModule(childEntity)]]">
 					<li>
 						<d2l-module-link
-							entity="[[item]]"
+							href="[[getHref(childEntity)]]"
+							token="[[token]]"
 							current-activity="{{currentActivity}}"
 							selected-module="{{selectedModule}}"
 						></d2l-module-link>
 					</li>
 				</template>
-				<template is="dom-if" if="[[isActivity(item)]]">
+				<template is="dom-if" if="[[isActivity(childEntity)]]">
 					<li>
 						<d2l-activity-link
-							entity="[[item]]"
+							href="[[getHref(childEntity)]]"
+							token="[[token]]"
 							current-activity="{{currentActivity}}"
 						></d2l-activity-link>
 					</li>
@@ -41,15 +43,15 @@
 		</ol>
 	</template>
 	<script>
-		class D2LModuleLink extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
+		/*
+		@mixes SirenEntityMixin
+		*/
+		class D2LModuleLink extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
 				return 'd2l-module-link';
 			}
 			static get properties() {
 				return {
-					entity: {
-						type: Object
-					},
 					currentActivity: {
 						type: String,
 						value: '',
@@ -71,27 +73,43 @@
 					}
 				};
 			}
-			isModule( entity ) {
-				return entity.class[1] === 'sequence-description';
+
+			constructor() {
+				super();
 			}
-			isActivity( entity ) {
-				return entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
+
+			ready() {
+				super.ready();
 			}
+
+			getHref(childEntity) {
+				return childEntity.getLinkByRel('self').href;
+			}
+
+			isModule(childEntity) {
+				return childEntity.class[1] === 'sequence-description';
+			}
+
+			isActivity(childEntity) {
+				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
+			}
+
 			countCompletedActivities(entity) {
 				const result = {
 					completed: 0,
 					total: 0
 				};
-				if (!entity.entities) return result;
-				for (var i = 0; i < entity.entities.length; i++) {
+				if ( !entity.entities ) {
+					return result;
+				}
+				for ( var i = 0; i < entity.entities.length; i++ ) {
 					var child = entity.entities[i];
-					if (this.isActivity(child)) {
+					if ( this.isActivity(child) ) {
 						result.total++;
-						if (this.isComplete(child)) {
+						if ( this.isComplete(child) ) {
 							result.completed++;
 						}
-					}
-					else if (this.isModule(child)) {
+					} else if ( this.isModule(child) ) {
 						var childCount = this.countCompletedActivities(child);
 						result.completed += childCount.completed;
 						result.total += childCount.total;
@@ -99,35 +117,29 @@
 				}
 				return result;
 			}
+
 			isComplete(activity) {
 				return activity
 					.getSubEntityByRel('about')
 					.getSubEntityByClass('completion')
 					.hasClass('completed');
 			}
+
 			toggleSelected() {
 				if ( this.$.moduleLink.classList.contains('selected') ) {
 					this.selectedModule = '';
-				}
-				else {
-					this.selectedModule = this.entity.getLinkByRel('self').href;
-				}
-			}
-			onSelectedModuleChanged() {
-				var selected = this.entity && this.entity.getLinkByRel('self').href === this.selectedModule;
-				if ( selected ) {
-					this.$.moduleLink.classList.add('selected');
-				}
-				else {
-					this.$.moduleLink.classList.remove('selected');
+				} else {
+					this.selectedModule = this._getLinkByRel( this.entity, 'self').href;
 				}
 			}
 
-			constructor() {
-				super();
-			}
-			ready() {
-				super.ready();
+			onSelectedModuleChanged() {
+				var selected = this.entity && this._getLinkByRel( this.entity, 'self').href === this.selectedModule;
+				if ( selected ) {
+					this.$.moduleLink.classList.add('selected');
+				} else {
+					this.$.moduleLink.classList.remove('selected');
+				}
 			}
 		}
 		customElements.define(D2LModuleLink.is, D2LModuleLink);
