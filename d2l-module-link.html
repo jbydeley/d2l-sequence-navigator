@@ -11,37 +11,34 @@
 			.selected {
 				color: blue;
 			}
+			li {
+				list-style-type: none;
+			}
 		</style>
-		<slot></slot>
 		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]
-			([[countCompletedActivities(entity)]]/[[countActivities(entity)]])
+			([[completionCount.completed]] of [[completionCount.total]])
 		</a>
-		<ul>
-		<template is="dom-repeat" items="[[entity.entities]]">
-
-			<template is="dom-if" if="[[isModule(item)]]">
-				<li>
-					<d2l-module-link
-						entity="[[item]]"
-						current-activity="{{currentActivity}}"
-						selected-module="{{selectedModule}}"
-					>
-					</d2l-module-link>
-				</li>
+		<ol>
+			<template is="dom-repeat" items="[[entity.entities]]">
+				<template is="dom-if" if="[[isModule(item)]]">
+					<li>
+						<d2l-module-link
+							entity="[[item]]"
+							current-activity="{{currentActivity}}"
+							selected-module="{{selectedModule}}"
+						></d2l-module-link>
+					</li>
+				</template>
+				<template is="dom-if" if="[[isActivity(item)]]">
+					<li>
+						<d2l-activity-link
+							entity="[[item]]"
+							current-activity="{{currentActivity}}"
+						></d2l-activity-link>
+					</li>
+				</template>
 			</template>
-			<template is="dom-if" if="[[isActivity(item)]]">
-				<li>
-					<d2l-activity-link
-						entity="[[item]]"
-						current-activity="{{currentActivity}}"
-					>
-					</d2l-activity-link>
-				</li>
-			</template>
-		</li>
-		</template>
-		</ul>
-
+		</ol>
 	</template>
 	<script>
 		class D2LModuleLink extends Polymer.mixinBehaviors([D2L.PolymerBehaviors.FetchSirenEntityBehavior], Polymer.Element) {
@@ -63,6 +60,14 @@
 						value: '',
 						observer: 'onSelectedModuleChanged',
 						notify: true
+					},
+					completionCount:{
+						type: Object,
+						value: {
+							completed: 0,
+							total: 0
+						},
+						computed: 'countCompletedActivities(entity)'
 					}
 				};
 			}
@@ -73,39 +78,32 @@
 				return entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
 			}
 			countCompletedActivities(entity) {
-				if (!entity.entities) return 0;
-				var total = 0;
+				const result = {
+					completed: 0,
+					total: 0
+				};
+				if (!entity.entities) return result;
 				for (var i = 0; i < entity.entities.length; i++) {
 					var child = entity.entities[i];
 					if (this.isActivity(child)) {
+						result.total++;
 						if (this.isComplete(child)) {
-							total++;
+							result.completed++;
 						}
 					}
 					else if (this.isModule(child)) {
-						total += this.countCompletedActivities(child);
+						var childCount = this.countCompletedActivities(child);
+						result.completed += childCount.completed;
+						result.total += childCount.total;
 					}
 				}
-				return total;
+				return result;
 			}
 			isComplete(activity) {
 				return activity
 					.getSubEntityByRel('about')
 					.getSubEntityByClass('completion')
 					.hasClass('completed');
-			}
-			countActivities(entity) {
-				var total = 0;
-				for (var i = 0; i < entity.entities.length; i++) {
-					var child = entity.entities[i];
-					if (this.isActivity(child)) {
-						total ++;
-					}
-					else if (this.isModule(child)) {
-						total += this.countActivities(child);
-					}
-				}
-				return total;
 			}
 			toggleSelected() {
 				if ( this.$.moduleLink.classList.contains('selected') ) {

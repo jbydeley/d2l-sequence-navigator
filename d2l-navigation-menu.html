@@ -15,10 +15,7 @@
 				display: block;
 			}
 		</style>
-		<slot></slot>
 		<h2>[[entity.properties.title]]</h2>
-
-
 		<d2l-module-link
 			entity="{{entity}}"
 			current-activity="{{currentActivity}}"
@@ -48,6 +45,7 @@
 
 			ready() {
 				super.ready();
+				this.currentActivity = this.href;
 			}
 
 			constructor() {
