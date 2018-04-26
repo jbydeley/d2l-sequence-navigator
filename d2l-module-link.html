@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="bower_components/d2l-accordion/d2l-accordion.html">
 <link rel="import" href="d2l-activity-link.html">
 
 <dom-module id="d2l-module-link">
@@ -8,39 +9,51 @@
 			:host {
 				display: block;
 			}
-			.selected {
-				color: blue;
+			ol {
+				list-style-type: none;
+				border-collapse: collapse;
+				padding-left: 0px;
 			}
 			li {
-				list-style-type: none;
+				border: 1px solid #cccccc;
+				padding: 5px;
+			}
+			li:not(:first-child) {
+				border-top: 0;
+			}
+			li:nth-child(odd) {
+				background-color: #ffffff;
+			}
+			li:nth-child(even) {
+				background-color: #f2f2f2;
 			}
 		</style>
-		<a id="moduleLink" on-click="toggleSelected">[[entity.properties.title]]
-			([[completionCount.completed]] of [[completionCount.total]])
-		</a>
-		<ol>
-			<template is="dom-repeat" items="[[entity.entities]]" as="childEntity">
-				<template is="dom-if" if="[[isModule(childEntity)]]">
+		<d2l-accordion-collapse on-click="toggleSelected" title="[[entity.properties.title]] ([[completionCount.completed]] of [[completionCount.total]])" id="moduleLink" no-icons auto-close>
+			<ol>
+				<template is="dom-repeat" items="[[entity.entities]]" as="childEntity">
 					<li>
-						<d2l-module-link
-							href="[[getHref(childEntity)]]"
-							token="[[token]]"
-							current-activity="{{currentActivity}}"
-							selected-module="{{selectedModule}}"
-						></d2l-module-link>
+						<template is="dom-if" if="[[isModule(childEntity)]]">
+							<d2l-module-link
+								href="[[getHref(childEntity)]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+								selected-module="{{selectedModule}}"
+							>
+							</d2l-module-link>
+						</template>
+						<template is="dom-if" if="[[isActivity(childEntity)]]">
+							<d2l-activity-link
+								href="[[getHref(childEntity)]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+							>
+							</d2l-activity-link>
+						</template>
 					</li>
 				</template>
-				<template is="dom-if" if="[[isActivity(childEntity)]]">
-					<li>
-						<d2l-activity-link
-							href="[[getHref(childEntity)]]"
-							token="[[token]]"
-							current-activity="{{currentActivity}}"
-						></d2l-activity-link>
-					</li>
-				</template>
-			</template>
-		</ol>
+			</ol>
+		</d2l-accordion-collapse>
+
 	</template>
 	<script>
 		/*
