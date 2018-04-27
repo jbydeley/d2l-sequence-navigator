@@ -1,0 +1,83 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="d2l-module-link.html">
+<link rel="import" href="d2l-activity-link.html">
+<dom-module id="d2l-navigation-menu-item">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<li>
+			<template is="dom-if" if="[[isModule]]">
+				<d2l-module-link
+					href="[[selfLink]]"
+					token="[[token]]"
+					current-activity="{{currentActivity}}"
+					selected-module="{{selectedModule}}"
+				></d2l-module-link>
+			</template>
+			<template is="dom-if" if="[[isActivity]]">
+				<d2l-activity-link
+					href="[[getHref(entity)]]"
+					token="[[token]]"
+					current-activity="{{currentActivity}}"
+				></d2l-activity-link>
+			</template>
+		</li>
+	</template>
+	<script>
+		/*
+		@mixes SirenEntityMixin
+		*/
+		class D2LNavigationMenuItem extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+			static get is() {
+				return 'd2l-navigation-menu-item';
+			}
+			static get properties() {
+				return {
+					selfLink:{
+						type: String,
+						computed: 'getHref(entity)'
+					},
+					currentActivity: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					selectedModule: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					isModule: {
+						type: Boolean,
+						computed: '_isModule(entity)'
+					},
+					isActivity: {
+						type: Boolean,
+						computed: '_isActivity(entity)'
+					}
+				};
+			}
+
+			constructor() {
+				super();
+			}
+
+			getHref( entity ) {
+				return entity.getLinkByRel('self').href;
+			}
+
+			_isModule( entity ) {
+				return entity && entity.class[1] === 'sequence-description';
+			}
+
+			_isActivity( entity ) {
+				return entity && entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
+			}
+		}
+		customElements.define(D2LNavigationMenuItem.is, D2LNavigationMenuItem);
+	</script>
+</dom-module>

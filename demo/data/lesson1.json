@@ -1,0 +1,662 @@
+{
+	"properties": {
+		"title": "Lesson 1"
+	},
+	"entities": [
+		{
+			"class": ["sequence", "sequence-description"],
+			"rel": ["self", "https://api.brightspace.com/rels/sequence-description"],
+			"href": "data/module1.json"
+		},
+		{
+		"properties": {
+			"title": "Module 2"
+		},
+		"rel": ["item"],
+		"entities": [{
+			"properties": {
+				"title": "HTML Sample"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"class": ["activity", "file-activity"],
+				"rel": ["about"],
+				"properties": {
+					"name": "HTML Sample.html",
+					"title": "HTML Sample.html"
+				},
+				"entities": [{
+					"class": ["file"],
+					"rel": ["about"],
+					"properties": {
+						"name": "HTML Sample.html",
+						"title": "HTML Sample.html",
+						"type": "text/html"
+					},
+					"links": [{
+						"rel": ["alternate"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104504/file?stream=true"
+					}, {
+						"rel": ["alternate"],
+						"class": ["view"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104504/View"
+					}, {
+						"rel": ["alternate"],
+						"class": ["download"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104504/file?stream=false"
+					}],
+					"entities": [{
+						"rel": ["item"],
+						"class": ["last-modified", "date"],
+						"properties": {
+							"date": "2016-05-06T00:08:10.720Z"
+						}
+					}]
+				}, {
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2018-04-25T13:57:12.217Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104504/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T20:22:55.647Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104504/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104504/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104504"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104499"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "Zombies"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"links": [{
+					"rel": ["about"],
+					"href": "http://hdl.handle.net/10214/5312"
+				}, {
+					"rel": ["alternate"],
+					"class": ["view"],
+					"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104499/View"
+				}],
+				"class": ["activity", "link-activity", "link-plain", "external"],
+				"properties": {
+					"title": "Zombies"
+				},
+				"rel": ["about", "item"],
+				"entities": [{
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2018-04-25T13:57:47.030Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104499/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T17:51:00.527Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104499/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104499/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104499"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104504"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104500"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "Wikipedia Log"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"links": [{
+					"rel": ["about"],
+					"href": "https://en.wikipedia.org/static/images/project-logos/enwiki-2x.png"
+				}, {
+					"rel": ["alternate"],
+					"class": ["view"],
+					"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104500/View"
+				}],
+				"class": ["activity", "link-activity", "link-plain", "external", "open-in-new-tab"],
+				"properties": {
+					"title": "Wikipedia Log"
+				},
+				"rel": ["about", "item"],
+				"entities": [{
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2017-05-10T17:09:39.800Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104500/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T20:22:36.137Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104500/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104500/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104500"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104499"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104501"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "My file"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"class": ["activity", "file-activity"],
+				"rel": ["about"],
+				"properties": {
+					"name": "My file.html",
+					"title": "My file.html"
+				},
+				"entities": [{
+					"class": ["file"],
+					"rel": ["about"],
+					"properties": {
+						"name": "My file.html",
+						"title": "My file.html",
+						"type": "text/html"
+					},
+					"links": [{
+						"rel": ["alternate"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104501/file?stream=true"
+					}, {
+						"rel": ["alternate"],
+						"class": ["view"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104501/View"
+					}, {
+						"rel": ["alternate"],
+						"class": ["download"],
+						"type": "text/html",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104501/file?stream=false"
+					}],
+					"entities": [{
+						"rel": ["item"],
+						"class": ["last-modified", "date"],
+						"properties": {
+							"date": "2016-05-06T00:08:10.640Z"
+						}
+					}]
+				}, {
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2017-05-10T17:09:40.660Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104501/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T20:25:28.957Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104501/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104501/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104501"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104500"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104496"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "bower-logo"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"class": ["activity", "file-activity"],
+				"rel": ["about"],
+				"properties": {
+					"name": "bower-logo.png",
+					"title": "bower-logo.png"
+				},
+				"entities": [{
+					"class": ["file"],
+					"rel": ["about"],
+					"properties": {
+						"name": "bower-logo.png",
+						"title": "bower-logo.png",
+						"type": "image/png"
+					},
+					"links": [{
+						"rel": ["alternate"],
+						"type": "image/png",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104496/file?stream=true"
+					}, {
+						"rel": ["alternate"],
+						"class": ["view"],
+						"type": "image/png",
+						"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104496/View"
+					}, {
+						"rel": ["alternate"],
+						"class": ["download"],
+						"type": "image/png",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104496/file?stream=false"
+					}],
+					"entities": [{
+						"rel": ["item"],
+						"class": ["last-modified", "date"],
+						"properties": {
+							"date": "2016-05-06T00:08:10.373Z"
+						}
+					}]
+				}, {
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2017-03-27T15:25:06.450Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104496/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T17:51:03.683Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104496/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104496/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104496"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104501"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104495"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "test"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"class": ["activity", "file-activity"],
+				"rel": ["about"],
+				"properties": {
+					"name": "test.pdf",
+					"title": "test.pdf"
+				},
+				"entities": [{
+					"class": ["file"],
+					"rel": ["about"],
+					"properties": {
+						"name": "test.pdf",
+						"title": "test.pdf",
+						"type": "application/pdf"
+					},
+					"links": [{
+						"rel": ["alternate"],
+						"type": "application/pdf",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104495/file?stream=true"
+					}, {
+						"rel": ["alternate"],
+						"class": ["view"],
+						"type": "application/pdf",
+						"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104495/View"
+					}, {
+						"rel": ["alternate"],
+						"class": ["download"],
+						"type": "application/pdf",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104495/file?stream=false"
+					}],
+					"entities": [{
+						"rel": ["item"],
+						"class": ["last-modified", "date"],
+						"properties": {
+							"date": "2016-05-06T00:08:10.310Z"
+						}
+					}]
+				}, {
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2017-04-10T17:26:57.777Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104495/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T17:51:07.370Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104495/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104495/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104495"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104496"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104497"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "dummy"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"class": ["activity", "file-activity"],
+				"rel": ["about"],
+				"properties": {
+					"name": "dummy.txt",
+					"title": "dummy.txt"
+				},
+				"entities": [{
+					"class": ["file"],
+					"rel": ["about"],
+					"properties": {
+						"name": "dummy.txt",
+						"title": "dummy.txt",
+						"type": "text/plain"
+					},
+					"links": [{
+						"rel": ["alternate"],
+						"type": "text/plain",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104497/file?stream=true"
+					}, {
+						"rel": ["alternate"],
+						"class": ["view"],
+						"type": "text/plain",
+						"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104497/View"
+					}, {
+						"rel": ["alternate"],
+						"class": ["download"],
+						"type": "text/plain",
+						"href": "https://qa108111243g.bspc.com/d2l/api/le/1.12/123187/content/topics/104497/file?stream=false"
+					}],
+					"entities": [{
+						"rel": ["item"],
+						"class": ["last-modified", "date"],
+						"properties": {
+							"date": "2016-05-06T00:08:10.490Z"
+						}
+					}]
+				}, {
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2017-03-27T15:25:08.903Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104497/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T20:23:07.397Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104497/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104497/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104497"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104495"
+			}, {
+				"rel": ["next"],
+				"href": "123187/activity/104502"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}, {
+			"properties": {
+				"title": "Google"
+			},
+			"rel": ["item"],
+			"entities": [{
+				"links": [{
+					"rel": ["about"],
+					"href": "https://www.google.ca/"
+				}, {
+					"rel": ["alternate"],
+					"class": ["view"],
+					"href": "https://qa108111243g.bspc.com/d2l/le/content/123187/viewContent/104502/View"
+				}],
+				"class": ["activity", "link-activity", "link-plain", "external"],
+				"properties": {
+					"title": "Google"
+				},
+				"rel": ["about", "item"],
+				"entities": [{
+					"rel": ["item"],
+					"class": ["last-viewed", "date"],
+					"properties": {
+						"date": "2016-10-28T20:25:51.287Z"
+					}
+				}, {
+					"rel": ["item"],
+					"links": [{
+						"rel": ["alternate"],
+						"href": "123187/activity/104502/completion"
+					}],
+					"entities": [{
+						"class": ["auto", "completion", "date"],
+						"properties": {
+							"date": "2016-10-28T20:25:51.693Z"
+						},
+						"rel": ["item"]
+					}],
+					"class": ["completion", "completed"]
+				}],
+				"actions": [{
+					"name": "view-activity",
+					"method": "POST",
+					"href": "123187/activity/104502/view"
+				}, {
+					"name": "view-activity-duration",
+					"method": "PUT",
+					"href": "123187/activity/104502/view"
+				}]
+			}],
+			"links": [{
+				"rel": ["self", "describes"],
+				"href": "123187/activity/104502"
+			}, {
+				"rel": ["prev"],
+				"href": "123187/activity/104497"
+			}, {
+				"rel": ["up"],
+				"href": "123187/activity/104503"
+			}],
+			"class": ["sequenced-activity"]
+		}],
+		"links": [{
+			"rel": ["self", "describes"],
+			"href": "123187/activity/104503"
+		}, {
+			"rel": ["prev"],
+			"href": "data/module1.json"
+		}, {
+			"rel": ["up"],
+			"href": "123187/activity/104493"
+		}],
+		"class": ["sequence", "sequence-description"]
+	}
+	],
+	"links": [{
+		"rel": ["self", "describes"],
+		"href": "data/lesson1.json"
+	}, {
+		"rel": ["next"],
+		"href": "data/module2.json"
+	}, {
+		"rel": ["up"],
+		"href": "data/unit1.json"
+	}],
+	"class": ["sequence", "sequence-description"]
+}

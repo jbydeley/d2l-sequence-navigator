@@ -1,6 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="bower_components/polymer-siren-mixins/siren-entity-mixin.html">
-<link rel="import" href="d2l-module-link.html">
+<link rel="import" href="d2l-navigation-menu-item.html">
 <!--
 'd2l-navigation-menu'
 
@@ -14,13 +14,17 @@
 			:host {
 				display: block;
 			}
+			#menu { list-style:none;}
+
 		</style>
-		<d2l-module-link
-			href="[[rootHref]]"
-			token="[[token]]"
-			current-activity="{{currentActivity}}"
-			selected-module="{{selectedModule}}"
-		></d2l-module-link>
+		<ul id="menu">
+			<d2l-navigation-menu-item
+				href="[[rootHref]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+				selected-module="{{selectedModule}}"
+			></d2l-navigation-menu-item>
+		</ul>
 	</template>
 	<script>
 		/*
@@ -38,7 +42,8 @@
 					},
 					selectedModule: {
 						type: String,
-						value: ''
+						value: '',
+						notify: true
 					},
 					rootHref: {
 						type: String,
@@ -65,6 +70,7 @@
 				}
 			}
 		}
-		customElements.define(D2LNavigationMenu.is, D2LNavigationMenu);
+
+		window.customElements.define(D2LNavigationMenu.is, D2LNavigationMenu);
 	</script>
 </dom-module>

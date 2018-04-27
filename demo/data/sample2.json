@@ -6,13 +6,10 @@
 	"entities": [ {
 		"class": ["sequence", "sequence-description"],
 		"rel": ["self", "https://api.brightspace.com/rels/sequence-description"],
-		"href": "unit1.json"
+		"href": "data/unit1.json"
 	}],
 	"links": [{
 		"rel": ["self", "describes"],
-		"href": "sample2.json"
-	}, {
-		"rel": ["up", "https://api.brightspace.com/rels/organization"],
-		"href": "https://14326a13-285b-48c2-9e6b-f0733671b063.organizations.api.dev.brightspace.com/123187"
+		"href": "data/sample2.json"
 	}]
 }
