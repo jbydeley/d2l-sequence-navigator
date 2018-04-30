@@ -15,7 +15,7 @@
 		}],
 	"links": [{
 		"rel": ["self", "describes"],
-		"href": "data/module1.json"
+		"href": "data/l1-module1.json"
 	}, {
 		"rel": ["next"],
 		"href": "123187/activity/104503"

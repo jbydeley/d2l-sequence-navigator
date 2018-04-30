@@ -1,6 +1,6 @@
 {
 	"properties": {
-		"title": "Unit 2"
+		"title": "Lesson 3"
 	},
 	"rel": ["item"],
 	"entities": [
@@ -9,13 +9,16 @@
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/unit2-activity1.json"
 		}
-	],
+		],
 	"links": [{
 		"rel": ["self", "describes"],
-		"href": "data/unit2.json"
+		"href": "data/lesson3.json"
+	}, {
+		"rel": ["prev"],
+		"href": "data/lesson2.json"
 	}, {
 		"rel": ["up"],
-		"href": "data/sample2.json"
+		"href": "data/unit1.json"
 	}],
 	"class": ["sequence", "sequence-description"]
 }

@@ -9,7 +9,8 @@
 			"title": "Unit 1"
 		},
 		"rel": ["item"],
-		"entities": [{
+		"entities": [
+			{
 			"properties": {
 				"title": "Lesson 1"
 			},
@@ -832,7 +833,8 @@
 				"href": "123187/activity/104492"
 			}],
 			"class": ["sequence", "sequence-description"]
-		}, {
+		},
+			{
 			"properties": {
 				"title": "Lesson 2"
 			},
@@ -947,7 +949,8 @@
 				"href": "123187/activity/104492"
 			}],
 			"class": ["sequence", "sequence-description"]
-		}, {
+		},
+			{
 			"properties": {
 				"title": "Lesson 3"
 			},

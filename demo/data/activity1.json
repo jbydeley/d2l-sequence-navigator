@@ -2,7 +2,8 @@
 	"properties": {
 		"title": "Quiz: History of Algebra"
 	},
-	"entities": [{
+	"entities": [
+		{
 		"links": [{
 			"rel": ["about"],
 			"href": "https://qa108111243g.bspc.com/d2l/common/dialogs/quickLink/quickLink.d2l?ou=123187&type=quiz&rCode=Dev-4011"
@@ -52,7 +53,8 @@
 			"method": "PUT",
 			"href": "123187/activity/104498/view"
 		}]
-	}],
+	}
+	],
 	"links": [{
 		"rel": ["self", "describes"],
 		"href": "data/activity1.json"
