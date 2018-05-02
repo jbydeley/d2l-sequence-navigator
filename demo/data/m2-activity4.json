@@ -81,7 +81,7 @@
 		"href": "data/m2-activity5.json"
 	}, {
 		"rel": ["up"],
-		"href": "l1-module2.json"
+		"href": "data/l1-module2.json"
 	}],
 	"class": ["sequenced-activity"]
 }

@@ -15,7 +15,7 @@
 		"href": "data/l2-module1.json"
 	}, {
 		"rel": ["up"],
-		"href": "data/module1.json"
+		"href": "data/lesson2.json"
 	}],
 	"class": ["sequence", "sequence-description"]
 }

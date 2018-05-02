@@ -18,10 +18,10 @@
 		"href": "data/l1-module1.json"
 	}, {
 		"rel": ["next"],
-		"href": "123187/activity/104503"
+		"href": "data/l1-module2.json"
 	}, {
 		"rel": ["up"],
-		"href": "123187/activity/104493"
+		"href": "data/lesson1.json"
 	}],
 	"class": ["sequence", "sequence-description"]
 }
