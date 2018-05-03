@@ -8,6 +8,7 @@
 		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 		<link rel="import" href="../d2l-navigation-menu.html">
+		<link rel="import" href="../d2l-root-navigation-menu.html">
 		<custom-style>
 			<style is="custom-style" include="demo-pages-shared-styles"></style>
 		</custom-style>
@@ -18,11 +19,33 @@
 			<h3>Simple navigation-menu</h3>
 			<demo-snippet>
 				<template>
+					<span>Default From root</span>
 					<d2l-navigation-menu
 						href="data/l2-module1.json"
 						token="foozleberries"
 					>
 					</d2l-navigation-menu>
+
+					<span>Module</span>
+					<d2l-navigation-menu
+						href="data/l2-module1.json"
+						token="foozleberries"
+					>
+					</d2l-navigation-menu>
+
+					<span>Activity</span>
+					<d2l-navigation-menu
+						href="data/activity1.json"
+						token="foozleberries"
+					>
+					</d2l-navigation-menu>
+
+					<span>Root Menu Walk-back From Activity</span>
+					<d2l-root-navigation-menu
+						href="data/activity1.json"
+						token="foozleberries"
+					>
+					</d2l-root-navigation-menu>
 				</template>
 			</demo-snippet>
 

@@ -1,13 +1,8 @@
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../polymer-siren-mixins/siren-entity-mixin.html">
-<link rel="import" href="./components/d2l-navigation-menu-item.html">
-<!--
-'d2l-navigation-menu'
+<link rel="import" href="components/d2l-navigation-menu-item.html">
 
-
-@demo demo/index.html
--->
-
-<dom-module id="d2l-navigation-menu">
+<dom-module id="d2l-root-navigation-menu">
 	<template>
 		<style>
 			:host {
@@ -17,14 +12,12 @@
 
 		</style>
 		<ul id="menu">
-			<li>
-				<d2l-navigation-menu-item
-					href="[[rootHref]]"
-					token="[[token]]"
-					current-activity="{{currentActivity}}"
-					selected-module="{{selectedModule}}"
-				></d2l-navigation-menu-item>
-			</li>
+			<d2l-navigation-menu-item
+				href="[[rootHref]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+				selected-module="{{selectedModule}}"
+			></d2l-navigation-menu-item>
 		</ul>
 	</template>
 	<script>
@@ -32,9 +25,9 @@
 		@memberOf D2L.Polymer.Mixins;
 		@mixes SirenEntityMixin
 		*/
-		class D2LNavigationMenu extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+		class D2LRootNavigationMenu extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
-				return 'd2l-navigation-menu';
+				return 'd2l-root-navigation-menu';
 			}
 			static get properties() {
 				return {
@@ -64,10 +57,15 @@
 			}
 
 			_fetchRootLink(entity) {
-				return this._getLinkByRel( entity, 'self' ).href;
+				const upLink = this._getLinkByRel( entity, 'up' );
+				if ( upLink && upLink.rel.length === 1 ) {
+					this.href = upLink.href;
+				} else {
+					return this._getLinkByRel( entity, 'self' ).href;
+				}
 			}
 		}
 
-		window.customElements.define(D2LNavigationMenu.is, D2LNavigationMenu);
+		window.customElements.define(D2LRootNavigationMenu.is, D2LRootNavigationMenu);
 	</script>
 </dom-module>

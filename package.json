@@ -7,7 +7,8 @@
     "lint:html": "eslint *.html demo/*.html test/*.html",
     "lint": "npm run lint:html && polymer lint",
     "test": "npm run lint && polymer test --skip-plugin sauce",
-    "test-p": "polymer test --skip-plugin sauce -p"
+    "test-p": "polymer test --skip-plugin sauce -p",
+    "serve": "polymer analyze > analysis.json && polymer serve"
   },
   "repository": {
     "type": "git",

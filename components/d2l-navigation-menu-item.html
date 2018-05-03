@@ -8,26 +8,25 @@
 				display: block;
 			}
 		</style>
-		<li>
-			<template is="dom-if" if="[[isModule]]">
-				<d2l-module-link
-					href="[[selfLink]]"
-					token="[[token]]"
-					current-activity="{{currentActivity}}"
-					selected-module="{{selectedModule}}"
-				></d2l-module-link>
-			</template>
-			<template is="dom-if" if="[[isActivity]]">
-				<d2l-activity-link
-					href="[[getHref(entity)]]"
-					token="[[token]]"
-					current-activity="{{currentActivity}}"
-				></d2l-activity-link>
-			</template>
-		</li>
+		<template is="dom-if" if="[[isModule]]">
+			<d2l-module-link
+				href="[[selfLink]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+				selected-module="{{selectedModule}}"
+			></d2l-module-link>
+		</template>
+		<template is="dom-if" if="[[isActivity]]">
+			<d2l-activity-link
+				href="[[getHref(entity)]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+			></d2l-activity-link>
+		</template>
 	</template>
 	<script>
 		/*
+		@memberOf D2L.Polymer.Mixins;
 		@mixes SirenEntityMixin
 		*/
 		class D2LNavigationMenuItem extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {

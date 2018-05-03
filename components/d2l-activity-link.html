@@ -1,4 +1,4 @@
-<link rel="import" href="../../polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="../utility/completion-status-mixin.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
@@ -12,15 +12,16 @@
 		</style>
 		<a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
 		<template is="dom-if" if="[[showComplete]]">
-			&#10004
+			&#10004;
 		</template>
 
 	</template>
 	<script>
 		/*
-		@mixes SirenEntityMixin
+		@memberOf window.D2L.Polymer.Mixins;
+		@mixes CompletionStatusMixin
 		*/
-		class D2LActivityLink extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+		class D2LActivityLink extends CompletionStatusMixin( Polymer.Element ) {
 			static get is() {
 				return 'd2l-activity-link';
 			}
