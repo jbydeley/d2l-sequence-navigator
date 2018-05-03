@@ -39,8 +39,7 @@
 				if (!entityId || typeof token !== 'string' || typeof listener !== 'function' || !this._listeners) {
 					return;
 				}
-				const item = this._initContainer(this._store, entityId, token);
-				this._initContainer(item.listeners, entityId, token, new Set()).delete(listener);
+				this._initContainer(this._listeners, entityId, token, new Set()).delete(listener);
 			},
 
 			_fetch(entityId, token) {
