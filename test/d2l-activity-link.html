@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+		<title>d2l-activity-link test</title>
+
+		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<link rel="import" href="../../polymer/polymer.html">
+		<link rel="import" href="../components/d2l-activity-link.html">
+	</head>
+	<body>
+		<test-fixture id="CompletedActivityTestFixture">
+			<template>
+				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle"></d2l-activity-link>
+			</template>
+		</test-fixture>
+
+		<test-fixture id="Empty">
+				<template>
+					<d2l-activity-link token="bamboozle"></d2l-activity-link>
+				</template>
+			</test-fixture>
+
+		<test-fixture id="IncompleteActivityTestFixture">
+			<template>
+				<d2l-activity-link href="data/activity1.json" token="bamboozle"></d2l-activity-link>
+			</template>
+		</test-fixture>
+
+		<test-fixture id="IsCurrentActivityTestFixture">
+			<template>
+				<d2l-activity-link token="bamboozle" current-activity="data/unit2-activity1.json"></d2l-activity-link>
+			</template>
+		</test-fixture>
+
+		<test-fixture id="IsNotCurrentActivityTestFixture">
+			<template>
+				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle" current-activity="someotheractivity"></d2l-activity-link>
+			</template>
+		</test-fixture>
+
+		<script>
+			suite('d2l-activity-link for a completed activity', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back to using the CompletedActivityTestFixture test fixture
+					fetch( 'data/unit2-activity1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('Empty');
+							element.href = 'data/unit2-activity1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('instantiating the element with default properties works', () => {
+					assert.equal(element.href, 'data/unit2-activity1.json');
+					assert.equal(element.token, 'bamboozle');
+				});
+
+				test('should show that activity is complete ', function(done) {
+					flush( function() {
+						expect(element.shadowRoot.querySelector('#IsComplete')).to.exist;
+						done();
+					});
+				});
+			});
+
+			suite('d2l-activity-link for active activity', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back initializing this in the IsCurrentActivityTestFixture test fixture
+					fetch( 'data/unit2-activity1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('IsCurrentActivityTestFixture');
+							element.href = 'data/unit2-activity1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('should know that it is active', function(done) {
+					flush( function() {
+						assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+						done();
+					});
+				});
+
+				test('should know that another activity is active instead of itself', function(done) {
+					element.currentActivity = 'someotheractivity';
+					flush( function() {
+						assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+						done();
+					});
+				});
+			});
+
+			suite('d2l-activity-link for an incomplete activity', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back initializing this in the IncompleteActivityTestFixture test fixture
+					fetch( 'data/activity1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('IncompleteActivityTestFixture');
+							element.href = 'data/activity1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('should not show that it is complete', function(done) {
+					flush( function() {
+						expect(element.shadowRoot.querySelector('#IsComplete')).to.not.exist;
+						done();
+					});
+				});
+			});
+
+			suite('d2l-activity-link for an activity that is not active', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back initializing this in the IsNotCurrentActivityTestFixture test fixture
+					fetch( 'data/unit2-activity1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('IsNotCurrentActivityTestFixture');
+							element.href = 'data/unit2-activity1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('select activity to be current activity by clicking on it', function(done) {
+					assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+					Polymer.dom(element.root).querySelector('a').click();
+					flush( function() {
+						assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+						done();
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

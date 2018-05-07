@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+		<title>d2l-navigation-menu test</title>
+
+		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<link rel="import" href="../../polymer/polymer.html">
+		<link rel="import" href="../components/d2l-module-link.html">
+	</head>
+	<body>
+		<test-fixture id="ModuleWithChildrenFixture">
+			<template>
+				<d2l-module-link href="data/lesson1.json" token="bamboozle"></d2l-module-link>
+			</template>
+		</test-fixture>
+
+		<test-fixture id="Empty">
+				<template>
+					<d2l-module-link token="bamboozle"></d2l-module-link>
+				</template>
+			</test-fixture>
+
+		<test-fixture id="ModuleWithNoChildrenFixture">
+			<template>
+				<d2l-module-link token="bamboozle"></d2l-module-link>
+			</template>
+		</test-fixture>
+		<script>
+			suite('d2l-module-link for module with children', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back to using the CompletedActivityTestFixture test fixture
+					fetch( 'data/lesson1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('Empty');
+							element.href = 'data/lesson1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('instantiating the element with default properties works', () => {
+					assert.equal(element.href, 'data/lesson1.json');
+					assert.equal(element.token, 'bamboozle');
+				});
+
+				test('should create d2l-navigation-item elements for child entities', function(done) {
+					flush( function() {
+						expect(element.shadowRoot.querySelector('d2l-navigation-menu-item')).to.exist;
+						done();
+					});
+				});
+
+				test('select the module by clicking on it', function(done) {
+					flush( function() {
+						var accordianElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						assert.equal(element.selectedModule, '');
+						assert.isNotTrue(accordianElement.classList.contains('selected'));
+						accordianElement.click();
+						assert.isTrue(accordianElement.classList.contains('selected'));
+						assert.equal(element.selectedModule, 'data/lesson1.json');
+						done();
+					});
+				});
+
+				test('select then unselect the module by clicking on it again', function(done) {
+					flush( function() {
+						var accordianElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordianElement.click();
+						accordianElement.click();
+						assert.isNotTrue(accordianElement.classList.contains('selected'));
+						assert.equal(element.selectedModule, '');
+						done();
+					});
+				});
+
+				test('select then unselect by setting another module as selected', function(done) {
+					flush( function() {
+						var accordianElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordianElement.click();
+						element.selectedModule = 'someotherModule';
+						assert.isNotTrue(accordianElement.classList.contains('selected'));
+						assert.equal(element.selectedModule, 'someotherModule');
+						done();
+					});
+				});
+			});
+
+			suite('d2l-module-link for module without children', () => {
+
+				var element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back to using the CompletedActivityTestFixture test fixture
+					fetch( 'data/l2-module2.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('ModuleWithNoChildrenFixture');
+							element.href = 'data/l2-module2.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							done();
+						});
+				});
+
+				test('should not create any child d2l-navigation-menu-item elements', function(done) {
+					flush( function() {
+						expect(element.shadowRoot.querySelector('d2l-navigation-menu-item')).to.be.null;
+						done();
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

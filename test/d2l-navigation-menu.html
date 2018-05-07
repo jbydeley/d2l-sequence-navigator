@@ -1,36 +1,57 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-	<title>d2l-navigation-menu test</title>
+		<title>d2l-navigation-menu test</title>
 
-	<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-	<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<link rel="import" href="../../polymer/polymer.html">
+		<link rel="import" href="../d2l-navigation-menu.html">
+	</head>
+	<body>
+		<test-fixture id="RootTestFixture">
+			<template>
+				<d2l-navigation-menu href="data/sample2.json" token="bamboozle"></d2l-navigation-menu>
+			</template>
+		</test-fixture>
 
-	<link rel="import" href="../d2l-navigation-menu.html">
-</head>
-<body>
+		<test-fixture id="ActivityLinked">
+			<template>
+				<d2l-navigation-menu href="data/m2-activity5.json" token="bamboozle"></d2l-navigation-menu>
+			</template>
+		</test-fixture>
+		<script>
+			suite('d2l-navigation-menu for the root', () => {
 
-<test-fixture id="BasicTestFixture">
-	<template>
-		<d2l-navigation-menu href="../demo/data/sample2.json" token="bamboozle"></d2l-navigation-menu>
-	</template>
-</test-fixture>
+				test('instantiating the element with default properties works', () => {
+					var element = fixture('RootTestFixture');
+					assert.equal(element.href, 'data/sample2.json');
+					assert.equal(element.token, 'bamboozle');
+				});
+			});
 
+			suite('d2l-navigation-menu for an activity', () => {
 
-<script>
-	suite('d2l-navigation-menu', () => {
+				var element;
 
-		test('instantiating the element with default properties works', () => {
-			const element = fixture('BasicTestFixture');
-			assert.equal(element.token, 'bamboozle');
-			assert.equal(element.href, '../demo/data/sample2.json');
-		});
+				setup( function() {
+					element = fixture('ActivityLinked');
+				});
 
-	});
-</script>
+				test('sets the current activity, to the link passed in', () => {
+					assert.equal(element.currentActivity, 'data/m2-activity5.json');
+				});
 
-</body>
+				test('creates d2l-navigation-menu-item child', function(done) {
+					flush( function() {
+						expect( element.shadowRoot.querySelector('d2l-navigation-menu-item') ).to.exist;
+						done();
+					});
+				});
+			});
+		</script>
+	</body>
 </html>
