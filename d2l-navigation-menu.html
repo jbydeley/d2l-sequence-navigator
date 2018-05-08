@@ -40,23 +40,18 @@
 				return {
 					currentActivity: {
 						type: String,
-						value: ''
+						value: '',
+						notify: true
 					},
 					selectedModule: {
 						type: String,
-						value: '',
-						notify: true
+						value: ''
 					},
 					rootHref: {
 						type: String,
 						computed: '_fetchRootLink(entity)'
 					}
 				};
-			}
-
-			ready() {
-				super.ready();
-				this.currentActivity = this.href;
 			}
 
 			constructor() {

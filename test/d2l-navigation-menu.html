@@ -20,7 +20,7 @@
 
 		<test-fixture id="ActivityLinked">
 			<template>
-				<d2l-navigation-menu href="data/m2-activity5.json" token="bamboozle"></d2l-navigation-menu>
+				<d2l-navigation-menu href="data/m2-activity5.json" token="bamboozle" current-activity="data/m2-activity5.json"></d2l-navigation-menu>
 			</template>
 		</test-fixture>
 		<script>
@@ -39,10 +39,6 @@
 
 				setup( function() {
 					element = fixture('ActivityLinked');
-				});
-
-				test('sets the current activity, to the link passed in', () => {
-					assert.equal(element.currentActivity, 'data/m2-activity5.json');
 				});
 
 				test('creates d2l-navigation-menu-item child', function(done) {

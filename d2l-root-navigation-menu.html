@@ -16,7 +16,6 @@
 				href="[[rootHref]]"
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
-				selected-module="{{selectedModule}}"
 			></d2l-navigation-menu-item>
 		</ul>
 	</template>
@@ -33,10 +32,6 @@
 				return {
 					currentActivity: {
 						type: String,
-						value: ''
-					},
-					selectedModule: {
-						type: String,
 						value: '',
 						notify: true
 					},
@@ -45,15 +40,6 @@
 						computed: '_fetchRootLink(entity)'
 					}
 				};
-			}
-
-			ready() {
-				super.ready();
-				this.currentActivity = this.href;
-			}
-
-			constructor() {
-				super();
 			}
 
 			_fetchRootLink(entity) {
