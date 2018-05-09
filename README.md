@@ -1,11 +1,9 @@
 [![Build Status](https://travis-ci.com/Brightspace/d2l-navigation-menu.svg?token=s5DqGXfBESukCURszFfU&branch=master)](https://travis-ci.com/Brightspace/d2l-navigation-menu)
 
-# d2l-sequence-viewer
+# d2l-navigation-menu
 
 [Polymer](https://www.polymer-project.org)-based web component for D2L navigation-menu.
 
-
-For further information on this and other Brightspace UI components, see the docs at [ui.developers.brightspace.com](http://ui.developers.brightspace.com/).
 
 ## Installation
 
