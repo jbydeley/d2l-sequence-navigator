@@ -103,6 +103,7 @@
 					} else {
 						this.$.activityLink.classList.remove('current');
 					}
+					this.dispatchEvent( new CustomEvent('activitySelected', { detail:{ activityHref: currentActivity }, composed: true } ) );
 				}
 			}
 		}
