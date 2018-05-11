@@ -1,0 +1,66 @@
+<link rel="import" href="../../d2l-colors/d2l-colors.html">
+
+<dom-module id="d2l-progress-bar">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			#outerBar {
+				background-color: #D3D9E4;
+				border-radius: 12px; /* (height of inner div) / 2 + padding */
+				padding: 1px;
+				margin-top: 15px;
+				width: 270px;
+			}
+
+			#innerBar {
+				background-color: #46A661;
+				height: 10px;
+				border-radius: 5px;
+			}
+		</style>
+
+		<div id="outerBar">
+			<div id="innerBar"></div>
+		</div>
+
+	</template>
+	<script>
+		/*
+		@memberOf window.D2L.Polymer.Mixins;
+		*/
+		class D2LProgressBar extends Polymer.Element {
+			static get is() {
+				return 'd2l-progress-bar';
+			}
+			static get properties() {
+				return {
+					percentCompleted: {
+						type: Number,
+						value: 0,
+						observer: '_updateProgressBar'
+					}
+				};
+			}
+			static get observers() {
+				return [
+				];
+			}
+
+			constructor() {
+				super();
+			}
+
+			ready() {
+				super.ready();
+			}
+
+			_updateProgressBar() {
+				this.$.innerBar.style.width = this.percentCompleted + "%";
+			}
+
+		}
+		customElements.define(D2LProgressBar.is, D2LProgressBar);
+	</script>
+</dom-module>

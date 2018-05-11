@@ -1,54 +1,214 @@
 <link rel="import" href="d2l-navigation-menu-item.html">
+<link rel="import" href="d2l-progress-bar.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-accordion/d2l-accordion.html">
+<link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-icons/d2l-icons.html">
+<link rel="import" href:"../../d2l-typography/d2l-typography.html">
 
 <dom-module id="d2l-module-link">
 	<template>
 		<style>
 			:host {
 				display: block;
+				font-family: 'Lato', sans-serif;
 			}
-			ol {
+
+			.has-no-child-modules .module-header {
+				padding: 15px;
+				display: grid;
+				grid-template-columns: 1fr 70px;
+				background-color: #E6EAF0;
+				border-radius: 8px 8px 8px 8px;
+			}
+
+			d2l-accordion-collapse[opened].has-no-child-modules .module-header {
+				border-radius: 8px 8px 0px 0px;
+				border-bottom: 1px solid #D3D9E3;
+			}
+
+			.module-title {
+				color: var(--d2l-color-ferrite);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.has-no-child-modules .module-title {
+				float: left;
+				grid-column: 1;
+
+				/* Body Text - Lato Regular 19 */
+				font-size: 19px;
+				line-height: 24px;
+				font-weight: 400; /* normal */
+				letter-spacing: 0.2px;
+			}
+
+			.has-child-modules .module-title {
+				margin-top: 0px;
+				margin-bottom: 0px;
+
+				/* Heading 3 - Lato Bold 20 */
+				font-size: 20px;
+				line-height: 30px;
+				font-weight: 700; /* bold */
+				letter-spacing: 0.2px;
+			}
+
+			.module-completion-count {
+				text-align: right;
+
+				/* Small Body Text - Lato Regular 14, Tungsten */
+				font-size: 14px;
+				line-height: 20px;
+				font-weight: 400; /* normal */
+				letter-spacing: 0.2px;
+				color: var(--d2l-color-tungsten);
+			}
+
+			.has-no-child-modules .module-completion-count {
+				float: right;
+				grid-column: 2;
+			}
+
+			.has-child-modules .module-completion-count {
+				padding-top: 10px;
+			}
+
+			.has-no-child-modules .module-completion-count d2l-icon {
+				color: var(--d2l-color-tungsten);
+			}
+
+			d2l-accordion-collapse.has-no-child-modules {
+				border: 1px solid #D3D9E3;
+				border-radius: 8px;
+			}
+
+			.module-item-list {
 				list-style-type: none;
 				border-collapse: collapse;
 				padding-left: 0px;
+				margin-top: 0px;
+				margin-bottom: 0px;
 			}
-			d2l-navigation-menu-item {
-				border: 1px solid #cccccc;
-				padding: 5px;
+
+			.has-no-child-modules .module-item {
+				/*border: 1px solid #D3D9E3;*/
+				width: 100% - 15px;
+				padding: 15px;
+
+				/* Compact Body Text - Lato Regular 16 */
+				font-size: 16px;
+				line-height: 24px;
+				font-weight: 400; /* normal */
+				letter-spacing: 0.2px;
 			}
-			d2l-navigation-menu-item:not(:first-child) {
-				border-top: 0;
+
+			.has-no-child-modules .module-item:not(:hover) {
+				border-bottom: 1px solid #D3D9E3;
 			}
-			d2l-navigation-menu-item:nth-child(odd) {
-				background-color: #ffffff;
+
+			.has-no-child-modules .module-item:not(:hover):nth-last-child(2) {
+				border-bottom: 0px;
 			}
-			d2l-navigation-menu-item:nth-child(even) {
-				background-color: #f2f2f2;
+
+			.has-no-child-modules .module-item:hover {
+				background-color: #f2f8fc;
+				box-shadow: 0px 0px 0px 1px #99c5e5;
+			}
+
+			.has-child-modules .module-item {
+				background-color: white;
+				width: 100% - 15px;
+				margin-top: 30px;
+			}
+
+			.has-no-child-modules .module-item:nth-last-child(2) {
+				border-radius: 0px 1px 8px 8px;
+			}
+
+			.has-child-modules .end-of-lesson {
+				text-align: center;
+				color: #006FBF;
+				padding-top: 30px;
+
+				/* Label Text - Lato Bold 14 */
+				font-size: 14px;
+				line-height: 20px;
+				font-weight: 700; /* bold */
+				letter-spacing: 0.2px;
 			}
 
 		</style>
-    <d2l-accordion-collapse
-			class$="[[_getIsSelected(selectedModule)]]"
-			on-click="toggleSelected"
-			title="[[entity.properties.title]] ([[completionCount.completed]] of [[completionCount.total]])"
-			id="moduleLink"
-			no-icons
-		>
-			<ol>
-				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li>
-						<d2l-navigation-menu-item
-							href="[[childLink.href]]"
-	            token="[[token]]"
-	            current-activity="{{currentActivity}}"
-	            selected-module="{{selectedModule}}"
-						>
-						</d2l-navigation-menu-item>
-					</li>
-				</template>
-			</ol>
-		</d2l-accordion-collapse>
+
+		<template is="dom-if" if="[[hasChildModules]]">
+			<d2l-accordion-collapse
+				class$="[[_getIsSelected(selectedModule)]] has-child-modules"
+				on-click="toggleSelected"
+				id="moduleLink"
+				no-icons
+				auto-close
+				flex
+			>
+				<div slot="header" class="module-header">
+					<div class="module-title">[[entity.properties.title]]</div>
+					<d2l-progress-bar percent-completed=[[percentCompleted]]></d2l-progress-bar>
+					<div class="module-completion-count">Done [[completionCount.completed]]/[[completionCount.total]]</div>
+				</div>
+
+				<ol class="module-item-list">
+					<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+						<li class="module-item">
+							<d2l-navigation-menu-item
+								href="[[childLink.href]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+								selected-module="{{selectedModule}}"
+							>
+							</d2l-navigation-menu-item>
+						</li>
+					</template>
+				</ol>
+
+				<div class="end-of-lesson">END OF LESSON</div>
+
+			</d2l-accordion-collapse>
+		</template>
+
+	<template is="dom-if" if="[[!hasChildModules]]">
+		<d2l-accordion-collapse
+				class$="[[_getIsSelected(selectedModule)]] has-no-child-modules"
+				on-click="toggleSelected"
+				id="moduleLink"
+				no-icons
+				auto-close
+				flex
+			>
+				<div slot="header" class="module-header">
+					<span class="module-title">[[entity.properties.title]]</span>
+					<span class="module-completion-count">
+						<d2l-icon icon="d2l-tier2:divider-big"></d2l-icon>
+						[[completionCount.completed]] of [[completionCount.total]]
+					</span>
+				</div>
+
+				<ol class="module-item-list">
+					<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+						<li class="module-item">
+							<d2l-navigation-menu-item
+								href="[[childLink.href]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+								selected-module="{{selectedModule}}"
+							>
+							</d2l-navigation-menu-item>
+						</li>
+					</template>
+				</ol>
+			</d2l-accordion-collapse>
+		</template>
+
 	</template>
 	<script>
 	/*
@@ -72,11 +232,21 @@
 					},
 					completionCount: {
 						type: Object,
-						computed: '_getStatus(completionStatus)'
+						computed: '_getStatus(completionStatus)',
+						observer: '_getPercentCompleted'
 					},
 					subEntities: {
 						type: Array,
 						computed: 'getSubEntities(entity)'
+					},
+					hasChildModules: {
+						type: Boolean,
+						value: false,
+						computed: '_containsChildModules(entity)'
+					},
+					percentCompleted: {
+						type: Number,
+						value: 0
 					}
 				};
 			}
@@ -88,6 +258,7 @@
 			ready() {
 				super.ready();
 			}
+
 			getSubEntities(entity) {
 				return entity.getSubEntities().map(this._getHref);
 			}
@@ -95,12 +266,30 @@
 			_getHref(entity) {
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
 			}
+
 			_getStatus(completionStatus) {
 				return completionStatus || {
 					completed: 0,
 					total: 0
 				};
 			}
+
+			_getPercentCompleted() {
+				if(!this.completionCount || this.completionCount.total===0) return 0;
+				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
+			}
+
+			_containsChildModules(entity) {
+				var children = this.getSubEntities(entity);
+				var i;
+				for (i = 0; i < children.length; i++) {
+					if (this.isModule(children[i])) {
+						return true;
+					}
+				}
+				return false;
+			}
+
 			isActivity(childEntity) {
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}

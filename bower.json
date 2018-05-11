@@ -3,7 +3,7 @@
   "description": "",
   "license": "Apache-2.0",
   "main": "d2l-navigation-menu.html",
-  "homepage": "https://github.com/BrightspaceUI/navigation-menu",
+  "homepage": "https://github.com/Brightspace/d2l-navigation-menu",
   "ignore": [
     "test",
     ".editorconfig",
@@ -16,11 +16,12 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "d2l-accordion": "^1.0.2",
-    "polymer-siren-mixins": "Brightspace/polymer-siren-mixins"
+    "d2l-accordion": "^1.0.3",
+    "polymer-siren-mixins": "Brightspace/polymer-siren-mixins",
+    "d2l-typography": "^6.1.3"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "web-component-tester": "Polymer/web-component-tester#^6.5.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"

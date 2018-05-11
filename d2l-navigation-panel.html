@@ -1,0 +1,72 @@
+<link rel="import" href="../polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="./d2l-navigation-menu.html">
+<link rel="import" href="../d2l-typography/d2l-typography.html">
+<!--
+'d2l-navigation-panel'
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="d2l-navigation-panel">
+	<template>
+		<custom-style include="d2l-typography">
+			<style is="custom-style" include="d2l-typography d2l-navigation-menu">
+				:host {
+					display: block;
+				}
+
+				#navPanel {
+					padding: 40px 30px 40px 30px;
+					background: linear-gradient(to right, #F9FAFC, #FFFFFF);
+					box-shadow: 0px 2px 3px 2px rgba(214,220,229,0.5); /* 50% D6DCE5 */
+				}
+
+			</style>
+		</custom-style>
+		<div id="navPanel">
+			<d2l-navigation-menu
+				href="[[rootHref]]"
+				token="[[token]]"
+			></d2l-navigation-menu>
+		</div>
+	</template>
+	<script>
+		/*
+		@memberOf D2L.Polymer.Mixins;
+		@mixes SirenEntityMixin
+		*/
+		class D2LNavigationPanel extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+			static get is() {
+				return 'd2l-navigation-panel';
+			}
+			static get properties() {
+				return {
+					selectedModule: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					rootHref: {
+						type: String,
+						computed: '_fetchRootLink(entity)'
+					}
+				};
+			}
+
+			ready() {
+				super.ready();
+			}
+
+			constructor() {
+				super();
+			}
+
+			_fetchRootLink(entity) {
+				return this._getLinkByRel( entity, 'self' ).href;
+			}
+		}
+
+		window.customElements.define(D2LNavigationPanel.is, D2LNavigationPanel);
+	</script>
+</dom-module>

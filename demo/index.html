@@ -9,6 +9,7 @@
 		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 		<link rel="import" href="../d2l-navigation-menu.html">
 		<link rel="import" href="../d2l-root-navigation-menu.html">
+				<link rel="import" href="../d2l-navigation-panel.html">
 		<custom-style>
 			<style is="custom-style" include="demo-pages-shared-styles"></style>
 		</custom-style>
@@ -19,21 +20,52 @@
 			<h3>Simple navigation-menu</h3>
 			<demo-snippet>
 				<template>
-					<span>Default From root</span>
+					<!--
+					<script>
+						function toggleNavBarSize() {
+							if (document.getElementById('navPanel').style.width === '100%') {
+								document.getElementById('navPanel').style.width = '330px';
+								document.getElementById('navToggle').innerHTML = 'Maximize';
+							}
+							else {
+								document.getElementById('navPanel').style.width = '100%';
+								document.getElementById('navToggle').innerHTML = 'Minimize';
+							}
+						}
+					</script>
+				-->
+					<h4>Navigation panel</h4>
+					<!--
+					<button
+						id="navToggle"
+						onclick="toggleNavBarSize()"
+						style="margin-bottom: 20px; display: block"
+					>Maximize
+					</button>
+				-->
+					<d2l-navigation-panel
+						id="navPanel"
+						style="width:330px"
+						href="data/lesson1.json"
+						token="foozleberries"
+					>
+					</d2l-navigation-panel>
+
+					<h4>Default From root</h4>
 					<d2l-navigation-menu
-						href="data/lesson2.json"
+						href="data/lesson1.json"
 						token="foozleberries"
 					>
 					</d2l-navigation-menu>
 
-					<span>Module</span>
+					<h4>Module</h4>
 					<d2l-navigation-menu
-						href="data/l2-module1.json"
+						href="data/l1-module2.json"
 						token="foozleberries"
 					>
 					</d2l-navigation-menu>
 
-					<span>Activity</span>
+					<h4>Activity</h4>
 					<d2l-navigation-menu
 						href="data/activity1.json"
 						token="foozleberries"
@@ -41,7 +73,7 @@
 					>
 					</d2l-navigation-menu>
 
-					<span>Root Menu Walk-back From Activity</span>
+					<h4>Root Menu Walk-back From Activity</h4>
 					<d2l-root-navigation-menu
 						href="data/activity1.json"
 						token="foozleberries"
