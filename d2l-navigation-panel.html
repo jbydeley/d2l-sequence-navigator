@@ -26,6 +26,7 @@
 		</custom-style>
 		<div id="navPanel">
 			<d2l-navigation-menu
+				current-activity="[[currentActivity]]"
 				href="[[rootHref]]"
 				token="[[token]]"
 			></d2l-navigation-menu>
@@ -42,6 +43,9 @@
 			}
 			static get properties() {
 				return {
+					currentActivity: {
+						type: String
+					},
 					selectedModule: {
 						type: String,
 						value: '',

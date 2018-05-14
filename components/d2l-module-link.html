@@ -105,15 +105,19 @@
 				letter-spacing: 0.2px;
 			}
 
-			.has-no-child-modules .module-item:not(:hover) {
+			.has-no-child-modules .module-item:not(.current):not(:hover) {
 				border-bottom: 1px solid #D3D9E3;
 			}
 
-			.has-no-child-modules .module-item:not(:hover):nth-last-child(2) {
+			.has-no-child-modules .module-item.current {
+				background-color: var(--d2l-color-ferrite);
+			}
+
+			.has-no-child-modules .module-item:not(.current):not(:hover):nth-last-child(2) {
 				border-bottom: 0px;
 			}
 
-			.has-no-child-modules .module-item:hover {
+			.has-no-child-modules .module-item:not(.current):hover {
 				background-color: #f2f8fc;
 				box-shadow: 0px 0px 0px 1px #99c5e5;
 			}
@@ -195,7 +199,7 @@
 
 				<ol class="module-item-list">
 					<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-						<li class="module-item">
+						<li class$="module-item [[_getIsCurrent(childLink, currentActivity)]]" on-click="_onActivityClicked">
 							<d2l-navigation-menu-item
 								href="[[childLink.href]]"
 								token="[[token]]"
@@ -310,14 +314,30 @@
 					this._getLinkByRel(this.entity, 'self').href :
 					'';
 			}
+
 			_getIsOpened(selectedModule) {
 				return this._getIsSelected(selectedModule) === 'selected';
 			}
+
 			_getIsSelected(selectedModule) {
 				var selected = this.entity && this._getLinkByRel(this.entity, 'self').href === this.selectedModule;
 				return (selected) ? "selected" : "totally-not-selected";
 			}
+
+			_getIsCurrent(childLink, currentActivity) {
+				if ( childLink.href === currentActivity ) {
+					return 'current';
+				}
+			}
+
+			_onActivityClicked(e) {
+				var newActivityLink = e.model.__data.childLink.href;
+				if ( this.currentActivity != newActivityLink ) {
+					this.currentActivity = newActivityLink;
+				}
+			}
 		}
 		customElements.define(D2LModuleLink.is, D2LModuleLink);
+
 	</script>
 </dom-module>
