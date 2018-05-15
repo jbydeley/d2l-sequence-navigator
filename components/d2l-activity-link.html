@@ -9,7 +9,7 @@
 				display: block;
 				font-family: 'Lato', sans-serif;
 				display: grid;
-				grid-template-columns: 1fr 17px 3px;
+				grid-template-columns: 1fr 17px 15px;
 			}
 
 			.current {
@@ -54,7 +54,7 @@
 		@memberOf window.D2L.Polymer.Mixins;
 		@mixes CompletionStatusMixin
 		*/
-		class D2LActivityLink extends CompletionStatusMixin( Polymer.Element ) {
+		class D2LActivityLink extends D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element ) {
 			static get is() {
 				return 'd2l-activity-link';
 			}

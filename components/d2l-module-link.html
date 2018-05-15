@@ -216,11 +216,11 @@
 
 	</template>
 	<script>
-	/*
-	@memberOf window.D2L.Polymer.Mixins;
-	@mixes CompletionStatusMixin
-	*/
-		class D2LModuleLink extends CompletionStatusMixin(Polymer.Element) {
+		/*
+		@memberOf window.D2L.Polymer.Mixins;
+		@mixes CompletionStatusMixin
+		*/
+		class D2LModuleLink extends D2L.Polymer.Mixins.CompletionStatusMixin(Polymer.Element) {
 			static get is() {
 				return 'd2l-module-link';
 			}
@@ -280,7 +280,7 @@
 			}
 
 			_getPercentCompleted() {
-				if(!this.completionCount || this.completionCount.total===0) return 0;
+				if (!this.completionCount || this.completionCount.total === 0) return 0;
 				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
 
@@ -321,8 +321,8 @@
 			}
 
 			_getIsSelected(selectedModule) {
-				var selected = this.entity && this._getLinkByRel(this.entity, 'self').href === this.selectedModule;
-				return (selected) ? "selected" : "totally-not-selected";
+				var selected = this.entity && this._getLinkByRel(this.entity, 'self').href === selectedModule;
+				return (selected) ? 'selected' : 'totally-not-selected';
 			}
 
 			_getIsCurrent(childLink, currentActivity) {
@@ -333,7 +333,7 @@
 
 			_onActivityClicked(e) {
 				var newActivityLink = e.model.__data.childLink.href;
-				if ( this.currentActivity != newActivityLink ) {
+				if ( this.currentActivity !== newActivityLink ) {
 					this.currentActivity = newActivityLink;
 				}
 			}
