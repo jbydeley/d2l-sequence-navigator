@@ -82,6 +82,7 @@
 						//we've got all our entities, calculate the values
 						this._countCompleted(token);
 					}
+
 				}
 			},
 			_checkForReady(token) {
@@ -104,6 +105,17 @@
 			_isActivity(entity) {
 				return entity.hasClass('sequenced-activity');
 			},
+
+			_isOptionalActivity(entity) {
+				var isActivity = this._isActivity(entity);
+				var aboutSubEntity =  entity.getSubEntityByRel('about');
+				if( isActivity && aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+					return false;
+				} else {
+					return true;
+				}
+			},
+
 			_countCompleted(token) {
 				let root;
 
@@ -130,7 +142,7 @@
 					const item = this._store.get(token).get(self);
 					if (item && item.entity) {
 						var child = item.entity;
-						if (this._isActivity(child)) {
+						if (this._isActivity(child) && !this._isOptionalActivity(child)) {
 							result.total++;
 							if (this._isComplete(child)) {
 								result.completed++;
@@ -151,10 +163,12 @@
 			},
 
 			_isComplete(activity) {
-				return activity
-					.getSubEntityByRel('about')
-					.getSubEntityByClass('completion')
-					.hasClass('completed');
+				var aboutSubEntity =  activity.getSubEntityByRel('about');
+				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+					return aboutSubEntity.getSubEntityByClass('completion').hasClass('completed');
+				} else{
+					return false
+				}
 			},
 
 			_notify: function(entityId, token, result) {

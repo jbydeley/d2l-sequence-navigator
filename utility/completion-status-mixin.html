@@ -22,10 +22,26 @@
 			}
 
 			static get properties() {
-					completionStatus: {
-						type: Object
-					}
+				completionStatus: {
+					type: Object
+				}
 			};
+
+			_getCompletionStatus(activity) {
+				var aboutSubEntity =  activity.getSubEntityByRel('about');
+				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+					if( aboutSubEntity.getSubEntityByClass('completion').hasClass('completed')) {
+						return 'complete'
+					} else {
+						return 'incomplete'
+					}
+				} else{
+					if( aboutSubEntity.getSubEntityByClass('last-viewed') ) {
+						return 'optional-viewed'
+					}
+					return 'optional'
+				}
+			}
 
 			connectedCallback() {
 				if (super.connectedCallback) {

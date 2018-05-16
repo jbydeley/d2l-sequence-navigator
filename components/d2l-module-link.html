@@ -111,7 +111,8 @@
 			}
 
 			.has-no-child-modules .module-item.current {
-				background-color: var(--d2l-color-ferrite);
+				background-color: #f2f8fc;
+				box-shadow: 0px 0px 0px 1px #99c5e5;
 			}
 
 			.has-no-child-modules .module-item:not(.current):not(:hover):nth-last-child(2) {
@@ -256,16 +257,11 @@
 				};
 			}
 
-			constructor() {
-				super();
-			}
-
-			ready() {
-				super.ready();
-			}
-
 			getSubEntities(entity) {
-				return entity.getSubEntities().map(this._getHref);
+				return entity.getSubEntities()
+					.filter( subEntity =>
+						(subEntity.properties && Object.keys(subEntity.properties).length > 0) || subEntity.href )
+					.map(this._getHref);
 			}
 
 			_getHref(entity) {

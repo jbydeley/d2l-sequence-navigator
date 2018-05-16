@@ -1,0 +1,86 @@
+<link rel="import" href="../../polymer/polymer-element.html">
+<link rel="import" href="../utility/completion-status-mixin.html">
+<link rel="import" href="../../d2l-icons/d2l-icon.html">
+<link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-icons/tier1-icons.html">
+<dom-module id="d2l-completion-status">
+	<template>
+		<style>
+			.optional {
+				color: var(--d2l-color-ferrite);
+				font-weight: bold;
+			}
+
+			.optional-viewed {
+				color: var(--d2l-color-pressicus);
+			}
+
+			.optional, .optional-viewed {
+				display: inline;
+				width: 48px;
+				font-size: 12px;
+			}
+
+			.complete {
+				color: var(--d2l-color-olivine);
+			}
+
+			.incomplete {
+				color: var(--d2l-color-pressicus);
+			}
+		</style>
+		<template is="dom-if" if="[[isOptional]]">
+			<div class$="[[completionStatus]]">
+				optional				
+			</div>
+		</template>	
+		<template is="dom-if" if="[[!isOptional]]">
+			<template is="dom-if" if="[[isComplete]]">
+				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:check"></d2l-icon>
+			</template>
+			<template is="dom-if" if="[[!isComplete]]">
+				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:dot"></d2l-icon>
+			</template>	
+		</template>			
+	</template>
+	<script>
+		/*
+		@memberOf window.D2L.Polymer.Mixins;
+		@mixes CompletionStatusMixin
+		*/
+		class D2LCompletionStatus extends D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element ) {
+			static get is() {
+				return 'd2l-completion-status';
+			}
+			static get properties() {
+				return {
+					completionStatus: {
+						type: String,
+						computed: '_getCompletionStatus(entity)',
+						observer: '_showComptionType'
+					},
+					isOptional: {
+						type: Boolean,
+						value: false
+					},
+					isComplete: {
+						type: Boolean,
+						value: false
+					}
+				};
+			}
+
+			_showComptionType( completion ) {
+				switch ( completion ) {
+					case 'complete':
+						this.isComplete = true;
+						break;
+					case 'optional':
+					case 'optional-viewed':
+						this.isOptional = true;
+				}
+			}
+		}
+		customElements.define(D2LCompletionStatus.is, D2LCompletionStatus);
+	</script>
+</dom-module>

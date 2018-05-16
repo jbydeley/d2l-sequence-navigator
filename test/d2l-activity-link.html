@@ -67,13 +67,6 @@
 					assert.equal(element.href, 'data/unit2-activity1.json');
 					assert.equal(element.token, 'bamboozle');
 				});
-
-				test('should show that activity is complete ', function(done) {
-					flush( function() {
-						expect(element.shadowRoot.querySelector('#IsComplete')).to.exist;
-						done();
-					});
-				});
 			});
 
 			suite('d2l-activity-link for active activity', () => {
