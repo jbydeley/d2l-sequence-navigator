@@ -17,7 +17,7 @@
 			.has-no-child-modules .module-header {
 				padding: 15px;
 				display: grid;
-				grid-template-columns: 1fr 70px;
+				grid-template-columns: 65% 35%;
 				background-color: #E6EAF0;
 				border-radius: 8px 8px 8px 8px;
 			}
@@ -76,7 +76,7 @@
 				padding-top: 10px;
 			}
 
-			.has-no-child-modules .module-completion-count d2l-icon {
+			.has-no-child-modules .module-completion-count d2l-icon:not(.moduleComplete) {
 				color: var(--d2l-color-tungsten);
 			}
 
@@ -146,6 +146,15 @@
 				letter-spacing: 0.2px;
 			}
 
+			.optionalStatus {
+				color: var(--d2l-color-ferrite);
+				font-weight: bold;
+			}
+
+			.moduleComplete {
+				color: var(--d2l-color-olivine);
+			}
+
 			.divider-icon {
 				color:#D3D9E4 !important;
 			}
@@ -198,8 +207,24 @@
 				<div slot="header" class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
-						<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
-						[[completionCount.completed]] of [[completionCount.total]]
+						<template is="dom-if" if="[[showDivider]]">	
+							<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
+						</template>
+						<template is="dom-if" if="[[showCount]]">					
+							<span class="countStatus">
+								[[completionCount.completed]] of [[completionCount.total]]
+							</span>
+						</template>
+						<template is="dom-if" if="[[showCheckmark]]">
+							<span class="completedStatus">
+								<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
+							</span>
+						</template>
+						<template is="dom-if" if="[[showOptional]]">
+							<span class="optionalStatus">
+								optional
+							</span>
+						</template>
 					</span>
 				</div>
 
@@ -255,10 +280,83 @@
 						computed: '_containsChildModules(entity)'
 					},
 					percentCompleted: {
-						type: Number,
-						value: 0
+						type: Number
+					},
+					showCount: {
+						type: Boolean,
+						value: false,
+						computed: '_showCount(completionCount, selectedModule)'
+					},
+					showCheckmark: {
+						type: Boolean,
+						value: false,
+						computed: '_showCheckmark(completionCount, selectedModule)'
+					},
+					showOptional: {
+						type: Boolean,
+						value: false,
+						computed: '_showOptional(completionCount, selectedModule)'
+					},
+					showDivider: {
+						type: Boolean,
+						value: false,
+						computed: '_showDivider(showCount, showCheckmark, showOptional)'
 					}
 				};
+			}
+
+			_isAccordionOpen() {
+				if ( !this.shadowRoot || !this.shadowRoot.querySelector('#moduleLink') ) {
+					return false;
+				}
+				return this.shadowRoot.querySelector('#moduleLink').hasAttribute('opened');
+			}
+
+			_isOptionalModule() {
+				return this.completionCount && this.completionCount.total === 0 && this.completionCount.optionalTotal > 0;
+			}
+
+			_isAllOptionalViewed() {
+				return this.completionCount && this.completionCount.optionalTotal > 0 && this.completionCount.optionalTotal === this.completionCount.optionalViewed;
+			}
+
+			_isAllRequiredViewed() {
+				return this.completionCount && this.completionCount.total > 0 && this.completionCount.total === this.completionCount.completed;
+			}
+
+			_isRequiredSomeComplete() {
+				return this.completionCount && this.completionCount.total > 0 && this.completionCount.completed > 0 && this.completionCount.completed <  this.completionCount.total;
+			}
+
+			_showCount(completionCount) {
+				if ( !completionCount ) {
+					return false;
+				}
+				return !this._isOptionalModule() && (
+					this._isAccordionOpen() ||
+					( !this._isAccordionOpen() && !this._isAllRequiredViewed() && this._isRequiredSomeComplete() )
+				);
+			}
+
+			_showCheckmark(completionCount) {
+				if ( !completionCount ) {
+					return false;
+				}
+				return !this._isAccordionOpen() && (
+					( this._isOptionalModule() && this._isAllOptionalViewed() ) ||
+					( !this._isOptionalModule() && this._isAllRequiredViewed() )
+				);
+			}
+
+			_showOptional(completionCount) {
+				if ( !completionCount ) {
+					return false;
+				}
+				return this._isOptionalModule() && !this._isAccordionOpen() && !this._isAllOptionalViewed();
+			}
+
+			_showDivider(showCount, showCheckmark, showOptional) {
+				return showCount || showCheckmark || showOptional;
 			}
 
 			getSubEntities(entity) {
@@ -275,6 +373,8 @@
 			_getStatus(completionStatus) {
 				return completionStatus || {
 					completed: 0,
+					optionalViewed: 0,
+					optionalTotal: 0,
 					total: 0
 				};
 			}

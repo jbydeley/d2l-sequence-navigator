@@ -134,6 +134,8 @@
 			_countCompletedActivities(token, entity) {
 				const result = {
 					completed: 0,
+					optionalViewed: 0,
+					optionalTotal: 0,
 					total: 0
 				};
 				const subEntities = entity.getSubEntitiesByClass(this._candidateRegex);
@@ -142,14 +144,21 @@
 					const item = this._store.get(token).get(self);
 					if (item && item.entity) {
 						var child = item.entity;
-						if (this._isActivity(child) && !this._isOptionalActivity(child)) {
+						if (this._isActivity(child) && !this._isOptionalActivity(child) ) {
 							result.total++;
 							if (this._isComplete(child)) {
 								result.completed++;
 							}
+						} else if (this._isActivity(child) && this._isOptionalActivity(child)) {
+							result.optionalTotal++;
+							if ( this._isOptionalViewed(child) ) {
+								result.optionalViewed++;
+							}
 						} else if (this._isModule(child)) {
 							var childCount = this._countCompletedActivities(token, child);
 							result.completed += childCount.completed;
+							result.optionalViewed += childCount.optionalViewed;
+							result.optionalTotal +=childCount.optionalTotal;
 							result.total += childCount.total;
 						}
 					}
@@ -166,6 +175,15 @@
 				var aboutSubEntity =  activity.getSubEntityByRel('about');
 				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
 					return aboutSubEntity.getSubEntityByClass('completion').hasClass('completed');
+				} else{
+					return false
+				}
+			},
+
+			_isOptionalViewed(activity) {
+				var aboutSubEntity =  activity.getSubEntityByRel('about');
+				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('last-viewed') ) {
+					return true;
 				} else{
 					return false
 				}
