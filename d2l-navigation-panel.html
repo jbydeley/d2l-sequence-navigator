@@ -25,11 +25,13 @@
 			</style>
 		</custom-style>
 		<div id="navPanel">
-			<d2l-navigation-menu
-				current-activity="{{currentActivity}}"
-				href="[[rootHref]]"
-				token="[[token]]"
-			></d2l-navigation-menu>
+			<d2l-accordion auto-close>
+				<d2l-navigation-menu
+					current-activity="{{currentActivity}}"
+					href="[[rootHref]]"
+					token="[[token]]"
+				></d2l-navigation-menu>
+			</d2l-accordion>
 		</div>
 	</template>
 	<script>
