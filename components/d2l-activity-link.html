@@ -1,7 +1,8 @@
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="d2l-completion-status.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
-<link rel="import" href:"../../d2l-typography/d2l-typography.html">
+<link rel="import" href="../../d2l-typography/d2l-typography.html">
+<link rel="import" href="../../d2l-icons/d2l-icons.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
@@ -9,9 +10,26 @@
 			:host {
 				display: block;
 				font-family: 'Lato', sans-serif;
-				display: grid;
-				grid-template-columns: 75% 25%;
 				color: var(--d2l-color-ferrite);
+				display: grid;
+				grid-template-columns: 75% 25%;;
+			}
+
+			.current {
+				background-color: #f2f8fc;
+			}
+
+			.checkmark {
+				grid-column: 2;
+			}
+
+			.current + .checkmark .checkmark-icon {
+				color: white !important;
+				background-color: var(--d2l-color-galena);
+			}
+
+			.checkmark-icon {
+				color: var(--d2l-color-olivine) !important;
 			}
 
 			#activityLink {

@@ -16,9 +16,10 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "d2l-accordion": "^1.0.3",
+    "d2l-accordion": "^1.0.4",
     "polymer-siren-mixins": "Brightspace/polymer-siren-mixins",
-    "d2l-typography": "^6.1.3"
+    "d2l-typography": "^6.1.3",
+    "d2l-icons": "^4.14.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",

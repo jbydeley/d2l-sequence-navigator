@@ -4,7 +4,7 @@
 <link rel="import" href="../../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
-<link rel="import" href:"../../d2l-typography/d2l-typography.html">
+<link rel="import" href="../../d2l-typography/d2l-typography.html">
 
 <dom-module id="d2l-module-link">
 	<template>
@@ -146,6 +146,10 @@
 				letter-spacing: 0.2px;
 			}
 
+			.divider-icon {
+				color:#D3D9E4 !important;
+			}
+
 		</style>
 
 		<template is="dom-if" if="[[hasChildModules]]">
@@ -194,7 +198,7 @@
 				<div slot="header" class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
-						<d2l-icon icon="d2l-tier2:divider-big"></d2l-icon>
+						<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
 						[[completionCount.completed]] of [[completionCount.total]]
 					</span>
 				</div>
