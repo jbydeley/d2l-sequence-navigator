@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.com/Brightspace/d2l-navigation-menu.svg?token=s5DqGXfBESukCURszFfU&branch=master)](https://travis-ci.com/Brightspace/d2l-navigation-menu)
+[![Build Status](https://travis-ci.com/Brightspace/d2l-sequence-navigator.svg?token=s5DqGXfBESukCURszFfU&branch=master)](https://travis-ci.com/Brightspace/d2l-sequence-navigator)
 
-# d2l-navigation-menu
+# d2l-sequence-navigator
 
-[Polymer](https://www.polymer-project.org)-based web component for D2L navigation-menu.
+[Polymer](https://www.polymer-project.org)-based web component for a D2L sequence navigator.
 
 
 ## Installation
 
 ```shell
-bower install d2l-navigation-menu
+bower install d2l-sequence-navigator
 ```
 
 ## Usage

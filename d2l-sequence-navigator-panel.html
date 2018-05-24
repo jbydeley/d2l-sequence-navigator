@@ -1,17 +1,17 @@
 <link rel="import" href="../polymer-siren-mixins/siren-entity-mixin.html">
-<link rel="import" href="./d2l-navigation-menu.html">
+<link rel="import" href="d2l-sequence-navigator.html">
 <link rel="import" href="../d2l-typography/d2l-typography.html">
 <!--
-'d2l-navigation-panel'
+'d2l-sequence-navigator-panel'
 
 
 @demo demo/index.html
 -->
 
-<dom-module id="d2l-navigation-panel">
+<dom-module id="d2l-sequence-navigator-panel">
 	<template>
 		<custom-style include="d2l-typography">
-			<style is="custom-style" include="d2l-typography d2l-navigation-menu">
+			<style is="custom-style" include="d2l-typography d2l-sequence-navigator">
 				:host {
 					display: block;
 				}
@@ -26,11 +26,11 @@
 		</custom-style>
 		<div id="navPanel">
 			<d2l-accordion auto-close>
-				<d2l-navigation-menu
+				<d2l-sequence-navigator
 					current-activity="{{currentActivity}}"
 					href="[[rootHref]]"
 					token="[[token]]"
-				></d2l-navigation-menu>
+				></d2l-sequence-navigator>
 			</d2l-accordion>
 		</div>
 	</template>
@@ -39,9 +39,9 @@
 		@memberOf D2L.Polymer.Mixins;
 		@mixes SirenEntityMixin
 		*/
-		class D2LNavigationPanel extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+		class D2LNavigatorPanel extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
-				return 'd2l-navigation-panel';
+				return 'd2l-sequence-navigator-panel';
 			}
 			static get properties() {
 				return {
@@ -74,6 +74,6 @@
 			}
 		}
 
-		window.customElements.define(D2LNavigationPanel.is, D2LNavigationPanel);
+		window.customElements.define(D2LNavigatorPanel.is, D2LNavigatorPanel);
 	</script>
 </dom-module>

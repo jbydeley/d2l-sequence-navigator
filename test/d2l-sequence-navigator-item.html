@@ -4,33 +4,33 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-navigation-menu test</title>
+		<title>d2l-sequence-navigator test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
-		<link rel="import" href="../components/d2l-navigation-menu-item.html">
+		<link rel="import" href="../components/d2l-sequence-navigator-item.html">
 	</head>
 	<body>
 		<test-fixture id="ModuleTestFixture">
 			<template>
-				<d2l-navigation-menu-item href="data/lesson1.json" token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-navigation-menu-item>
+				<d2l-sequence-navigator-item href="data/lesson1.json" token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-sequence-navigator-item>
 			</template>
 		</test-fixture>
 
 		<test-fixture id="ActivityTestFixture">
 			<template>
-				<d2l-navigation-menu-item href="data/m2-activity5.json" token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-navigation-menu-item>
+				<d2l-sequence-navigator-item href="data/m2-activity5.json" token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-sequence-navigator-item>
 			</template>
 		</test-fixture>
 
 		<test-fixture id="Empty">
 				<template>
-					<d2l-navigation-menu-item token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-navigation-menu-item>
+					<d2l-sequence-navigator-item token="bamboozle" current-activty="data/m2-activity5.json" selected-module=''></d2l-sequence-navigator-item>
 				</template>
 			</test-fixture>
 		<script>
-			suite('d2l-navigation-menu-item for a module', () => {
+			suite('d2l-sequence-navigator-item for a module', () => {
 
 				var element;
 
@@ -64,7 +64,7 @@
 				});
 			});
 
-			suite('d2l-navigation-menu-item for an activity', () => {
+			suite('d2l-sequence-navigator-item for an activity', () => {
 
 				var element;
 

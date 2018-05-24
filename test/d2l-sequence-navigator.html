@@ -4,27 +4,27 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-navigation-menu test</title>
+		<title>d2l-sequence-navigator test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
-		<link rel="import" href="../d2l-navigation-menu.html">
+		<link rel="import" href="../d2l-sequence-navigator.html">
 	</head>
 	<body>
 		<test-fixture id="RootTestFixture">
 			<template>
-				<d2l-navigation-menu href="data/sample2.json" token="bamboozle"></d2l-navigation-menu>
+				<d2l-sequence-navigator href="data/sample2.json" token="bamboozle"></d2l-sequence-navigator>
 			</template>
 		</test-fixture>
 
 		<test-fixture id="ActivityLinked">
 			<template>
-				<d2l-navigation-menu href="data/m2-activity5.json" token="bamboozle" current-activity="data/m2-activity5.json"></d2l-navigation-menu>
+				<d2l-sequence-navigator href="data/m2-activity5.json" token="bamboozle" current-activity="data/m2-activity5.json"></d2l-sequence-navigator>
 			</template>
 		</test-fixture>
 		<script>
-			suite('d2l-navigation-menu for the root', () => {
+			suite('d2l-sequence-navigator for the root', () => {
 
 				test('instantiating the element with default properties works', () => {
 					var element = fixture('RootTestFixture');
@@ -33,7 +33,7 @@
 				});
 			});
 
-			suite('d2l-navigation-menu for an activity', () => {
+			suite('d2l-sequence-navigator for an activity', () => {
 
 				var element;
 
@@ -41,9 +41,9 @@
 					element = fixture('ActivityLinked');
 				});
 
-				test('creates d2l-navigation-menu-item child', function(done) {
+				test('creates d2l-sequence-navigator-item child', function(done) {
 					flush( function() {
-						expect( element.shadowRoot.querySelector('d2l-navigation-menu-item') ).to.exist;
+						expect( element.shadowRoot.querySelector('d2l-sequence-navigator-item') ).to.exist;
 						done();
 					});
 				});

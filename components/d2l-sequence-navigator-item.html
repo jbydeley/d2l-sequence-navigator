@@ -4,7 +4,7 @@
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-typography/d2l-typography.html">
 
-<dom-module id="d2l-navigation-menu-item">
+<dom-module id="d2l-sequence-navigator-item">
 	<template>
 		<style>
 			:host {
@@ -32,9 +32,9 @@
 		@memberOf D2L.Polymer.Mixins;
 		@mixes SirenEntityMixin
 		*/
-		class D2LNavigationMenuItem extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
+		class D2LSequenceNavigatorItem extends D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element ) {
 			static get is() {
-				return 'd2l-navigation-menu-item';
+				return 'd2l-sequence-navigator-item';
 			}
 			static get properties() {
 				return {
@@ -75,6 +75,6 @@
 				return entity && entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
 			}
 		}
-		customElements.define(D2LNavigationMenuItem.is, D2LNavigationMenuItem);
+		customElements.define(D2LSequenceNavigatorItem.is, D2LSequenceNavigatorItem);
 	</script>
 </dom-module>

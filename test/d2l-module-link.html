@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-navigation-menu test</title>
+		<title>d2l-sequence-navigator test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
@@ -117,9 +117,9 @@
 						});
 				});
 
-				test('should not create any child d2l-navigation-menu-item elements', function(done) {
+				test('should not create any child d2l-sequence-navigator-item elements', function(done) {
 					flush( function() {
-						expect(element.shadowRoot.querySelector('d2l-navigation-menu-item')).to.be.null;
+						expect(element.shadowRoot.querySelector('d2l-sequence-navigator-item')).to.be.null;
 						done();
 					});
 				});
