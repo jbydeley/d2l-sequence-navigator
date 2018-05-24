@@ -215,10 +215,10 @@
 				<div slot="header" class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
-						<template is="dom-if" if="[[showDivider]]">	
+						<template is="dom-if" if="[[showDivider]]">
 							<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
 						</template>
-						<template is="dom-if" if="[[showCount]]">					
+						<template is="dom-if" if="[[showCount]]">
 							<span class="countStatus">
 								[[completionCount.completed]] of [[completionCount.total]]
 							</span>
@@ -261,7 +261,7 @@
 	<script>
 		/*
 		@memberOf window.D2L.Polymer.Mixins;
-		@mixes CompletionStatusMixin
+		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
 		*/
 		class D2LModuleLink extends D2L.Polymer.Mixins.CompletionStatusMixin(Polymer.Element) {
 			static get is() {

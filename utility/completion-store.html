@@ -109,7 +109,7 @@
 			_isOptionalActivity(entity) {
 				var isActivity = this._isActivity(entity);
 				var aboutSubEntity =  entity.getSubEntityByRel('about');
-				if( isActivity && aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+				if (isActivity && aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
 					return false;
 				} else {
 					return true;
@@ -125,7 +125,7 @@
 						root = item.entity;
 						break;
 					}
-				};
+				}
 				if (root) {
 					this._countCompletedActivities(token, root);
 				}
@@ -158,7 +158,7 @@
 							var childCount = this._countCompletedActivities(token, child);
 							result.completed += childCount.completed;
 							result.optionalViewed += childCount.optionalViewed;
-							result.optionalTotal +=childCount.optionalTotal;
+							result.optionalTotal += childCount.optionalTotal;
 							result.total += childCount.total;
 						}
 					}
@@ -173,19 +173,19 @@
 
 			_isComplete(activity) {
 				var aboutSubEntity =  activity.getSubEntityByRel('about');
-				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+				if (aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
 					return aboutSubEntity.getSubEntityByClass('completion').hasClass('completed');
-				} else{
-					return false
+				} else {
+					return false;
 				}
 			},
 
 			_isOptionalViewed(activity) {
 				var aboutSubEntity =  activity.getSubEntityByRel('about');
-				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('last-viewed') ) {
+				if (aboutSubEntity && aboutSubEntity.getSubEntityByClass('last-viewed') ) {
 					return true;
-				} else{
-					return false
+				} else {
+					return false;
 				}
 			},
 

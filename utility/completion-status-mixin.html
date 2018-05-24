@@ -13,7 +13,7 @@
 		@mixes SirenEntityMixin
 		@memberOf D2L.Polymer.Mixins;
 	*/
-	CompletionStatusMixin = function(superClass) {
+	D2L.Polymer.Mixins.CompletionStatusMixin = function(superClass) {
 		return class extends window.D2L.Polymer.Mixins.SirenEntityMixin(superClass) {
 
 			constructor() {
@@ -22,24 +22,21 @@
 			}
 
 			static get properties() {
-				completionStatus: {
-					type: Object
-				}
-			};
+			}
 
 			_getCompletionStatus(activity) {
 				var aboutSubEntity =  activity.getSubEntityByRel('about');
-				if( aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
-					if( aboutSubEntity.getSubEntityByClass('completion').hasClass('completed')) {
-						return 'complete'
+				if (aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
+					if (aboutSubEntity.getSubEntityByClass('completion').hasClass('completed')) {
+						return 'complete';
 					} else {
-						return 'incomplete'
+						return 'incomplete';
 					}
-				} else{
-					if( aboutSubEntity.getSubEntityByClass('last-viewed') ) {
-						return 'optional-viewed'
+				} else {
+					if (aboutSubEntity.getSubEntityByClass('last-viewed') ) {
+						return 'optional-viewed';
 					}
-					return 'optional'
+					return 'optional';
 				}
 			}
 
@@ -92,6 +89,6 @@
 	window.D2L = window.D2L || {};
 	window.D2L.Polymer = window.D2L.Polymer || {};
 	window.D2L.Polymer.Mixins = window.D2L.Polymer.Mixins || {};
-	window.D2L.Polymer.Mixins.CompletionStatusMixin = CompletionStatusMixin;
+	window.D2L.Polymer.Mixins.CompletionStatusMixin = D2L.Polymer.Mixins.CompletionStatusMixin;
 })();
 </script>

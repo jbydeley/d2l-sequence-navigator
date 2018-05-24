@@ -31,22 +31,22 @@
 		</style>
 		<template is="dom-if" if="[[isOptional]]">
 			<div class$="[[completionStatus]]">
-				optional				
+				optional
 			</div>
-		</template>	
+		</template>
 		<template is="dom-if" if="[[!isOptional]]">
 			<template is="dom-if" if="[[isComplete]]">
 				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:check"></d2l-icon>
 			</template>
 			<template is="dom-if" if="[[!isComplete]]">
 				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:dot"></d2l-icon>
-			</template>	
-		</template>			
+			</template>
+		</template>
 	</template>
 	<script>
 		/*
 		@memberOf window.D2L.Polymer.Mixins;
-		@mixes CompletionStatusMixin
+		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
 		*/
 		class D2LCompletionStatus extends D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element ) {
 			static get is() {

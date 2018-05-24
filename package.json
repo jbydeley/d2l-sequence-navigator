@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "postinstall": "polymer install",
-    "lint:html": "eslint *.html demo/*.html components/*.html test/*.html",
+    "precommit": "lint-staged",
+    "lint:html": "eslint *.html demo/*.html components/*.html test/*.html utility/*.html",
     "lint": "npm run lint:html && polymer lint",
     "test": "polymer test --skip-plugin sauce",
     "test-p": "polymer test --skip-plugin sauce -p",
@@ -12,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BrightspaceUI/navigation-menu.git"
+    "url": "https://github.com/BrightspaceUI/d2l-navigation-menu.git"
   },
   "author": "D2L Corporation",
   "license": "Apache-2.0",
@@ -20,11 +21,19 @@
     "eslint": "^4.2.0",
     "eslint-config-brightspace": "^0.3.1",
     "eslint-plugin-html": "^3.1.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.1",
     "polymer-cli": "^1.3.1",
     "sinon": "^5.0.7"
   },
   "dependencies": {
     "bower-art-resolver": "^2.0.9",
     "npm": "^6.0.0"
+  },
+  "lint-staged": {
+    "*.html": [
+      "eslint",
+      "git add"
+    ]
   }
 }
