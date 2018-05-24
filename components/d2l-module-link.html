@@ -80,6 +80,16 @@
 				color: var(--d2l-color-tungsten);
 			}
 
+			.no-topics {
+				@include vui-typography;
+				padding: 20px 15px;
+				background-color: white;
+				border-top: 1px solid var(--d2l-color-gypsum);
+				display: block;
+				color: var(--d2l-color-ferrite);
+				@include d2l-body-small;
+			}
+
 			d2l-accordion-collapse.has-no-child-modules {
 				border: 1px solid #D3D9E3;
 				border-radius: 8px;
@@ -238,6 +248,11 @@
 							</d2l-navigation-menu-item>
 						</li>
 					</template>
+					<template is="dom-if" if="[[!hasChildren]]">
+						<div class="no-topics">
+							This module has no topics
+						</div>
+					</template>
 				</ol>
 			</d2l-accordion-collapse>
 		</template>
@@ -276,6 +291,10 @@
 						type: Boolean,
 						value: false,
 						computed: '_containsChildModules(entity)'
+					},
+					hasChildren: {
+						type: Boolean,
+						computed: '_hasChildren(entity)'
 					},
 					percentCompleted: {
 						type: Number
@@ -391,6 +410,9 @@
 					}
 				}
 				return false;
+			}
+			_hasChildren(entity) {
+				return entity.getSubEntities().length !== 0;
 			}
 
 			isActivity(childEntity) {

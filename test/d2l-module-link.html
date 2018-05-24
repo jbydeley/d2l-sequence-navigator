@@ -123,6 +123,15 @@
 						done();
 					});
 				});
+
+				test('should create empty text', function(done) {
+					flush( function() {
+						var item = element.shadowRoot.querySelector('.no-topics');
+						expect(item).to.not.be.null;
+						expect(item.innerText.trim()).to.equal('This module has no topics');
+						done();
+					});
+				});
 			});
 		</script>
 	</body>
