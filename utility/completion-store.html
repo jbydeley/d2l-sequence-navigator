@@ -120,8 +120,8 @@
 				let root;
 
 				for (const item of this._store.get(token).values()) {
-					const link = item.entity.getLinkByRel('https://api.brightspace.com/rels/organization');
-					if (link && link.href !== undefined) {
+					const link = item.entity.getLinkByRel('up');
+					if ( !(link in this._store.get(token).values()) ) {
 						root = item.entity;
 						break;
 					}
