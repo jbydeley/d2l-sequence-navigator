@@ -1,0 +1,22 @@
+{
+	"ar": {},
+	"de": {},
+	"en": {
+		"countStatus": "{completed} of {total}",
+		"endOfLesson": "END OF LESSON",
+		"moduleHasNoTopics": "This module has no topics",
+		"modulesDone": "Done {completed}/{total}",
+		"optional": "optional"
+	},
+	"es": {},
+	"fr": {},
+	"ja": {},
+	"ko": {},
+	"nb": {},
+	"nl": {},
+	"pt": {},
+	"sv": {},
+	"tr": {},
+	"zh-TW": {},
+	"zh": {}
+}
