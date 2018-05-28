@@ -6,7 +6,7 @@
     "postinstall": "polymer install",
     "precommit": "lint-staged",
     "lint:html": "eslint *.html demo/*.html components/*.html test/*.html utility/*.html",
-    "lint": "npm run lint:html && polymer lint",
+    "lint": "npm run lint:html",
     "test": "polymer test --skip-plugin sauce",
     "test-p": "polymer test --skip-plugin sauce -p",
     "locales": "gulp build-locales",
