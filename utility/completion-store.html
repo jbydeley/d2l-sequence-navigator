@@ -19,6 +19,11 @@
 				return entityMap.get(entityId);
 			},
 
+			_clearStore() {
+				this._store =  new Map();
+				this._listeners =  new Map();
+			},
+
 			addListener: function(entityId, token, listener) {
 				if (!entityId || typeof token !== 'string' || typeof listener !== 'function') {
 					return;

@@ -9,48 +9,37 @@
 		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 		<link rel="import" href="../d2l-sequence-navigator.html">
 		<link rel="import" href="../d2l-root-sequence-navigator.html">
-		<link rel="import" href="../d2l-sequence-navigator-panel.html">
 		<custom-style>
 			<style is="custom-style" include="demo-pages-shared-styles"></style>
+			<style>
+				#sidebar {
+					width: 330px;
+					height: 400px;
+					padding: 40px 30px 40px 30px;
+					background: linear-gradient(to right, #F9FAFC, #FFFFFF);
+					box-shadow: 0px 2px 3px 2px rgba(214,220,229,0.5); /* 50% D6DCE5 */
+				}
+				#navMenu {
+					height: 100%;
+					overflow-y: auto;
+				}
+			</style>
 		</custom-style>
 	</head>
 	<body>
 		<div class="vertical-section-container centered">
 
-			<h3>Simple navigation-menu</h3>
+			<h3>Simple sequence-navigator</h3>
 			<demo-snippet>
 				<template>
-					<!--
-					<script>
-						function toggleNavBarSize() {
-							if (document.getElementById('navPanel').style.width === '100%') {
-								document.getElementById('navPanel').style.width = '330px';
-								document.getElementById('navToggle').innerHTML = 'Maximize';
-							}
-							else {
-								document.getElementById('navPanel').style.width = '100%';
-								document.getElementById('navToggle').innerHTML = 'Minimize';
-							}
-						}
-					</script>
-				-->
-					<h4>Navigation panel</h4>
-					<!--
-					<button
-						id="navToggle"
-						onclick="toggleNavBarSize()"
-						style="margin-bottom: 20px; display: block"
-					>Maximize
-					</button>
-				-->
-					<d2l-sequence-navigator-panel
-						id="navPanel"
-						style="width:330px"
-						current-activity="data/m2-activity2.json"
-						href="data/lesson1.json"
-						token="foozleberries"
-					>
-					</d2l-sequence-navigator-panel>
+					<h4>Inside a sidebar</h4>
+					<div class="sidebar-container" id="sidebar">
+						<d2l-sequence-navigator id="navMenu"
+							current-activity="data/m2-activity2.json"
+							href="data/lesson1.json"
+							token="foozleberries"
+						></d2l-sequence-navigator>
+					</div>
 
 					<h4>Default From root</h4>
 					<d2l-sequence-navigator
