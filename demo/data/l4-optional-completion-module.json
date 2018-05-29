@@ -1,0 +1,27 @@
+{
+	"properties": {
+		"title": "Module with all optional completions unread"
+	},
+	"entities": [
+		{
+			"class": ["sequence", "sequenced-activity"],
+			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
+			"href": "data/opt-unread-activity1.json"
+		},
+		{
+			"class": ["sequence", "sequenced-activity"],
+			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
+			"href": "data/opt-unread-activity2.json"
+		}],
+	"links": [{
+		"rel": ["self", "describes"],
+		"href": "data/l4-optional-completion-module.json"
+	}, {
+		"rel": ["next"],
+		"href": "data/l4-required-completion-module.json"
+	}, {
+		"rel": ["up"],
+		"href": "data/lesson4.json"
+	}],
+	"class": ["sequence", "sequence-description"]
+}
