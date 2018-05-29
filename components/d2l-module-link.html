@@ -18,13 +18,13 @@
 				padding: 15px;
 				display: grid;
 				grid-template-columns: 65% 35%;
-				background-color: #E6EAF0;
+				background-color: var(--d2l-color-gypsum);
 				border-radius: 8px 8px 8px 8px;
 			}
 
 			d2l-accordion-collapse[opened].has-no-child-modules .module-header {
 				border-radius: 8px 8px 0px 0px;
-				border-bottom: 1px solid #D3D9E3;
+				border-bottom: 1px solid var(--d2l-color-mica);
 			}
 
 			.module-title {
@@ -84,14 +84,13 @@
 				@include vui-typography;
 				padding: 20px 15px;
 				background-color: white;
-				border-top: 1px solid var(--d2l-color-gypsum);
 				display: block;
 				color: var(--d2l-color-ferrite);
 				@include d2l-body-small;
 			}
 
 			d2l-accordion-collapse.has-no-child-modules {
-				border: 1px solid #D3D9E3;
+				border: 1px solid var(--d2l-color-mica);
 				border-radius: 8px;
 			}
 
@@ -104,8 +103,10 @@
 			}
 
 			.has-no-child-modules .module-item {
-				/*border: 1px solid #D3D9E3;*/
-				width: 100% - 15px;
+				width: 100%;
+				margin-top: -1px;
+				margin-bottom: -1px;
+				margin-left: -1px;
 				padding-top: 15px;
 				padding-bottom: 15px;
 
@@ -117,21 +118,21 @@
 			}
 
 			.has-no-child-modules .module-item:not(.current):not(:hover) {
-				border-bottom: 1px solid #D3D9E3;
+				border: 1px solid var(--d2l-color-mica);
+				border-bottom: 1px solid var(--d2l-color-mica);
 			}
 
-			.has-no-child-modules .module-item.current {
+			.has-no-child-modules .module-item.current,
+			.has-no-child-modules .module-item:hover {
 				background-color: #f2f8fc;
-				box-shadow: 0px 0px 0px 1px #99c5e5;
+				border: 1px solid #99c5e5;
+				border-bottom: 1px solid #99c5e5;
+				position: relative;
+				z-index: 0.5;
 			}
 
-			.has-no-child-modules .module-item:not(.current):not(:hover):nth-last-child(2) {
-				border-bottom: 0px;
-			}
-
-			.has-no-child-modules .module-item:not(.current):hover {
-				background-color: #f2f8fc;
-				box-shadow: 0px 0px 0px 1px #99c5e5;
+			.has-no-child-modules :last-of-type {
+				border-radius: 0px 1px 8px 8px;
 			}
 
 			.has-child-modules .module-item {
@@ -140,13 +141,9 @@
 				margin-top: 30px;
 			}
 
-			.has-no-child-modules .module-item:nth-last-child(2) {
-				border-radius: 0px 1px 8px 8px;
-			}
-
 			.has-child-modules .end-of-lesson {
 				text-align: center;
-				color: #006FBF;
+				color: var(--d2l-color-celestine);
 				padding-top: 30px;
 
 				/* Label Text - Lato Bold 14 */
@@ -166,7 +163,7 @@
 			}
 
 			.divider-icon {
-				color:#D3D9E4 !important;
+				color: var(--d2l-color-mica) !important;
 			}
 
 		</style>
@@ -204,8 +201,8 @@
 			</d2l-accordion-collapse>
 		</template>
 
-	<template is="dom-if" if="[[!hasChildModules]]">
-		<d2l-accordion-collapse
+		<template is="dom-if" if="[[!hasChildModules]]">
+			<d2l-accordion-collapse
 				class$="[[_getIsSelected(selectedModule)]] has-no-child-modules"
 				on-click="toggleSelected"
 				id="moduleLink"

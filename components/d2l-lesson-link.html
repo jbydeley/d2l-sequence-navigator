@@ -1,0 +1,207 @@
+<link rel="import" href="d2l-sequence-navigator-item.html">
+<link rel="import" href="d2l-progress-bar.html">
+<link rel="import" href="../utility/completion-status-mixin.html">
+<link rel="import" href="../../d2l-accordion/d2l-accordion.html">
+<link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-icons/d2l-icons.html">
+<link rel="import" href="../../d2l-typography/d2l-typography.html">
+<!--
+'d2l-lesson-link'
+
+
+@demo demo/index.html
+-->
+
+<dom-module id="d2l-lesson-link">
+	<template>
+		<style>
+		:host {
+			display: block;
+			font-family: 'Lato', sans-serif;
+			height: 100%;
+		}
+
+		.module-title {
+			color: var(--d2l-color-ferrite);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			margin-top: 0px;
+			margin-bottom: 0px;
+
+			/* Heading 3 - Lato Bold 20 */
+			font-size: 20px;
+			line-height: 30px;
+			font-weight: 700; /* bold */
+			letter-spacing: 0.2px;
+		}
+
+		.module-completion-count {
+			text-align: right;
+			padding-bottom: 20px;
+
+			/* Small Body Text - Lato Regular 14, Tungsten */
+			font-size: 14px;
+			line-height: 20px;
+			font-weight: 400; /* normal */
+			letter-spacing: 0.2px;
+			color: var(--d2l-color-tungsten);
+		}
+
+		.module-completion-count {
+			padding-top: 10px;
+		}
+
+		.module-item {
+			background-color: white;
+			width: 100% - 15px;
+			margin-top: 30px;
+		}
+
+		.module-item-list {
+			list-style-type: none;
+			border-collapse: collapse;
+			padding-left: 30px;
+			padding-right: 30px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		.end-of-lesson {
+			text-align: center;
+			color: var(--d2l-color-celestine);
+			padding-top: 30px;
+
+			/* Label Text - Lato Bold 14 */
+			font-size: 14px;
+			line-height: 20px;
+			font-weight: 700; /* bold */
+			letter-spacing: 0.2px;
+		}
+
+		.module-header {
+			padding-top: 40px;
+			padding-left: 30px;
+			padding-right: 30px;
+			height: 120px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.shadowed {
+			box-shadow: 0 4px 0 0 rgba(185,194,208,.3);
+		}
+
+		.module-content {
+			height: calc( 100% - 120px - 40px );
+			overflow-y: auto;
+			padding-bottom: 40px;
+		}
+
+		</style>
+
+		<div class="module-header" id="sidebarHeader">
+			<div class="module-title">[[entity.properties.title]]</div>
+			<d2l-progress-bar percent-completed=[[percentCompleted]]></d2l-progress-bar>
+			<div class="module-completion-count">Done [[completionCount.completed]]/[[completionCount.total]]</div>
+		</div>
+
+		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
+
+			<ol class="module-item-list">
+				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+					<li class="module-item">
+						<d2l-sequence-navigator-item
+							href="[[childLink.href]]"
+							token="[[token]]"
+							current-activity="{{currentActivity}}"
+						>
+						</d2l-sequence-navigator-item>
+					</li>
+				</template>
+			</ol>
+
+			<div class="end-of-lesson">END OF LESSON</div>
+
+		</d2l-accordion>
+	</template>
+	<script>
+		/*
+		@memberOf D2L.Polymer.Mixins;
+		@mixes SirenEntityMixin
+		*/
+		class D2LLessonLink extends D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element ) {
+			static get is() {
+				return 'd2l-lesson-link';
+			}
+			static get properties() {
+				return {
+					currentActivity: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					completionCount: {
+						type: Object,
+						computed: '_getStatus(completionStatus)',
+						observer: '_getPercentCompleted'
+					},
+					subEntities: {
+						type: Array,
+						computed: 'getSubEntities(entity)'
+					},
+					percentCompleted: {
+						type: Number
+					}
+				};
+			}
+
+			_isAccordionOpen() {
+				if ( !this.shadowRoot || !this.shadowRoot.querySelector('#moduleLink') ) {
+					return false;
+				}
+				return this.shadowRoot.querySelector('#moduleLink').hasAttribute('opened');
+			}
+
+			getSubEntities(entity) {
+				return entity.getSubEntities()
+					.filter( subEntity =>
+						(subEntity.properties && Object.keys(subEntity.properties).length > 0) || subEntity.href )
+					.map(this._getHref);
+			}
+
+			_getHref(entity) {
+				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
+			}
+
+			_getStatus(completionStatus) {
+				return completionStatus || {
+					completed: 0,
+					optionalViewed: 0,
+					optionalTotal: 0,
+					total: 0
+				};
+			}
+
+			_getPercentCompleted() {
+				if (!this.completionCount || this.completionCount.total === 0) return 0;
+				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
+			}
+
+			onSidebarScroll() {
+				if ( this.$.sidebarContent.scrollTop === 0 ) {
+					if ( this.$.sidebarHeader.classList.contains('shadowed') ) {
+						this.$.sidebarHeader.classList.remove('shadowed');
+					}
+				} else {
+					if ( !this.$.sidebarHeader.classList.contains('shadowed') ) {
+						this.$.sidebarHeader.classList.add('shadowed');
+					}
+				}
+			}
+		}
+
+		window.customElements.define(D2LLessonLink.is, D2LLessonLink);
+	</script>
+</dom-module>

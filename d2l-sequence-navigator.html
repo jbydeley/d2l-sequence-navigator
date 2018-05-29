@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer-siren-mixins/siren-entity-mixin.html">
 <link rel="import" href="./components/d2l-sequence-navigator-item.html">
+<link rel="import" href="./components/d2l-lesson-link.html">
 <!--
 'd2l-sequence-navigator'
 
@@ -12,27 +13,26 @@
 		<style>
 			:host {
 				display: block;
+				height: 100%;
 			}
-			#menu {
-				list-style:none;
-				padding-left: 0px;
-				margin-bottom: 0px;
-				margin-top: 0px;
-			}
-
 		</style>
-		<ul id="menu">
-			<li>
-				<d2l-accordion auto-close>
-					<d2l-sequence-navigator-item
-						href="[[rootHref]]"
-						token="[[token]]"
-						current-activity="{{currentActivity}}"
-						selected-module="{{selectedModule}}"
-					></d2l-sequence-navigator-item>
-				</d2l-accordion>
-			</li>
-		</ul>
+
+		<template is="dom-if" if="[[isLesson]]">
+			<d2l-lesson-link
+				href="[[rootHref]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+			></d2l-lesson-link>
+		</template>
+
+		<template is="dom-if" if="[[!isLesson]]">
+			<d2l-sequence-navigator-item
+				href="[[rootHref]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+				selected-module="{{selectedModule}}"
+			></d2l-sequence-navigator-item>
+		</template>
 	</template>
 	<script>
 		/*
@@ -57,6 +57,10 @@
 					rootHref: {
 						type: String,
 						computed: '_fetchRootLink(entity)'
+					},
+					isLesson: {
+						type: Boolean,
+						value: false
 					}
 				};
 			}
