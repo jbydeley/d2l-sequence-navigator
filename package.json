@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "polymer install",
     "precommit": "lint-staged",
-    "lint:html": "eslint *.html demo/*.html components/*.html test/*.html utility/*.html",
+    "lint:html": "eslint --fix *.html demo/*.html components/*.html test/*.html utility/*.html gulpfile.js",
     "lint": "npm run lint:html",
     "test": "polymer test --skip-plugin sauce",
     "test-p": "polymer test --skip-plugin sauce -p",
