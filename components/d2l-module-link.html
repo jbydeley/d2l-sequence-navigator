@@ -269,7 +269,8 @@
 					currentActivity: {
 						type: String,
 						value: '',
-						notify: true
+						notify: true,
+						observer: '_closeModule'
 					},
 					selectedModule: {
 						type: String,
@@ -470,8 +471,22 @@
 
 			_getIsCurrent(childLink, currentActivity) {
 				if ( childLink.href === currentActivity ) {
+					this.shadowRoot.querySelector('#moduleLink').setAttribute('opened', '');
 					return 'current';
 				}
+			}
+
+			_closeModule() {
+				if ( !this.entity ) {
+					return;
+				}
+				const children = this.entity.getSubEntities();
+				for ( let i = 0; i < children.length; i++ ) {
+					if ( children[i].href === this.currentActivity ) {
+						return;
+					}
+				}
+				this.shadowRoot.querySelector('#moduleLink').removeAttribute('opened');
 			}
 
 			_onActivityClicked(e) {
