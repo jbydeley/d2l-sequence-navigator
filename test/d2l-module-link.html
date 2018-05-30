@@ -138,6 +138,26 @@
 						done();
 					});
 				});
+
+				test('should not show any counts when the accordion is closed', function(done) {
+					setTimeout( function() {
+						expect(element.shadowRoot.querySelector('.divider-icon')).to.be.null;
+						expect(element.shadowRoot.querySelector('.countStatus')).to.be.null;
+						done();
+					}, 100);
+				});
+
+				test('should not show any counts when the accordion is open', function(done) {
+					setTimeout( function() {
+						var accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', function() {
+							TestHelpers.forceXIfStamp(element);
+							expect(element.shadowRoot.querySelector('.countStatus')).to.be.null;
+							done();
+						});
+						accordionElement.$.trigger.click();
+					}, 100);
+				});
 			});
 
 			suite('d2l-module-link for module with required activites that have some read', () => {
@@ -159,7 +179,7 @@
 				});
 
 				test('should show count for a closed accordion that has one completed activity', function(done) {
-					flush( function() {
+					setTimeout( function() {
 						expect(element.shadowRoot.querySelector('.divider-icon')).to.exist;
 						var countStatus = element.shadowRoot.querySelector('.countStatus');
 						expect(countStatus).to.exist;
