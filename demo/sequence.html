@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+	<title>d2l-sequence-navigator demo</title>
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+	<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+	<link rel="import" href="../d2l-sequence-navigator.html">
+	<custom-style>
+		<style is="custom-style" include="demo-pages-shared-styles"></style>
+		<style>
+			.sidebar {
+				width: 330px;
+				height: 400px;
+				background: linear-gradient(to right, var(--d2l-color-regolith), white);
+				box-shadow: 0px 2px 3px 2px rgba(214,220,229,0.5); /* 50% D6DCE5 */
+			}
+		</style>
+	</custom-style>
+</head>
+<body>
+<div class="vertical-section-container centered">
+
+	<h3>Simple sequence-navigator</h3>
+	<demo-snippet>
+		<template>
+			<h4>Lesson navigator in a sidebar</h4>
+			<div class="sidebar">
+				<d2l-sequence-navigator
+					href="data/m2-activity2.json"
+					token="foozleberries"
+					is-lesson
+				></d2l-sequence-navigator>
+			</div>
+		</template>
+	</demo-snippet>
+</div>
+</body>
+</html>

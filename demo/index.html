@@ -8,7 +8,6 @@
 		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 		<link rel="import" href="../d2l-sequence-navigator.html">
-		<link rel="import" href="../d2l-root-sequence-navigator.html">
 		<custom-style>
 			<style is="custom-style" include="demo-pages-shared-styles"></style>
 			<style>
@@ -30,9 +29,8 @@
 					<h4>Lesson navigator in a sidebar</h4>
 					<div class="sidebar">
 						<d2l-sequence-navigator
-							href="data/lesson1.json"
+							href="data/m2-activity2.json"
 							token="foozleberries"
-							current-activity="data/m2-activity2.json"
 							is-lesson
 						></d2l-sequence-navigator>
 					</div>
@@ -43,31 +41,30 @@
 						token="foozleberries"
 					>
 					</d2l-sequence-navigator>
-
+				</template>
+			</demo-snippet>
+			<demo-snippet>
+				<template>
 					<h4>Module</h4>
 					<d2l-sequence-navigator
 						href="data/l1-module2.json"
 						token="foozleberries"
 					>
 					</d2l-sequence-navigator>
-
+				</template>
+			</demo-snippet>
+			<demo-snippet>
+				<template>
 					<h4>Activity</h4>
 					<d2l-sequence-navigator
 						href="data/activity1.json"
 						token="foozleberries"
-						current-activity="data/activity1.json"
 					>
 					</d2l-sequence-navigator>
-
-					<h4>Root Menu Walk-back From Activity</h4>
-					<d2l-root-sequence-navigator
-						href="data/activity1.json"
-						token="foozleberries"
-						current-activity="data/activity1.json"
-					>
-					</d2l-root-sequence-navigator>
-
-
+				</template>
+			</demo-snippet>
+			<demo-snippet>
+				<template>
 					<h4>Empty Module</h4>
 					<d2l-sequence-navigator
 						href="data/empty-module.json"
@@ -77,7 +74,19 @@
 
 				</template>
 			</demo-snippet>
+			<demo-snippet>
+				<template>
+					<h4>Empty D2LModuleLink</h4>
+					<d2l-module-link
+						href="data/l1-module2.json"
+						token="emptytoken"
+						current-activity="data/m2-activity1.json"
+						selected-module="data/l1-module2.json"
+					>
+					</d2l-module-link>
 
+				</template>
+			</demo-snippet>
 		</div>
 	</body>
 </html>
