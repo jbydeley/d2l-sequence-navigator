@@ -13,8 +13,20 @@
 			"class": ["sequence", "sequence-description"],
 			"rel": ["https://api.brightspace.com/rels/sequence-description"],
 			"href": "data/l4-required-completion-module.json"
-		}
-		],
+		},
+		{
+			"class": [
+			  "completion",
+			  "incomplete"
+			],
+			"properties": {
+			  "completed": 0,
+			  "total": 2,
+			  "optionalViewed": 0,
+			  "optionalTotal": 2
+			},
+			"rel": [ "item", "https://api.brightspace.com/rels/completion"]
+		}],
 	"links": [{
 		"rel": ["self", "describes"],
 		"href": "data/lesson4.json"

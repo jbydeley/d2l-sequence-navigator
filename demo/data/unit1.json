@@ -22,6 +22,19 @@
 			"class": ["sequence", "sequence-description"],
 			"rel": ["self", "https://api.brightspace.com/rels/sequence-description"],
 			"href": "data/lesson4.json"
+		},
+		{
+			"class": [
+			  "completion",
+			  "incomplete"
+			],
+			"properties": {
+			  "completed": 5,
+			  "total": 9,
+			  "optionalViewed": 1,
+			  "optionalTotal": 4
+			},
+			"rel": [ "item", "https://api.brightspace.com/rels/completion"]
 		}
 	],
 	"links": [{
