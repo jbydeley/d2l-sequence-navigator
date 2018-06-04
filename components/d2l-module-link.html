@@ -1,5 +1,4 @@
 <link rel="import" href="d2l-sequence-navigator-item.html">
-<link rel="import" href="d2l-progress-bar.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
@@ -45,17 +44,6 @@
 				letter-spacing: 0.2px;
 			}
 
-			.has-child-modules .module-title {
-				margin-top: 0px;
-				margin-bottom: 0px;
-
-				/* Heading 3 - Lato Bold 20 */
-				font-size: 20px;
-				line-height: 30px;
-				font-weight: 700; /* bold */
-				letter-spacing: 0.2px;
-			}
-
 			.module-completion-count {
 				text-align: right;
 
@@ -70,10 +58,6 @@
 			.has-no-child-modules .module-completion-count {
 				float: right;
 				grid-column: 2;
-			}
-
-			.has-child-modules .module-completion-count {
-				padding-top: 10px;
 			}
 
 			.has-no-child-modules .module-completion-count d2l-icon:not(.moduleComplete) {
@@ -135,24 +119,6 @@
 				border-radius: 0px 1px 8px 8px;
 			}
 
-			.has-child-modules .module-item {
-				background-color: white;
-				width: 100% - 15px;
-				margin-top: 30px;
-			}
-
-			.has-child-modules .end-of-lesson {
-				text-align: center;
-				color: var(--d2l-color-celestine);
-				padding-top: 30px;
-
-				/* Label Text - Lato Bold 14 */
-				font-size: 14px;
-				line-height: 20px;
-				font-weight: 700; /* bold */
-				letter-spacing: 0.2px;
-			}
-
 			.optionalStatus {
 				color: var(--d2l-color-ferrite);
 				font-weight: bold;
@@ -168,93 +134,58 @@
 
 		</style>
 
-		<template is="dom-if" if="[[hasChildModules]]">
-			<d2l-accordion-collapse
-				class$="[[_getIsSelected(selectedModule)]] has-child-modules"
-				on-click="toggleSelected"
-				id="moduleLink"
-				no-icons
-				flex
-			>
-				<div slot="header" class="module-header">
-					<div class="module-title">[[entity.properties.title]]</div>
-					<d2l-progress-bar percent-completed=[[percentCompleted]]></d2l-progress-bar>
-					<div class="module-completion-count">[[localize('modulesDone', 'completed', completionCompleted, 'total', completionTotal)]]</div>
-				</div>
-
-				<ol class="module-item-list">
-					<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-						<li class="module-item">
-							<d2l-sequence-navigator-item
-								href="[[childLink.href]]"
-								token="[[token]]"
-								current-activity="{{currentActivity}}"
-								selected-module="{{selectedModule}}"
-							>
-							</d2l-sequence-navigator-item>
-						</li>
+		<d2l-accordion-collapse
+			class$="[[_getIsSelected(selectedModule)]] has-no-child-modules"
+			on-click="toggleSelected"
+			id="moduleLink"
+			no-icons
+			flex
+		>
+			<div slot="header" class="module-header">
+				<span class="module-title">[[entity.properties.title]]</span>
+				<span class="module-completion-count">
+					<template is="dom-if" if="[[showDivider]]">
+						<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
 					</template>
-				</ol>
-
-				<div class="end-of-lesson">[[localize('endOfLesson')]]</div>
-
-			</d2l-accordion-collapse>
-		</template>
-
-		<template is="dom-if" if="[[!hasChildModules]]">
-			<d2l-accordion-collapse
-				class$="[[_getIsSelected(selectedModule)]] has-no-child-modules"
-				on-click="toggleSelected"
-				id="moduleLink"
-				no-icons
-				flex
-			>
-				<div slot="header" class="module-header">
-					<span class="module-title">[[entity.properties.title]]</span>
-					<span class="module-completion-count">
-						<template is="dom-if" if="[[showDivider]]">
-							<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
-						</template>
-						<template is="dom-if" if="[[showCount]]">
-							<span class="countStatus">
-								[[localize('countStatus', 'completed', completionCompleted, 'total', completionTotal)]]
-							</span>
-						</template>
-						<template is="dom-if" if="[[showCheckmark]]">
-							<span class="completedStatus">
-								<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
-							</span>
-						</template>
-						<template is="dom-if" if="[[showOptional]]">
-							<span class="optionalStatus">
-								[[localize('optional')]]
-							</span>
-						</template>
-					</span>
-				</div>
-
-				<ol class="module-item-list">
-					<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-						<li class$="module-item [[_getIsCurrent(childLink, currentActivity)]]" on-click="_onActivityClicked">
-							<d2l-sequence-navigator-item
-								href="[[childLink.href]]"
-								token="[[token]]"
-								current-activity="{{currentActivity}}"
-								selected-module="{{selectedModule}}"
-							>
-							</d2l-sequence-navigator-item>
-						</li>
+					<template is="dom-if" if="[[showCount]]">
+						<span class="countStatus">
+							[[localize('countStatus', 'completed', completionCompleted, 'total', completionTotal)]]
+						</span>
 					</template>
-					<template is="dom-if" if="[[!hasChildren]]">
-						<div class="no-topics">
-							[[localize('moduleHasNoTopics')]]
-						</div>
+					<template is="dom-if" if="[[showCheckmark]]">
+						<span class="completedStatus">
+							<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
+						</span>
 					</template>
-				</ol>
-			</d2l-accordion-collapse>
-		</template>
+					<template is="dom-if" if="[[showOptional]]">
+						<span class="optionalStatus">
+							[[localize('optional')]]
+						</span>
+					</template>
+				</span>
+			</div>
 
+			<ol class="module-item-list">
+				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+					<li class$="module-item [[_getIsCurrent(childLink, currentActivity)]]" on-click="_onActivityClicked">
+						<d2l-sequence-navigator-item
+							href="[[childLink.href]]"
+							token="[[token]]"
+							current-activity="{{currentActivity}}"
+							selected-module="{{selectedModule}}"
+						>
+						</d2l-sequence-navigator-item>
+					</li>
+				</template>
+				<template is="dom-if" if="[[!hasChildren]]">
+					<div class="no-topics">
+						[[localize('moduleHasNoTopics')]]
+					</div>
+				</template>
+			</ol>
+		</d2l-accordion-collapse>
 	</template>
+
 	<script>
 		/*
 		@memberOf window.D2L.Polymer.Mixins;
@@ -285,11 +216,6 @@
 						type: Array,
 						computed: 'getSubEntities(entity)'
 					},
-					hasChildModules: {
-						type: Boolean,
-						value: false,
-						computed: '_containsChildModules(entity)'
-					},
 					hasChildren: {
 						type: Boolean,
 						computed: '_hasChildren(entity)'
@@ -316,16 +242,6 @@
 						type: Boolean,
 						value: false,
 						computed: '_showDivider(showCount, showCheckmark, showOptional)'
-					},
-					completionCompleted: {
-						type: String,
-						value: '',
-						computed: '_stringifyCount(completionCount.completed)'
-					},
-					completionTotal: {
-						type: String,
-						value: '',
-						computed: '_stringifyCount(completionCount.total)'
 					}
 				};
 			}
@@ -333,13 +249,6 @@
 			connectedCallback() {
 				super.connectedCallback();
 				this.loadResources(this.resolveUrl('../locales.json'));
-			}
-
-			_stringifyCount(count) {
-				if ( count === undefined ||  count === null ) {
-					return '';
-				}
-				return `${count}`;
 			}
 
 			_isAccordionOpen() {
@@ -423,17 +332,6 @@
 			_getPercentCompleted() {
 				if (!this.completionCount || this.completionCount.total === 0) return 0;
 				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
-			}
-
-			_containsChildModules(entity) {
-				var children = entity.getSubEntities();
-				var i;
-				for (i = 0; i < children.length; i++) {
-					if (this.isModule(children[i])) {
-						return true;
-					}
-				}
-				return false;
 			}
 			_hasChildren(entity) {
 				return entity.getSubEntities().length !== 0;

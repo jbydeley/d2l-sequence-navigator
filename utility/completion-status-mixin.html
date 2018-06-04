@@ -22,6 +22,25 @@
 			}
 
 			static get properties() {
+				return {
+					completionCompleted: {
+						type: String,
+						value: '',
+						computed: '_stringifyCount(completionCount.completed)'
+					},
+					completionTotal: {
+						type: String,
+						value: '',
+						computed: '_stringifyCount(completionCount.total)'
+					}
+				};
+			}
+
+			_stringifyCount(count) {
+				if ( count === undefined ||  count === null ) {
+					return '';
+				}
+				return `${count}`;
 			}
 
 			_getCompletionStatus(activity) {

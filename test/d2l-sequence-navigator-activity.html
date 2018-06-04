@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+	<title>d2l-sequence-navigator with activity test</title>
+	<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+	<script src="../../web-component-tester/browser.js"></script>
+	<link rel="import" href="../../polymer/polymer.html">
+	<link rel="import" href="../d2l-sequence-navigator.html">
+</head>
+<body>
+
+<test-fixture id="ActivityLinked">
+	<template>
+		<d2l-sequence-navigator href="data/m2-activity5.json" token="bamboozle"></d2l-sequence-navigator>
+	</template>
+</test-fixture>
+<script>
+	suite('d2l-sequence-navigator for an activity', () => {
+		var element;
+		const moduleUrl = 'http://example.com/module';
+		const activityUrl = 'http://example.com/activity';
+
+		setup( function() {
+			element = fixture('ActivityLinked');
+		});
+
+		test('creates d2l-sequence-navigator-item child', function(done) {
+			setTimeout( function() {
+				expect( element.shadowRoot.querySelector('d2l-sequence-navigator-item') ).to.exist;
+				done();
+			}, 100);
+		});
+
+		test('returns self if href is a module', function(done) {
+			flush( function() {
+				var stub = sinon.stub();
+				var entityFake = {
+					class: ['', 'sequence-description'],
+					getLinkByRel: stub.returns({href: moduleUrl}),
+					hasClass: () => true
+				};
+
+				expect( element._getModuleHref(entityFake)).to.equal( moduleUrl );
+				sinon.assert.calledOnce(stub);
+				sinon.assert.calledWithMatch(stub, 'self');
+				done();
+			});
+		});
+		test('returns uplink if href is an activity', function(done) {
+			flush( function() {
+				var stub = sinon.stub();
+				var entityFake = {
+					class: ['', 'sequenced-activity'],
+					getLinkByRel: stub.returns({href: activityUrl}),
+					hasClass: (input) => input === 'sequenced-activity'
+				};
+				expect( element._getModuleHref(entityFake)).to.equal( activityUrl );
+				sinon.assert.calledOnce(stub);
+				sinon.assert.calledWithMatch(stub, 'up');
+				done();
+			});
+		});
+	});
+</script>
+</body>
+</html>
