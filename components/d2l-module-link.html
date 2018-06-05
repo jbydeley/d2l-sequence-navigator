@@ -203,9 +203,14 @@
 						notify: true,
 						observer: '_closeModule'
 					},
+					hasCurrentActivity: {
+						type: Boolean,
+						value: false
+					},
 					selectedModule: {
 						type: String,
-						value: ''
+						value: '',
+						notify: true
 					},
 					completionCount: {
 						type: Object,
@@ -226,17 +231,17 @@
 					showCount: {
 						type: Boolean,
 						value: false,
-						computed: '_showCount(completionCount, selectedModule)'
+						computed: '_showCount(completionCount, selectedModule, hasCurrentActivity)'
 					},
 					showCheckmark: {
 						type: Boolean,
 						value: false,
-						computed: '_showCheckmark(completionCount, selectedModule)'
+						computed: '_showCheckmark(completionCount, selectedModule, hasCurrentActivity)'
 					},
 					showOptional: {
 						type: Boolean,
 						value: false,
-						computed: '_showOptional(completionCount, selectedModule)'
+						computed: '_showOptional(completionCount, selectedModule, hasCurrentActivity)'
 					},
 					showDivider: {
 						type: Boolean,
@@ -274,10 +279,7 @@
 				return this.completionCount && this.completionCount.total > 0 && this.completionCount.completed > 0 && this.completionCount.completed <  this.completionCount.total;
 			}
 
-			_showCount(completionCount) {
-				if ( !completionCount ) {
-					return false;
-				}
+			_showCount() {
 				return this.hasChildren &&
 					!this._isOptionalModule() && (
 					this._isAccordionOpen() ||
@@ -285,20 +287,14 @@
 				);
 			}
 
-			_showCheckmark(completionCount) {
-				if ( !completionCount ) {
-					return false;
-				}
+			_showCheckmark() {
 				return !this._isAccordionOpen() && (
 					( this._isOptionalModule() && this._isAllOptionalViewed() ) ||
 					( !this._isOptionalModule() && this._isAllRequiredViewed() )
 				);
 			}
 
-			_showOptional(completionCount) {
-				if ( !completionCount ) {
-					return false;
-				}
+			_showOptional() {
 				return this._isOptionalModule() && !this._isAccordionOpen() && !this._isAllOptionalViewed();
 			}
 
@@ -333,6 +329,7 @@
 				if (!this.completionCount || this.completionCount.total === 0) return 0;
 				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
+
 			_hasChildren(entity) {
 				return entity.getSubEntities().length !== 0;
 			}
@@ -359,8 +356,10 @@
 			_getIsCurrent(childLink, currentActivity) {
 				if ( childLink.href === currentActivity ) {
 					this.shadowRoot.querySelector('#moduleLink').setAttribute('opened', '');
+					this.hasCurrentActivity = true;
 					return 'current';
 				}
+				this.hasCurrentActivity = false;
 			}
 
 			_closeModule() {
