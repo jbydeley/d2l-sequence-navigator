@@ -367,9 +367,14 @@
 				if ( !this.entity ) {
 					return;
 				}
-				const children = this.entity.getSubEntities();
+				// Filter is for our demo data having sequence in the class of the subentity
+				const children = this.entity.getSubEntities().filter( subEntity => subEntity.class.includes('sequenced-activity'));
 				for ( let i = 0; i < children.length; i++ ) {
-					if ( children[i].href === this.currentActivity ) {
+					// Doing this because our demo data structure was made without embedded sub entities
+					var childLink =  children[i].href ? children[i].href : children[i].getLinkByRel('self').href;
+
+					if ( childLink === this.currentActivity ) {
+						this.shadowRoot.querySelector('#moduleLink').setAttribute('opened', '');
 						return;
 					}
 				}
