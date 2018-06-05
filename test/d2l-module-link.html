@@ -46,7 +46,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('Empty');
 							element.href = 'data/lesson1.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
@@ -114,7 +113,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('ModuleWithNoChildrenFixture');
 							element.href = 'data/l2-module2.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
@@ -169,7 +167,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('Empty');
 							element.href = 'data/l1-module1.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
@@ -212,7 +209,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('Empty');
 							element.href = 'data/l4-optional-completion-module.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
@@ -258,7 +254,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('Empty');
 							element.href = 'data/l4-required-completion-module.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
@@ -300,7 +295,6 @@
 							return res.json();
 						})
 						.then(function(entities) {
-							window.D2L.Polymer.Mixins.CompletionStore._clearStore();
 							element = fixture('Empty');
 							element.href = 'data/l1-module2.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);

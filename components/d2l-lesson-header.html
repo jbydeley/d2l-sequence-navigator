@@ -74,7 +74,7 @@
 					},
 					completionCount: {
 						type: Object,
-						computed: '_getStatus(completionStatus)',
+						computed: '_getStatus(entity)',
 						observer: '_getPercentCompleted'
 					},
 					percentCompleted: {
@@ -83,7 +83,8 @@
 				};
 			}
 
-			_getStatus(completionStatus) {
+			_getStatus(entity) {
+				const completionStatus = entity.getSubEntityByClass('completion').properties;
 				return completionStatus || {
 					completed: 0,
 					optionalViewed: 0,

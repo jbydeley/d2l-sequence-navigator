@@ -1,25 +1,14 @@
 <link rel="import" href="../../polymer-siren-mixins/siren-entity-mixin.html">
-<link rel="import" href="./completion-store.html">
 
 <script>
 (function() {
 	/*
 		@polymerMixin
-		A component mixin for HM completionStatus with support for callback for updates
-			- registers for store updates when attached to DOM
-			- unregisters from store updates when removed from DOM
-			- unregisters old, registers new callback when href changes
-			- assumes one completionStatus per component (maybe valid assumption)
 		@mixes SirenEntityMixin
 		@memberOf D2L.Polymer.Mixins;
 	*/
 	D2L.Polymer.Mixins.CompletionStatusMixin = function(superClass) {
 		return class extends window.D2L.Polymer.Mixins.SirenEntityMixin(superClass) {
-
-			constructor() {
-				super();
-				this._completionStatusChanged = this._completionStatusChanged.bind(this);
-			}
 
 			static get properties() {
 				return {
@@ -57,51 +46,6 @@
 					}
 					return 'optional';
 				}
-			}
-
-			connectedCallback() {
-				if (super.connectedCallback) {
-					super.connectedCallback();
-				}
-			}
-
-			disconnectedCallback() {
-				if (super.disconnectedCallback) {
-					super.disconnectedCallback();
-				}
-				if (this.href && typeof this.token === 'string') {
-					window.D2L.Polymer.Mixins.CompletionStore.removeListener(this.href, this.token, this._completionStatusChanged);
-				}
-			}
-
-			_hrefChanged(href, oldhref) {
-				if (typeof this.token !== 'string') {
-					return;
-				}
-				if (oldhref) {
-					window.D2L.Polymer.Mixins.CompletionStore.removeListener(oldhref, this.token, this._completionStatusChanged);
-				}
-				if (!href) {
-					return;
-				}
-				window.D2L.Polymer.Mixins.CompletionStore.addListener(href, this.token, this._completionStatusChanged);
-			}
-
-			_tokenChanged(token, oldToken) {
-				if (!this.href) {
-					return;
-				}
-				if (oldToken) {
-					window.D2L.Polymer.Mixins.CompletionStore.removeListener(this.href, oldToken, this._completionStatusChanged);
-				}
-				if (typeof token !== 'string') {
-					return;
-				}
-				window.D2L.Polymer.Mixins.CompletionStore.addListener(this.href, token, this._completionStatusChanged);
-			}
-
-			_completionStatusChanged(completionStatus) {
-				this.completionStatus = completionStatus;
 			}
 		};
 	};
