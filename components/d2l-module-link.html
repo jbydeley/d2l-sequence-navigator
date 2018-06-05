@@ -308,8 +308,7 @@
 
 			getSubEntities(entity) {
 				return entity.getSubEntities()
-					.filter( subEntity =>
-						(subEntity.properties && Object.keys(subEntity.properties).length > 0) || subEntity.href )
+					.filter( subEntity => this._isActivity(subEntity) || subEntity.href )
 					.map(this._getHref);
 			}
 
@@ -337,7 +336,7 @@
 				return entity.getSubEntities().length !== 0;
 			}
 
-			isActivity(childEntity) {
+			_isActivity(childEntity) {
 				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 
