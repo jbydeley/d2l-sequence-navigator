@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Brightspace/d2l-sequence-navigator.svg?token=s5DqGXfBESukCURszFfU&branch=master)](https://travis-ci.com/Brightspace/d2l-sequence-navigator)
+[![Build Status](https://travis-ci.com/BrightspaceHypermediaComponents/d2l-sequence-navigator.svg?token=s5DqGXfBESukCURszFfU&branch=master)](https://travis-ci.com/BrightspaceHypermediaComponents/d2l-sequence-navigator)
 
 # d2l-sequence-navigator
 
