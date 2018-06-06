@@ -13,17 +13,21 @@
 				font-family: 'Lato', sans-serif;
 			}
 
-			.has-no-child-modules .module-header {
+			.header-container {
 				padding: 15px;
-				display: grid;
-				grid-template-columns: 65% 35%;
 				background-color: var(--d2l-color-gypsum);
 				border-radius: 8px 8px 8px 8px;
 			}
 
-			d2l-accordion-collapse[opened].has-no-child-modules .module-header {
+			d2l-accordion-collapse[opened] .header-container {
 				border-radius: 8px 8px 0px 0px;
 				border-bottom: 1px solid var(--d2l-color-mica);
+			}
+
+			.module-header {
+				display: table;
+				table-layout: fixed;
+				width: 100%;
 			}
 
 			.module-title {
@@ -31,11 +35,9 @@
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
-			}
-
-			.has-no-child-modules .module-title {
 				float: left;
-				grid-column: 1;
+				display: table-cell;
+				width: 65%;
 
 				/* Body Text - Lato Regular 19 */
 				font-size: 19px;
@@ -46,6 +48,9 @@
 
 			.module-completion-count {
 				text-align: right;
+				float: right;
+				display: table-cell;
+				width: 35%;
 
 				/* Small Body Text - Lato Regular 14, Tungsten */
 				font-size: 14px;
@@ -55,12 +60,7 @@
 				color: var(--d2l-color-tungsten);
 			}
 
-			.has-no-child-modules .module-completion-count {
-				float: right;
-				grid-column: 2;
-			}
-
-			.has-no-child-modules .module-completion-count d2l-icon:not(.moduleComplete) {
+			.module-completion-count d2l-icon:not(.moduleComplete) {
 				color: var(--d2l-color-tungsten);
 			}
 
@@ -73,7 +73,7 @@
 				@include d2l-body-small;
 			}
 
-			d2l-accordion-collapse.has-no-child-modules {
+			d2l-accordion-collapse {
 				border: 1px solid var(--d2l-color-mica);
 				border-radius: 8px;
 			}
@@ -86,7 +86,7 @@
 				margin-bottom: 0px;
 			}
 
-			.has-no-child-modules .module-item {
+			.module-item {
 				width: 100%;
 				margin-top: -1px;
 				margin-bottom: -1px;
@@ -101,13 +101,12 @@
 				letter-spacing: 0.2px;
 			}
 
-			.has-no-child-modules .module-item:not(.current):not(:hover) {
+			.module-item:not(.current):not(:hover) {
 				border: 1px solid var(--d2l-color-mica);
 				border-bottom: 1px solid var(--d2l-color-mica);
 			}
 
-			.has-no-child-modules .module-item.current,
-			.has-no-child-modules .module-item:hover {
+			.module-item.current, .module-item:hover {
 				background-color: #f2f8fc;
 				border: 1px solid #99c5e5;
 				border-bottom: 1px solid #99c5e5;
@@ -115,7 +114,7 @@
 				z-index: 0.5;
 			}
 
-			.has-no-child-modules .module-item:last-of-type {
+			.module-item:last-of-type {
 				border-radius: 0px 1px 8px 8px;
 			}
 
@@ -135,34 +134,36 @@
 		</style>
 
 		<d2l-accordion-collapse
-			class$="[[_getIsSelected(selectedModule)]] has-no-child-modules"
+			class$="[[_getIsSelected(selectedModule)]]"
 			on-click="toggleSelected"
 			id="moduleLink"
 			no-icons
 			flex
 		>
-			<div slot="header" class="module-header">
-				<span class="module-title">[[entity.properties.title]]</span>
-				<span class="module-completion-count">
-					<template is="dom-if" if="[[showDivider]]">
-						<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
-					</template>
-					<template is="dom-if" if="[[showCount]]">
-						<span class="countStatus">
-							[[localize('countStatus', 'completed', completionCompleted, 'total', completionTotal)]]
-						</span>
-					</template>
-					<template is="dom-if" if="[[showCheckmark]]">
-						<span class="completedStatus">
-							<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
-						</span>
-					</template>
-					<template is="dom-if" if="[[showOptional]]">
-						<span class="optionalStatus">
-							[[localize('optional')]]
-						</span>
-					</template>
-				</span>
+			<div slot="header" class="header-container">
+				<div class="module-header">
+					<span class="module-title">[[entity.properties.title]]</span>
+					<span class="module-completion-count">
+						<template is="dom-if" if="[[showDivider]]">
+							<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
+						</template>
+						<template is="dom-if" if="[[showCount]]">
+							<span class="countStatus">
+								[[localize('countStatus', 'completed', completionCompleted, 'total', completionTotal)]]
+							</span>
+						</template>
+						<template is="dom-if" if="[[showCheckmark]]">
+							<span class="completedStatus">
+								<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
+							</span>
+						</template>
+						<template is="dom-if" if="[[showOptional]]">
+							<span class="optionalStatus">
+								[[localize('optional')]]
+							</span>
+						</template>
+					</span>
+				</div>
 			</div>
 
 			<ol class="module-item-list">

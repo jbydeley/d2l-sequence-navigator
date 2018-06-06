@@ -2,7 +2,6 @@
 <link rel="import" href="d2l-completion-status.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-typography/d2l-typography.html">
-<link rel="import" href="../../d2l-icons/d2l-icons.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
@@ -11,52 +10,47 @@
 				display: block;
 				font-family: 'Lato', sans-serif;
 				color: var(--d2l-color-ferrite);
-				display: grid;
-				grid-template-columns: 75% 25%;;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+			.container {
+				display: table;
+				table-layout: fixed;
+				width: 100%;
 			}
 
 			.current {
 				background-color: #f2f8fc;
 			}
 
-			.checkmark {
-				grid-column: 2;
-			}
-
-			.current + .checkmark .checkmark-icon {
-				color: white !important;
-				background-color: var(--d2l-color-galena);
-			}
-
-			.checkmark-icon {
-				color: var(--d2l-color-olivine) !important;
-			}
-
-			#activityLink {
-				display: block;
-				padding-right: 15px;
-				padding-left: 15px;
-				grid-column: 1;
+			#activityLink {				
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				float: left;
+				display: table-cell;
+				width: 65%;
 
 				/* Compact Body Text - Lato Regular 16 */
 				font-size: 16px;
 				line-height: 24px;
 				font-weight: 400; /* normal */
 				letter-spacing: 0.2px;
-
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
 			}
 
 			d2l-completion-status {
-				text-align: center;
-				grid-column: 2;
+				text-align: right;
+				float: right;
+				display: table-cell;
+				width: 35%;
 			}
 
 		</style>
-		<a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
-		<d2l-completion-status href="[[href]]" token="[[token]]"></d2l-completion-status>
+		<div class="container">
+			<a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
+			<d2l-completion-status href="[[href]]" token="[[token]]"></d2l-completion-status>
+		</div>
 
 	</template>
 	<script>
