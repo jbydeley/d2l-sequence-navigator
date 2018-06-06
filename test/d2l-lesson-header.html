@@ -15,46 +15,57 @@
 	<body>
 		<test-fixture id="LessonFixture">
 			<template>
-				<d2l-lesson-header href="data/lesson1.json" token="bamboozle"></d2l-lesson-header>
+				<d2l-lesson-header token="bamboozle"></d2l-lesson-header>
 			</template>
 		</test-fixture>
-
 		<script>
-
 			suite('d2l-lesson-header for a lesson', () => {
 
-				var element = fixture('LessonFixture');
+				let element;
+
+				setup(function(done) {
+					// This is done for now because element.entity is flaky and sometimes doesn't get bound
+					// when href and token are changed. When we figure out what's really happening we can switch
+					// this back to using the ModuleTestFixture test fixture
+					fetch( 'data/lesson1.json')
+						.then( function(res) {
+							return res.json();
+						})
+						.then(function(entities) {
+							element = fixture('LessonFixture');
+							element.href = 'data/lesson1.json';
+							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+							done();
+						});
+				});
 
 				test('instantiating the element with default properties works', () => {
 					assert.equal(element.href, 'data/lesson1.json');
 					assert.equal(element.token, 'bamboozle');
 				});
 
-				test('should create module title element', function(done) {
-					flush( function() {
-						var moduleTitle = element.shadowRoot.querySelector('.module-title');
-						expect( moduleTitle ).to.exist;
-						expect( moduleTitle.innerHTML === 'Lesson 1' );
-						done();
-					});
+				test('should create module title element', function() {
+					const moduleTitle = element.shadowRoot.querySelector('.module-title');
+					expect( moduleTitle ).to.exist;
+					expect( moduleTitle.innerHTML === 'Lesson 1' );
 				});
 
-				test('should create progress bar element with correct percentage completion', function(done) {
-					flush( function() {
-						var progressBar = element.shadowRoot.querySelector('d2l-progress-bar');
-						expect( progressBar ).to.exist;
-						expect( progressBar.shadowRoot.querySelector('#innerBar').style.width === '80%' );
-						done();
-					});
+				test('should create progress bar element with correct percentage completion', function() {
+					const progressBar = element.shadowRoot.querySelector('d2l-progress-bar');
+					expect( progressBar ).to.exist;
+					expect( progressBar.shadowRoot.querySelector('#innerBar').style.width === '80%' );
 				});
 
-				test('should create correct completion count label', function(done) {
-					flush( function() {
-						var completionCount = element.shadowRoot.querySelector('.module-completion-count');
-						expect( completionCount ).to.exist;
-						expect( completionCount.innerHTML === 'Done 4/5');
-						done();
-					});
+				test('should create correct completion count label', function() {
+					const completionCount = element.shadowRoot.querySelector('.module-completion-count');
+					expect( completionCount ).to.exist;
+					expect( completionCount.innerHTML === 'Done 4/5');
 				});
 			});
 		</script>

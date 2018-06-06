@@ -13,30 +13,42 @@
 
 <test-fixture id="ActivityLinked">
 	<template>
-		<d2l-sequence-navigator href="data/m2-activity5.json" token="bamboozle"></d2l-sequence-navigator>
+		<d2l-sequence-navigator token="bamboozle"></d2l-sequence-navigator>
 	</template>
 </test-fixture>
 <script>
 	suite('d2l-sequence-navigator for an activity', () => {
-		var element;
+		let element;
 		const moduleUrl = 'http://example.com/module';
 		const activityUrl = 'http://example.com/activity';
 
-		setup( function() {
-			element = fixture('ActivityLinked');
+		setup(function(done) {
+			fetch( 'data/m2-activity5.json')
+				.then( function(res) {
+					return res.json();
+				})
+				.then(function(entities) {
+					element = fixture('ActivityLinked');
+					element.href = 'data/m2-activity5.json';
+					element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+					const dynamicElements = element.shadowRoot.querySelectorAll('dom-if, dom-repeat, dom-template');
+					if (dynamicElements) {
+						for (let i = 0; i < dynamicElements.length; i++) {
+							dynamicElements[i].render();
+						}
+					}
+					done();
+				});
 		});
 
-		test('creates d2l-sequence-navigator-item child', function(done) {
-			setTimeout( function() {
-				expect( element.shadowRoot.querySelector('d2l-sequence-navigator-item') ).to.exist;
-				done();
-			}, 100);
+		test('creates d2l-lesson-header child', function() {
+			expect( element.shadowRoot.querySelector('d2l-lesson-header') ).to.exist;
 		});
 
-		test('returns self if href is a module', function(done) {
-			flush( function() {
-				var stub = sinon.stub();
-				var entityFake = {
+		test('returns self if href is a module', function() {
+			flush(function() {
+				const stub = sinon.stub();
+				const entityFake = {
 					class: ['', 'sequence-description'],
 					getLinkByRel: stub.returns({href: moduleUrl}),
 					hasClass: () => true
@@ -45,13 +57,13 @@
 				expect( element._getModuleHref(entityFake)).to.equal( moduleUrl );
 				sinon.assert.calledOnce(stub);
 				sinon.assert.calledWithMatch(stub, 'self');
-				done();
 			});
+
 		});
-		test('returns uplink if href is an activity', function(done) {
-			flush( function() {
-				var stub = sinon.stub();
-				var entityFake = {
+		test('returns uplink if href is an activity', function() {
+			flush(function() {
+				const stub = sinon.stub();
+				const entityFake = {
 					class: ['', 'sequenced-activity'],
 					getLinkByRel: stub.returns({href: activityUrl}),
 					hasClass: (input) => input === 'sequenced-activity'
@@ -59,7 +71,6 @@
 				expect( element._getModuleHref(entityFake)).to.equal( activityUrl );
 				sinon.assert.calledOnce(stub);
 				sinon.assert.calledWithMatch(stub, 'up');
-				done();
 			});
 		});
 	});

@@ -32,12 +32,9 @@
 		<script>
 			suite('d2l-sequence-navigator-item for a module', () => {
 
-				var element;
+				let element;
 
 				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back to using the ModuleTestFixture test fixture
 					fetch( 'data/lesson1.json')
 						.then( function(res) {
 							return res.json();
@@ -46,6 +43,12 @@
 							element = fixture('Empty');
 							element.href = 'data/lesson1.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							const  dynamicElements = element.shadowRoot.querySelectorAll('dom-if, dom-repeat, dom-template');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
 							done();
 						});
 				});
@@ -55,23 +58,17 @@
 					assert.equal(element.token, 'bamboozle');
 				});
 
-				test('creates a child d2l-module-link instead of an d2l-activity-link', function(done) {
-					flush( function() {
-						expect(element.shadowRoot.querySelector('d2l-module-link')).to.exist;
-						expect(element.shadowRoot.querySelector('d2l-activity-link')).to.not.exist;
-						done();
-					});
+				test('creates a child d2l-module-link instead of an d2l-activity-link', function() {
+					expect(element.shadowRoot.querySelector('d2l-module-link')).to.exist;
+					expect(element.shadowRoot.querySelector('d2l-activity-link')).to.not.exist;
 				});
 			});
 
 			suite('d2l-sequence-navigator-item for an activity', () => {
 
-				var element;
+				let element;
 
 				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back to using the ActivityTestFixture test fixture
 					fetch( 'data/m2-activity5.json')
 						.then( function(res) {
 							return res.json();
@@ -80,16 +77,19 @@
 							element = fixture('Empty');
 							element.href = 'data/m2-activity5.json';
 							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
+							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if, dom-repeat, dom-template');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
 							done();
 						});
 				});
 
-				test('creates a child d2l-activity-link instead of an d2l-module-link', function(done) {
-					flush( function() {
-						expect(element.shadowRoot.querySelector('d2l-activity-link')).to.exist;
-						expect(element.shadowRoot.querySelector('d2l-module-link')).to.not.exist;
-						done();
-					});
+				test('creates a child d2l-activity-link instead of an d2l-module-link', function() {
+					expect(element.shadowRoot.querySelector('d2l-activity-link')).to.exist;
+					expect(element.shadowRoot.querySelector('d2l-module-link')).to.not.exist;
 				});
 			});
 		</script>

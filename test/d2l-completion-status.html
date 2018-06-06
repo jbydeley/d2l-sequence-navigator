@@ -27,12 +27,9 @@
 		<script>
 			suite('d2l-activity-link for a completed activity', () => {
 
-				var element;
+				let element;
 
 				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back to using the CompletedActivityTestFixture test fixture
 					fetch( 'data/unit2-activity1.json')
 						.then( function(res) {
 							return res.json();
@@ -50,17 +47,14 @@
 					assert.equal(element.token, 'bamboozle');
 				});
 
-				test('should show the entity is complete', function(done) {
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('complete'));
-						done();
-					});
+				test('should show the entity is complete', function() {
+					assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('complete'));
 				});
 			});
 
 			suite('d2l-activity-link for a incomplete activity', () => {
 
-				var element;
+				let element;
 
 				setup(function(done) {
 					fetch( 'data/l2-m1-activity1.json')
@@ -75,16 +69,13 @@
 						});
 				});
 
-				test('should show the entity is incomplete', function(done) {
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('incomplete'));
-						done();
-					});
+				test('should show the entity is incomplete', function() {
+					assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('incomplete'));
 				});
 			});
 
 			suite('d2l-activity-link for a viewed optional activity', () => {
-				var element;
+				let element;
 
 				setup(function(done) {
 					fetch( 'data/m2-activity5.json')
@@ -99,16 +90,13 @@
 						});
 				});
 
-				test('should show the entity is incomplete', function(done) {
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional-viewed'));
-						done();
-					});
+				test('should show the entity is incomplete', function() {
+					assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional-viewed'));
 				});
 			});
 
 			suite('d2l-activity-link for an optional activity', () => {
-				var element;
+				let element;
 
 				setup(function(done) {
 					fetch( 'data/m2-activity3.json')
@@ -123,11 +111,8 @@
 						});
 				});
 
-				test('should show the entity is incomplete', function(done) {
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional'));
-						done();
-					});
+				test('should show the entity is incomplete', function() {
+					assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional'));
 				});
 			});
 		</script>

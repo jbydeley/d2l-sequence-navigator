@@ -89,19 +89,13 @@
 						});
 				});
 
-				test('should know that it is active', function(done) {
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-						done();
-					});
+				test('should know that it is active', function() {
+					assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
 				});
 
-				test('should know that another activity is active instead of itself', function(done) {
+				test('should know that another activity is active instead of itself', function() {
 					element.currentActivity = 'someotheractivity';
-					flush( function() {
-						assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-						done();
-					});
+					assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
 				});
 			});
 
@@ -125,11 +119,8 @@
 						});
 				});
 
-				test('should not show that it is complete', function(done) {
-					flush( function() {
-						expect(element.shadowRoot.querySelector('#IsComplete')).to.not.exist;
-						done();
-					});
+				test('should not show that it is complete', function() {
+					expect(element.shadowRoot.querySelector('#IsComplete')).to.not.exist;
 				});
 			});
 
@@ -153,13 +144,10 @@
 						});
 				});
 
-				test('select activity to be current activity by clicking on it', function(done) {
+				test('select activity to be current activity by clicking on it', function() {
 					assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-					Polymer.dom(element.root).querySelector('a').click();
-					flush( function() {
-						assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-						done();
-					});
+					element.shadowRoot.querySelector('a').click();
+					assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
 				});
 			});
 		</script>
