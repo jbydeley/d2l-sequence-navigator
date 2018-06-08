@@ -3,7 +3,7 @@
 <link rel="import" href="./components/d2l-lesson-header.html">
 <link rel="import" href="../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
-<link rel="import" href="./siren-entity.html">
+<link rel="import" href="../siren-entity/siren-entity.html">
 <link rel="import" href="../d2l-localize-behavior/d2l-localize-behavior.html">
 <!--
 'd2l-sequence-navigator'
@@ -67,8 +67,8 @@
 			padding-bottom: 40px;
 		}
 		</style>
-		<d2l-siren-entity href="[[_moduleHref]]" token="[[token]]" entity="{{_moduleEntity}}"></d2l-siren-entity>
-		<d2l-siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></d2l-siren-entity>
+		<siren-entity href="[[_moduleHref]]" token="[[token]]" entity="{{_moduleEntity}}"></siren-entity>
+		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
 		<d2l-lesson-header class="module-header" id="sidebarHeader"
 			href="[[_rootHref]]"
 			token="[[token]]"
