@@ -4,10 +4,12 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-activity-link test</title>
+		<title>d2l-completion-status test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../node_modules/chai-dom/chai-dom.js"></script>
+		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
 		<link rel="import" href="../components/d2l-completion-status.html">
 	</head>
@@ -25,94 +27,72 @@
 		</test-fixture>
 
 		<script>
-			suite('d2l-activity-link for a completed activity', () => {
+			/* global SirenFixture */
+			describe('d2l-completion-status', () => {
+				describe('for a completed activity', () => {
+					let element;
 
-				let element;
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/unit2-activity1.json', fixture('Empty'));
+					});
 
-				setup(function(done) {
-					fetch( 'data/unit2-activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/unit2-activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
+					it('should instantiate the element with default properties', () => {
+						expect(element.href)
+							.to
+							.equal('data/unit2-activity1.json');
+
+						expect(element.token)
+							.to
+							.equal('bamboozle');
+					});
+
+					it('should show the entity is complete', () => {
+						expect(element.shadowRoot.querySelector('d2l-icon'))
+							.to.have
+							.class('complete');
+					});
 				});
 
-				test('instantiating the element with default properties works', () => {
-					assert.equal(element.href, 'data/unit2-activity1.json');
-					assert.equal(element.token, 'bamboozle');
+				describe('for a incomplete activity', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l2-m1-activity1.json', fixture('Empty'));
+					});
+
+					it('should show the entity is incomplete', () => {
+						expect(element.shadowRoot.querySelector('d2l-icon'))
+							.to.have
+							.class('incomplete');
+					});
 				});
 
-				test('should show the entity is complete', function() {
-					assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('complete'));
-				});
-			});
+				describe('for a viewed optional activity', () => {
+					let element;
 
-			suite('d2l-activity-link for a incomplete activity', () => {
-
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l2-m1-activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/l2-m1-activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/m2-activity5.json', fixture('Empty'));
+					});
+			
+					it('should show the entity is incomplete', () => {
+						expect(element.shadowRoot.querySelector('div'))
+							.to.have
+							.class('optional-viewed');
+					});
 				});
 
-				test('should show the entity is incomplete', function() {
-					assert.isTrue(element.shadowRoot.querySelector('d2l-icon').classList.contains('incomplete'));
-				});
-			});
+				describe('for an optional activity', () => {
+					let element;
 
-			suite('d2l-activity-link for a viewed optional activity', () => {
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/m2-activity5.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/m2-activity5.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
-				});
-
-				test('should show the entity is incomplete', function() {
-					assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional-viewed'));
-				});
-			});
-
-			suite('d2l-activity-link for an optional activity', () => {
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/m2-activity3.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/m2-activity3.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
-				});
-
-				test('should show the entity is incomplete', function() {
-					assert.isTrue(element.shadowRoot.querySelector('div').classList.contains('optional'));
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/m2-activity3.json', fixture('Empty'));
+					});
+			
+					it('should show the entity is incomplete', () => {
+						expect(element.shadowRoot.querySelector('div'))
+							.to.have
+							.class('optional');
+					});
 				});
 			});
 		</script>

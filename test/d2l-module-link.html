@@ -4,10 +4,12 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-sequence-navigator test</title>
+		<title>d2l-module-link test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../node_modules/chai-dom/chai-dom.js"></script>
+		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">	
 		<link rel="import" href="../components/d2l-module-link.html">
 		
@@ -31,303 +33,294 @@
 			</template>
 		</test-fixture>
 		<script>
-			suite('d2l-module-link for module with children', () => {
+			/* global SirenFixture */
+			describe('d2l-module-link', () => {
+				describe('for module with children', () => {
+					let element;
 
-				let element;
-
-				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back to using the CompletedActivityTestFixture test fixture
-					fetch( 'data/lesson1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/lesson1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('instantiating the element with default properties works', () => {
-					assert.equal(element.href, 'data/lesson1.json');
-					assert.equal(element.token, 'bamboozle');
-				});
-
-				test('should create d2l-navigation-item elements for child entities', function() {
-					expect(element.shadowRoot.querySelector('.module-item-list')).to.exist;
-				});
-
-				test('select the module by clicking on it', function() {
-					const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-					assert.equal(element.selectedModule, '');
-					assert.isNotTrue(accordionElement.classList.contains('selected'));
-					accordionElement.$.trigger.click();
-					assert.isTrue(accordionElement.classList.contains('selected'));
-					assert.equal(element.selectedModule, 'data/lesson1.json');
-				});
-
-				test('select then unselect the module by clicking on it again', function() {
-					const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-					accordionElement.$.trigger.click();
-					accordionElement.$.trigger.click();
-					assert.isNotTrue(accordionElement.classList.contains('selected'));
-					assert.equal(element.selectedModule, '');
-				});
-
-				test('select then unselect by setting another module as selected', function() {
-					const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-					accordionElement.$.trigger.click();
-					element.selectedModule = 'someotherModule';
-					assert.isNotTrue(accordionElement.classList.contains('selected'));
-					assert.equal(element.selectedModule, 'someotherModule');
-				});
-			});
-
-			suite('d2l-module-link for module without children', () => {
-
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l2-module2.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('ModuleWithNoChildrenFixture');
-							element.href = 'data/l2-module2.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('should not create any child d2l-sequence-navigator-item elements', function() {
-					expect(element.shadowRoot.querySelector('d2l-sequence-navigator-item')).to.be.null;
-				});
-
-				test('should create empty text', function() {
-					flush(function() {
-						const item = element.shadowRoot.querySelector('.no-topics');
-						expect(item).to.not.be.null;
-						expect(item.innerText.trim()).to.equal('This module has no topics');
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/lesson1.json', fixture('Empty'));
 					});
-				});
 
-				test('should not show any counts when the accordion is closed', function() {
-					expect(element.shadowRoot.querySelector('.divider-icon')).to.be.null;
-					expect(element.shadowRoot.querySelector('.countStatus')).to.be.null;
-				});
+					it('should instantiate the element with default properties', () => {
+						expect(element.href)
+							.to
+							.equal('data/lesson1.json');
 
-				test('should not show any counts when the accordion is open', function() {
-					const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-					accordionElement.addEventListener('click', function() {
-						expect(element.shadowRoot.querySelector('.countStatus')).to.be.null;
+						expect(element.token)
+							.to
+							.equal('bamboozle');
 					});
-					accordionElement.$.trigger.click();
-				});
-			});
 
-			suite('d2l-module-link for module with required activites that have some read', () => {
+					it('should create d2l-navigation-item elements for child entities', () => {
+						expect(element.shadowRoot.querySelector('.module-item-list'))
+							.to
+							.exist;
 
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l1-module1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/l1-module1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('should show count for a closed accordion that has one completed activity', function() {
-					flush(function() {
-						expect(element.shadowRoot.querySelector('.divider-icon')).to.exist;
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						expect(countStatus).to.exist;
-						assert.equal(countStatus.innerText, '1 of 2');
 					});
-				});
 
-				test('should show count for a open accordion that has one completed activity', function() {
-					flush(function() {
+					it('should select the module by clicking on it', () => {
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						expect(element.selectedModule)
+							.to.be
+							.empty;
+
+						expect(accordionElement)
+							.not.to.have
+							.class('selected');
+
+						accordionElement.$.trigger.click();
+						expect(accordionElement)
+							.to.have
+							.class('selected');
+
+						expect(element.selectedModule)
+							.to
+							.equal('data/lesson1.json');
+					});
+
+					it('should select then unselect the module by clicking on it again', function() {
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.$.trigger.click();
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						expect(countStatus).to.exist;
-						assert.equal(countStatus.innerText, '1 of 2');
+						accordionElement.$.trigger.click();
+						expect(accordionElement)
+							.not.to.have
+							.class('selected');
+
+						expect(element.selectedModule)
+							.to.be
+							.empty;
 					});
-				});
-			});
 
-			suite('d2l-module-link for module with all unread optional activities', () => {
-
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l4-optional-completion-module.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/l4-optional-completion-module.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('should show the word optional when the accordion is closed', function() {
-					flush(function() {
-						expect(element.shadowRoot.querySelector('.divider-icon')).to.exist;
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						expect(optionalStatus).to.exist;
-						assert.equal(optionalStatus.innerText, 'optional');
-					});
-				});
-
-				test('should not show the count or divider icon when the accordion is open', function() {
-					flush(function() {
+					it('should select then unselect by setting another module as selected', function() {
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						accordionElement.addEventListener('click', function() {
-							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-							expect(optionalStatus).to.exist;
-							assert.equal(optionalStatus.style.display, 'none');
+						accordionElement.$.trigger.click();
+						element.selectedModule = 'someotherModule';
+						expect(accordionElement)
+							.not.to.have
+							.class('selected');
+
+						expect(element.selectedModule)
+							.to
+							.equal('someotherModule');
+					});
+				});
+
+				describe('for module without children', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
+					});
+
+					it('should not create any child d2l-sequence-navigator-item elements', () => {
+						expect(element.shadowRoot.querySelector('d2l-sequence-navigator-item'))
+							.to.be
+							.null;
+					});
+
+					it('should create empty text', () => {
+						flush(() => {
+							const item = element.shadowRoot.querySelector('.no-topics');
+							expect(item)
+								.to
+								.exist;
+
+							expect(item)
+								.to.contain.trimmed
+								.text('This module has no topics');
+						});
+					});
+
+					it('should not show any counts when the accordion is closed', () => {
+						expect(element.shadowRoot.querySelector('.divider-icon'))
+							.to.be
+							.null;
+
+						expect(element.shadowRoot.querySelector('.countStatus'))
+							.to.be
+							.null;
+					});
+
+					it('should not show any counts when the accordion is open', () => {
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							expect(element.shadowRoot.querySelector('.countStatus'))
+								.to.be
+								.null;
 						});
 						accordionElement.$.trigger.click();
 					});
 				});
-			});
 
-			suite('d2l-module-link for module with all unread required activities', () => {
+				describe('for module with required activites that have some read', () => {
+					let element;
 
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l4-required-completion-module.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/l4-required-completion-module.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('should not show the count or the divider, when the accordion is closed', function() {
-					flush(function() {
-						expect(element.shadowRoot.querySelector('.divider-icon')).to.be.null;
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						expect(countStatus).to.be.null;
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
 					});
-				});
 
-				test('should show count for a open accordion that has no completed required activites', function() {
-					const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-					accordionElement.addEventListener('click', function() {
-						const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
-						if (dynamicElements) {
-							for (let i = 0; i < dynamicElements.length; i++) {
-								dynamicElements[i].render();
-							}
-						}
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						expect(countStatus).to.exist;
-					});
-					accordionElement.$.trigger.click();
-				});
-			});
+					it('should show count for a closed accordion that has one completed activity', () => {
+						flush(() => {
+							expect(element.shadowRoot.querySelector('.divider-icon'))
+								.to
+								.exist;
 
-			suite('d2l-module-link for module with all required activities that are completed', () => {
-
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/l1-module2.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/l1-module2.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('should show the checkmark status', function() {
-					expect(element.shadowRoot.querySelector('.divider-icon')).to.exist;
-					const completedStatus = element.shadowRoot.querySelector('.completedStatus');
-					expect(completedStatus).to.exist;
-				});
-
-				test('should show the count of completed activites when accordion is open', function() {
-					flush(function() {
-						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						accordionElement.addEventListener('click', function() {
-							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const completedStatus = element.shadowRoot.querySelector('.completedStatus');
-							assert.equal(completedStatus.style.display, 'none');
-							assert.equal(countStatus.innerText, '3 of 3');
+							expect(countStatus)
+								.to
+								.exist;
+
+							expect(countStatus)
+								.to.contain
+								.text('1 of 2');
+
+						});
+					});
+
+					it('should show count for a open accordion that has one completed activity', () => {
+						flush(() => {
+							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+							accordionElement.$.trigger.click();
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							expect(countStatus)
+								.to
+								.exist;
+
+							expect(countStatus)
+								.to.contain
+								.text('1 of 2');
+
+						});
+					});
+				});
+
+				describe('for module with all unread optional activities', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
+					});
+
+					it('should show the word optional when the accordion is closed', () => {
+						flush(() => {
+							expect(element.shadowRoot.querySelector('.divider-icon'))
+								.to
+								.exist;
+
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							expect(optionalStatus)
+								.to
+								.exist;
+
+							expect(optionalStatus)
+								.to.contain
+								.text('optional');
+
+						});
+					});
+
+					it('should not show the count or divider icon when the accordion is open', () => {
+						flush(() => {
+							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+							accordionElement.addEventListener('click', () => {
+								const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+								if (dynamicElements) {
+									for (let i = 0; i < dynamicElements.length; i++) {
+										dynamicElements[i].render();
+									}
+								}
+								const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+								expect(optionalStatus)
+									.to
+									.exist;
+
+								expect(optionalStatus)
+									.not.to.be
+									.displayed;
+							});
+
+							accordionElement.$.trigger.click();
+						});
+					});
+				});
+
+				describe('for module with all unread required activities', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
+					});
+
+					it('should not show the count or the divider, when the accordion is closed', () => {
+						flush(() => {
+							expect(element.shadowRoot.querySelector('.divider-icon'))
+								.to.be
+								.null;
+
+							expect(element.shadowRoot.querySelector('.countStatus'))
+								.to.be
+								.null;
+						});
+					});
+
+					it('should show count for a open accordion that has no completed required activites', () => {
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+
+							expect(element.shadowRoot.querySelector('.countStatus'))
+								.to
+								.exist;
 						});
 						accordionElement.$.trigger.click();
+					});
+				});
+
+				describe('for module with all required activities that are completed', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
+					});
+
+					it('should show the checkmark status', () => {
+						expect(element.shadowRoot.querySelector('.divider-icon'))
+							.to
+							.exist;
+
+						expect(element.shadowRoot.querySelector('.completedStatus'))
+							.to
+							.exist;
+					});
+
+					it('should show the count of completed activites when accordion is open', () => {
+						flush(() => {
+							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+							accordionElement.addEventListener('click', () => {
+								const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+								if (dynamicElements) {
+									for (let i = 0; i < dynamicElements.length; i++) {
+										dynamicElements[i].render();
+									}
+								}
+								const countStatus = element.shadowRoot.querySelector('.countStatus');
+								const completedStatus = element.shadowRoot.querySelector('.completedStatus');
+								expect(completedStatus)
+									.not.to.be
+									.displayed;
+
+								expect(countStatus)
+									.to.contain
+									.text('3 of 3');
+							});
+							accordionElement.$.trigger.click();
+						});
 					});
 				});
 			});

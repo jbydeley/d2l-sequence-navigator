@@ -8,6 +8,8 @@
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../node_modules/chai-dom/chai-dom.js"></script>
+		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
 		<link rel="import" href="../components/d2l-activity-link.html">
 	</head>
@@ -43,111 +45,79 @@
 		</test-fixture>
 
 		<script>
-			suite('d2l-activity-link for a completed activity', () => {
+			/* global SirenFixture */
+			describe('d2l-activity-link', () => {
+				describe('for a completed activity', () => {
+					let element;
 
-				var element;
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/unit2-activity1.json', fixture('Empty'));
+					});
 
-				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back to using the CompletedActivityTestFixture test fixture
-					fetch( 'data/unit2-activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/unit2-activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
+					it('should instantiate the element with default properties', () => {
+						expect(element.href)
+							.to.be
+							.equal('data/unit2-activity1.json');
+						expect(element.token)
+							.to.be
+							.equal('bamboozle');
+					});
 				});
 
-				test('instantiating the element with default properties works', () => {
-					assert.equal(element.href, 'data/unit2-activity1.json');
-					assert.equal(element.token, 'bamboozle');
-				});
-			});
+				describe('for active activity', () => {
+					let element;
 
-			suite('d2l-activity-link for active activity', () => {
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/unit2-activity1.json', fixture('IsCurrentActivityTestFixture'));
+					});
 
-				var element;
+					it('should know that it is active', () => {
+						expect(element.shadowRoot.querySelector('#activityLink'))
+							.to.have
+							.class('current');
+					});
 
-				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back initializing this in the IsCurrentActivityTestFixture test fixture
-					fetch( 'data/unit2-activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('IsCurrentActivityTestFixture');
-							element.href = 'data/unit2-activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
+					it('should know that another activity is active instead of itself', () => {
+						element.currentActivity = 'someotheractivity';
+						expect(element.shadowRoot.querySelector('#activityLink'))
+							.not.to.have
+							.class('current');
+					});
 				});
 
-				test('should know that it is active', function() {
-					assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+				describe('for an incomplete activity', () => {
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/activity1.json', fixture('IncompleteActivityTestFixture'));
+					});
+
+					it('should not show that it is complete', () => {
+						expect(element.shadowRoot.querySelector('#IsComplete'))
+							.not.to
+							.exist;
+					});
 				});
 
-				test('should know that another activity is active instead of itself', function() {
-					element.currentActivity = 'someotheractivity';
-					assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-				});
-			});
+				describe('for an activity that is not active', () => {
+					let element;
 
-			suite('d2l-activity-link for an incomplete activity', () => {
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/unit2-activity1.json', fixture('IsNotCurrentActivityTestFixture'));
+					});
 
-				var element;
+					it('select activity to be current activity by clicking on it', () => {
+						const el = element.shadowRoot.querySelector('#activityLink');
 
-				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back initializing this in the IncompleteActivityTestFixture test fixture
-					fetch( 'data/activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('IncompleteActivityTestFixture');
-							element.href = 'data/activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
-				});
+						expect(el)
+							.not.to.have
+							.class('current');
 
-				test('should not show that it is complete', function() {
-					expect(element.shadowRoot.querySelector('#IsComplete')).to.not.exist;
-				});
-			});
-
-			suite('d2l-activity-link for an activity that is not active', () => {
-
-				var element;
-
-				setup(function(done) {
-					// This is done for now because element.entity is flaky and sometimes doesn't get bound
-					// when href and token are changed. When we figure out what's really happening we can switch
-					// this back initializing this in the IsNotCurrentActivityTestFixture test fixture
-					fetch( 'data/unit2-activity1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('IsNotCurrentActivityTestFixture');
-							element.href = 'data/unit2-activity1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							done();
-						});
-				});
-
-				test('select activity to be current activity by clicking on it', function() {
-					assert.isNotTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
-					element.shadowRoot.querySelector('a').click();
-					assert.isTrue(element.shadowRoot.querySelector('#activityLink').classList.contains('current'));
+						element.shadowRoot.querySelector('a').click();
+						expect(el)
+							.to.have
+							.class('current');
+					});
 				});
 			});
 		</script>

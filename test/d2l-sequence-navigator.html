@@ -19,12 +19,16 @@
 		</test-fixture>
 
 		<script>
-			suite('d2l-sequence-navigator for the root', () => {
-
-				test('instantiating the element with default properties works', () => {
+			describe('d2l-sequence-navigator for the root', () => {
+				it('should instantiate the element with default properties', () => {
 					var element = fixture('RootTestFixture');
-					assert.equal(element.href, 'data/sample2.json');
-					assert.equal(element.token, 'bamboozle');
+					expect(element.href)
+						.to
+						.equal('data/sample2.json');
+
+					expect(element.token)
+						.to
+						.equal('bamboozle');
 				});
 			});
 		</script>

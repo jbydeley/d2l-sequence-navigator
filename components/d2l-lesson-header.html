@@ -71,36 +71,13 @@
 						type: String,
 						value: '',
 						notify: true
-					},
-					completionCount: {
-						type: Object,
-						computed: '_getStatus(entity)',
-						observer: '_getPercentCompleted'
-					},
-					percentCompleted: {
-						type: Number
 					}
-				};
-			}
-
-			_getStatus(entity) {
-				const completionStatus = entity.getSubEntityByClass('completion').properties;
-				return completionStatus || {
-					completed: 0,
-					optionalViewed: 0,
-					optionalTotal: 0,
-					total: 0
 				};
 			}
 
 			connectedCallback() {
 				super.connectedCallback();
 				this.loadResources(this.resolveUrl('../locales.json'));
-			}
-
-			_getPercentCompleted() {
-				if (!this.completionCount || this.completionCount.total === 0) return 0;
-				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
 		}
 

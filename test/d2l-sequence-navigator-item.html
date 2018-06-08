@@ -4,10 +4,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-sequence-navigator test</title>
+		<title>d2l-sequence-navigator-item test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
 		<link rel="import" href="../components/d2l-sequence-navigator-item.html">
 	</head>
@@ -30,66 +31,52 @@
 				</template>
 			</test-fixture>
 		<script>
-			suite('d2l-sequence-navigator-item for a module', () => {
+			/* global SirenFixture */
+			describe('d2l-sequence-navigator-item', () => {
+				describe('for a module', () => {
+					let element;
 
-				let element;
+					beforeEach( async() => {
+						element = await SirenFixture.load('data/lesson1.json', fixture('Empty'));
+					});
 
-				setup(function(done) {
-					fetch( 'data/lesson1.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/lesson1.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const  dynamicElements = element.shadowRoot.querySelectorAll('dom-if, dom-repeat, dom-template');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
+					it('should instantiate the element with default properties', () => {
+						expect(element.href)
+							.to
+							.equal('data/lesson1.json');
+
+						expect(element.token)
+							.to
+							.equal('bamboozle');
+					});
+
+					it('should create a child d2l-module-link instead of an d2l-activity-link', () => {
+						expect(element.shadowRoot.querySelector('d2l-module-link'))
+							.to
+							.exist;
+
+						expect(element.shadowRoot.querySelector('d2l-activity-link'))
+							.not.to
+							.exist;
+					});
 				});
 
-				test('instantiating the element with default properties works', () => {
-					assert.equal(element.href, 'data/lesson1.json');
-					assert.equal(element.token, 'bamboozle');
-				});
+				describe('for an activity', () => {
+					let element;
 
-				test('creates a child d2l-module-link instead of an d2l-activity-link', function() {
-					expect(element.shadowRoot.querySelector('d2l-module-link')).to.exist;
-					expect(element.shadowRoot.querySelector('d2l-activity-link')).to.not.exist;
-				});
-			});
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/m2-activity5.json', fixture('Empty'));
+					});
 
-			suite('d2l-sequence-navigator-item for an activity', () => {
+					it('should create a child d2l-activity-link instead of an d2l-module-link', () => {
+						expect(element.shadowRoot.querySelector('d2l-activity-link'))
+							.to
+							.exist;
 
-				let element;
-
-				setup(function(done) {
-					fetch( 'data/m2-activity5.json')
-						.then( function(res) {
-							return res.json();
-						})
-						.then(function(entities) {
-							element = fixture('Empty');
-							element.href = 'data/m2-activity5.json';
-							element.entity = window.D2L.Hypermedia.Siren.Parse(entities);
-							const dynamicElements = element.shadowRoot.querySelectorAll('dom-if, dom-repeat, dom-template');
-							if (dynamicElements) {
-								for (let i = 0; i < dynamicElements.length; i++) {
-									dynamicElements[i].render();
-								}
-							}
-							done();
-						});
-				});
-
-				test('creates a child d2l-activity-link instead of an d2l-module-link', function() {
-					expect(element.shadowRoot.querySelector('d2l-activity-link')).to.exist;
-					expect(element.shadowRoot.querySelector('d2l-module-link')).to.not.exist;
+						expect(element.shadowRoot.querySelector('d2l-module-link'))
+							.not.to
+							.exist;
+					});
 				});
 			});
 		</script>

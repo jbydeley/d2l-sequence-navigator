@@ -12,6 +12,14 @@
 
 			static get properties() {
 				return {
+					completionCount: {
+						type: Object,
+						computed: '_getStatus(entity)',
+						observer: '_getPercentCompleted'
+					},
+					percentCompleted: {
+						type: Number
+					},
 					completionCompleted: {
 						type: String,
 						value: '',
@@ -23,6 +31,24 @@
 						computed: '_stringifyCount(completionCount.total)'
 					}
 				};
+			}
+
+			_getStatus(entity) {
+				const completionEntity = entity.getSubEntityByClass('completion');
+				if ( !completionEntity || !completionEntity.properties) {
+					return {
+						completed: 0,
+						optionalViewed: 0,
+						optionalTotal: 0,
+						total: 0
+					};
+				}
+				return completionEntity.properties;
+			}
+
+			_getPercentCompleted() {
+				if (!this.completionCount || this.completionCount.total === 0) return 0;
+				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
 
 			_stringifyCount(count) {

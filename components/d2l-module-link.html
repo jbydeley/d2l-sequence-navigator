@@ -213,11 +213,6 @@
 						value: '',
 						notify: true
 					},
-					completionCount: {
-						type: Object,
-						computed: '_getStatus(entity)',
-						observer: '_getPercentCompleted'
-					},
 					subEntities: {
 						type: Array,
 						computed: 'getSubEntities(entity)'
@@ -225,9 +220,6 @@
 					hasChildren: {
 						type: Boolean,
 						computed: '_hasChildren(entity)'
-					},
-					percentCompleted: {
-						type: Number
 					},
 					showCount: {
 						type: Boolean,
@@ -311,24 +303,6 @@
 
 			_getHref(entity) {
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
-			}
-
-			_getStatus(entity) {
-				const completionEntity = entity.getSubEntityByClass('completion');
-				if ( !completionEntity || !completionEntity.properties) {
-					return {
-						completed: 0,
-						optionalViewed: 0,
-						optionalTotal: 0,
-						total: 0
-					};
-				}
-				return completionEntity.properties;
-			}
-
-			_getPercentCompleted() {
-				if (!this.completionCount || this.completionCount.total === 0) return 0;
-				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
 
 			_hasChildren(entity) {

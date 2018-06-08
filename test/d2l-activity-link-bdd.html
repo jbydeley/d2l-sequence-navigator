@@ -33,12 +33,12 @@
 				element.dispatchEvent = sandbox.stub();
 			});
 
-			it('should raise a navigation event if it is not the current activity', ()=> {
+			it('should raise a navigation event if it is not the current activity', () => {
 				element.currentActivity = 'http://google.ca';
 				expect(element.dispatchEvent).to.have.been.called;
 			});
 
-			it('should not raise a navigation event if its the current activity', ()=>{
+			it('should not raise a navigation event if its the current activity', () => {
 				//the addition and slicing is to make a string that is new, but is actually the same
 				element.currentActivity = (' ' + element.currentActivity).slice(1);
 				expect(element.dispatchEvent).to.not.be.called;
