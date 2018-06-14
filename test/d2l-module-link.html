@@ -10,9 +10,9 @@
 		<script src="../../web-component-tester/browser.js"></script>
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
-		<link rel="import" href="../../polymer/polymer.html">	
+		<link rel="import" href="../../polymer/polymer.html">
 		<link rel="import" href="../components/d2l-module-link.html">
-		
+
 	</head>
 	<body>
 		<test-fixture id="ModuleWithChildrenFixture">
@@ -56,7 +56,6 @@
 						expect(element.shadowRoot.querySelector('.module-item-list'))
 							.to
 							.exist;
-
 					});
 
 					it('should select the module by clicking on it', () => {
@@ -70,16 +69,19 @@
 							.class('selected');
 
 						accordionElement.$.trigger.click();
-						expect(accordionElement)
-							.to.have
-							.class('selected');
+						flush( function(done) {
+							expect(accordionElement)
+								.to.have
+								.class('selected');
+							expect(element.selectedModule)
+								.to
+								.equal('data/lesson1.json');
+							done();
+						});
 
-						expect(element.selectedModule)
-							.to
-							.equal('data/lesson1.json');
 					});
 
-					it('should select then unselect the module by clicking on it again', function() {
+					it('should select then deselect the module by clicking on it again', function() {
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.$.trigger.click();
 						accordionElement.$.trigger.click();
