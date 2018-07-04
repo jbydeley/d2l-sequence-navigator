@@ -59,6 +59,12 @@
 			}
 
 			_getCompletionStatus(activity) {
+				var itemSubEntity = activity.getSubEntityByRel('item');
+				if (itemSubEntity
+					&& itemSubEntity.getSubEntityByClass('exemption')
+					&& itemSubEntity.getSubEntityByClass('exemption').hasClass('exempted')) {
+						return 'exempt';
+				}
 				var aboutSubEntity =  activity.getSubEntityByRel('about');
 				if (aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
 					if (aboutSubEntity.getSubEntityByClass('completion').hasClass('completed')) {

@@ -31,17 +31,22 @@
 				color: var(--d2l-color-pressicus);
 			}
 		</style>
-		<template is="dom-if" if="[[isOptional]]">
-			<div class$="[[completionStatus]]">
-				[[localize('optional')]]
-			</div>
+		<template is="dom-if" if="[[isExempt]]">
+			<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:exemption-add"></d2l-icon>
 		</template>
-		<template is="dom-if" if="[[!isOptional]]">
-			<template is="dom-if" if="[[isComplete]]">
-				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:check"></d2l-icon>
+		<template is="dom-if" if="[[!isExempt]]">
+			<template is="dom-if" if="[[isOptional]]">
+				<div class$="[[completionStatus]]">
+					[[localize('optional')]]
+				</div>
 			</template>
-			<template is="dom-if" if="[[!isComplete]]">
-				<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:dot"></d2l-icon>
+			<template is="dom-if" if="[[!isOptional]]">
+				<template is="dom-if" if="[[isComplete]]">
+					<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:check"></d2l-icon>
+				</template>
+				<template is="dom-if" if="[[!isComplete]]">
+					<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:dot"></d2l-icon>
+				</template>
 			</template>
 		</template>
 	</template>
@@ -59,7 +64,11 @@
 					completionStatus: {
 						type: String,
 						computed: '_getCompletionStatus(entity)',
-						observer: '_showComptionType'
+						observer: '_showCompletionType'
+					},
+					isExempt: {
+						type: Boolean,
+						value: false
 					},
 					isOptional: {
 						type: Boolean,
@@ -76,8 +85,11 @@
 				super.connectedCallback();
 			}
 
-			_showComptionType( completion ) {
+			_showCompletionType( completion ) {
 				switch ( completion ) {
+					case 'exempt':
+						this.isExempt = true;
+						break;
 					case 'complete':
 						this.isComplete = true;
 						break;
