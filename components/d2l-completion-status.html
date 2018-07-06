@@ -8,46 +8,12 @@
 <dom-module id="d2l-completion-status">
 	<template>
 		<style>
-			.optional {
-				color: var(--d2l-color-ferrite);
-				font-weight: bold;
-			}
-
-			.optional-viewed {
-				color: var(--d2l-color-pressicus);
-			}
-
-			.optional, .optional-viewed {
-				display: inline;
-				width: 48px;
-				font-size: 12px;
-			}
-
 			.complete {
 				color: var(--d2l-color-olivine);
 			}
-
-			.incomplete {
-				color: var(--d2l-color-pressicus);
-			}
 		</style>
-		<template is="dom-if" if="[[isExempt]]">
-			<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:exemption-add"></d2l-icon>
-		</template>
-		<template is="dom-if" if="[[!isExempt]]">
-			<template is="dom-if" if="[[isOptional]]">
-				<div class$="[[completionStatus]]">
-					[[localize('optional')]]
-				</div>
-			</template>
-			<template is="dom-if" if="[[!isOptional]]">
-				<template is="dom-if" if="[[isComplete]]">
-					<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:check"></d2l-icon>
-				</template>
-				<template is="dom-if" if="[[!isComplete]]">
-					<d2l-icon class$="[[completionStatus]]" icon="d2l-tier1:dot"></d2l-icon>
-				</template>
-			</template>
+		<template is="dom-if" if="[[isComplete]]">
+			<d2l-icon class="complete" icon="d2l-tier1:check"></d2l-icon>
 		</template>
 	</template>
 	<script>
@@ -66,10 +32,6 @@
 						computed: '_getCompletionStatus(entity)',
 						observer: '_showCompletionType'
 					},
-					isExempt: {
-						type: Boolean,
-						value: false
-					},
 					isOptional: {
 						type: Boolean,
 						value: false
@@ -87,15 +49,16 @@
 
 			_showCompletionType( completion ) {
 				switch ( completion ) {
-					case 'exempt':
-						this.isExempt = true;
-						break;
 					case 'complete':
 						this.isComplete = true;
 						break;
-					case 'optional':
 					case 'optional-viewed':
+						this.isComplete = true;
 						this.isOptional = true;
+						break;
+					case 'optional':
+						this.isOptional = true;
+						break;
 				}
 			}
 		}

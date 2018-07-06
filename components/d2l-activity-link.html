@@ -1,5 +1,6 @@
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="d2l-completion-status.html">
+<link rel="import" href="d2l-completion-requirement.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-typography/d2l-typography.html">
 
@@ -24,13 +25,12 @@
 				background-color: #f2f8fc;
 			}
 
-			#activityLink {				
-				white-space: nowrap;
+			#activityLink {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				float: left;
 				display: table-cell;
-				width: 65%;
+				width: 100%;
 
 				/* Compact Body Text - Lato Regular 16 */
 				font-size: 16px;
@@ -39,17 +39,47 @@
 				letter-spacing: 0.2px;
 			}
 
+			#activityLink.exempt, #activityLink.optional {
+				white-space: nowrap;
+			}
+
+			#activityLink.required {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2; /* number of lines to show */
+				line-height: 24px; /* fallback */
+				max-height: 48px; /* fallback */
+			}
+
+			d2l-completion-requirement {
+				float: left;
+				display: table-cell;
+				width: 87%;
+			}
+
 			d2l-completion-status {
 				text-align: right;
-				float: right;
 				display: table-cell;
-				width: 35%;
+				width: 13%;
+				vertical-align: middle;
 			}
 
 		</style>
 		<div class="container">
-			<a id="activityLink" on-click="setCurrent">[[entity.properties.title]]</a>
-			<d2l-completion-status href="[[href]]" token="[[token]]"></d2l-completion-status>
+			<a id="activityLink" on-click="setCurrent" class$=[[completionRequirement]]>
+				[[entity.properties.title]]
+			</a>
+			<template is="dom-if" if="[[showCompletionRequirement]]">
+				<d2l-completion-requirement
+					href="[[href]]"
+					token="[[token]]">
+				</d2l-completion-requirement>
+			</template>
+			<d2l-completion-status
+				href="[[href]]"
+				token="[[token]]"
+				class$=[[completionRequirement]]>
+			</d2l-completion-status>
 		</div>
 
 	</template>
@@ -68,6 +98,15 @@
 						type: String,
 						value: '',
 						notify: true
+					},
+					completionRequirement: {
+						type: String,
+						computed: '_getCompletionRequirement(entity)',
+						observer: '_showCompletionRequirement'
+					},
+					showCompletionRequirement: {
+						type: Boolean,
+						value: false
 					}
 				};
 			}
@@ -90,6 +129,15 @@
 						this.$.activityLink.classList.remove('current');
 					}
 					this.dispatchEvent( new CustomEvent('activitySelected', { detail:{ activityHref: currentActivity }, composed: true } ) );
+				}
+			}
+
+			_showCompletionRequirement( exemption ) {
+				switch ( exemption ) {
+					case 'exempt':
+					case 'optional':
+						this.showCompletionRequirement = true;
+						break;
 				}
 			}
 		}

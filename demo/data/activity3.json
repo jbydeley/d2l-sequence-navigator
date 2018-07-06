@@ -1,6 +1,6 @@
 {
 	"properties": {
-		"title": "Exempted Assignment"
+		"title": "Exempted Long Assignment"
 	},
 	"entities": [
 		{
@@ -27,7 +27,7 @@
 				"link-plain"
 			],
 			"properties": {
-				"title": "Exempted Assignment"
+				"title": "Exempted Long Assignment"
 			},
 			"rel": [
 				"about",
