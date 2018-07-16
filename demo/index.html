@@ -22,7 +22,6 @@
 	</head>
 	<body>
 		<div class="vertical-section-container centered">
-
 			<h3>Simple sequence-navigator</h3>
 			<demo-snippet>
 				<template>
@@ -36,8 +35,7 @@
 					</div>
 				</template>
 			</demo-snippet>
-			<!-- 
-      <demo-snippet>
+     		<demo-snippet>
 				<template>
 					<h4>Module</h4>
 					<d2l-module-link
@@ -49,9 +47,16 @@
 			</demo-snippet>
 			<demo-snippet>
 				<template>
-					<h4>Activity</h4>
+					<h4>Incomplete Activity</h4>
 					<d2l-activity-link
 						href="data/activity1.json"
+						token="foozleberries"
+					>
+					</d2l-activity-link>
+
+					<h4>Complete Activity</h4>
+					<d2l-activity-link
+						href="data/activity2.json"
 						token="foozleberries"
 					>
 					</d2l-activity-link>
@@ -67,19 +72,6 @@
 				</d2l-module-link>
 				</template>
 			</demo-snippet>
-			<demo-snippet>
-				<template>
-					<h4>Empty D2LModuleLink</h4>
-					<d2l-module-link
-						href="data/l1-module2.json"
-						token="emptytoken"
-						current-activity="data/m2-activity1.json"
-						selected-module="data/l1-module2.json"
-					>
-					</d2l-module-link>
-
-				</template>
-			</demo-snippet> -->
 		</div>
 	</body>
 </html>
