@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "d2l-accordion": "^1.0.5",
+    "d2l-accordion": "^1.0.6",
     "polymer-siren-mixins": "Brightspace/polymer-siren-mixins",
     "siren-entity": "BrightspaceHypermediaComponents/siren-entity",
     "d2l-typography": "^6.1.3",
