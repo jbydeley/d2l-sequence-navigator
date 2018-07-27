@@ -22,7 +22,7 @@
 		</style>
 
 		<div id="outerBar">
-			<div id="innerBar"></div>
+			<div id="innerBar" role="progressbar"></div>
 		</div>
 
 	</template>
@@ -57,6 +57,7 @@
 			}
 
 			_updateProgressBar() {
+				this.$.innerBar.setAttribute('aria-valuetext',  Math.floor(this.percentCompleted) + '%');
 				this.$.innerBar.style.width = this.percentCompleted + '%';
 			}
 

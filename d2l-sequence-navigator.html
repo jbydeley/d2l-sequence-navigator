@@ -73,6 +73,7 @@
 			href="[[_rootHref]]"
 			token="[[token]]"
 			entity="{{_lessonEntity}}"
+			tabindex="0"
 		></d2l-lesson-header>
 		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
 
@@ -91,8 +92,7 @@
 				</template>
 			</ol>
 
-			<div class="end-of-lesson" tabindex="0" role="link">[[localize('endOfLesson')]]</div>
-
+			<a href="javascript:void(0);" class="end-of-lesson">[[localize('endOfLesson')]]</a>
 		</d2l-accordion>
 	</template>
 	<script>
