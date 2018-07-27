@@ -138,6 +138,7 @@
 			id="moduleLink"
 			no-icons
 			flex
+			tabindex="0"
 		>
 			<div slot="header" class="header-container">
 				<div class="module-header">
@@ -153,7 +154,7 @@
 						</template>
 						<template is="dom-if" if="[[showCheckmark]]">
 							<span class="completedStatus">
-								<d2l-icon class="moduleComplete" icon="d2l-tier1:check"></d2l-icon>
+								<d2l-icon class="moduleComplete" aria-label$="[[localize('completed')]]" icon="d2l-tier1:check"></d2l-icon>
 							</span>
 						</template>
 						<template is="dom-if" if="[[showOptional]]">

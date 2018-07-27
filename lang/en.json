@@ -3,5 +3,6 @@
 	"endOfLesson": "END OF LESSON",
 	"moduleHasNoTopics": "This module has no topics",
 	"modulesDone": "Done {completed}/{total}",
-	"optional": "optional"
+	"optional": "optional",
+	"completed": "completed"
 }
