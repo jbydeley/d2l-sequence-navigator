@@ -37,15 +37,19 @@
 		}
 
 		.end-of-lesson {
-			text-align: center;
 			color: var(--d2l-color-celestine);
-			padding-top: 30px;
+			text-decoration: none;
 
 			/* Label Text - Lato Bold 14 */
 			font-size: 14px;
 			line-height: 20px;
 			font-weight: 700; /* bold */
 			letter-spacing: 0.2px;
+		}
+
+		.end-of-lesson-holder {
+			text-align: center;
+			padding-top: 30px;
 		}
 
 		.module-header {
@@ -92,7 +96,9 @@
 				</template>
 			</ol>
 
-			<a href="javascript:void(0);" class="end-of-lesson">[[localize('endOfLesson')]]</a>
+			<div class="end-of-lesson-holder">
+				<a href="javascript:void(0);" class="end-of-lesson">[[localize('endOfLesson')]]</a>
+			</div>
 		</d2l-accordion>
 	</template>
 	<script>
