@@ -19,10 +19,15 @@
 				height: 10px;
 				border-radius: 5px;
 			}
+
+			#innerBar.zero {
+				background-color: var(--d2l-color-mica);
+				width: 1px;
+			}
 		</style>
 
 		<div id="outerBar">
-			<div id="innerBar" role="progressbar"></div>
+			<div id="innerBar" role="progressbar" aria-valuemin="0%" aria-valuemax="100%"></div>
 		</div>
 
 	</template>
@@ -53,8 +58,13 @@
 			}
 
 			_updateProgressBar() {
-				this.$.innerBar.setAttribute('aria-valuetext',  Math.floor(this.percentCompleted) + '%');
-				this.$.innerBar.style.width = this.percentCompleted + '%';
+				if ( this.percentCompleted === 0) {
+					this.$.innerBar.classList.add('zero');
+				}  else {
+					this.$.innerBar.style.width = this.percentCompleted + '%';
+					this.$.innerBar.classList.remove('zero');
+				}
+				this.$.innerBar.setAttribute('aria-valuenow',   Math.floor(this.percentCompleted) + '%');
 			}
 
 		}
