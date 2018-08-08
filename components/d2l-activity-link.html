@@ -15,7 +15,7 @@
 				padding-right: 15px;
 			}
 
-			.container {
+			#activityLink {
 				display: table;
 				table-layout: fixed;
 				width: 100%;
@@ -25,7 +25,7 @@
 				background-color: #f2f8fc;
 			}
 
-			#activityLink {
+			#activityTitle {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				float: left;
@@ -39,11 +39,11 @@
 				letter-spacing: 0.2px;
 			}
 
-			#activityLink.exempt, #activityLink.optional {
+			#activityTitle.exempt, #activityTitle.optional {
 				white-space: nowrap;
 			}
 
-			#activityLink.required {
+			#activityTitle.required {
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2; /* number of lines to show */
@@ -51,10 +51,19 @@
 				max-height: 48px; /* fallback */
 			}
 
+			.lessonChild {
+				margin: -15px;
+				padding: 15px;
+				width: 100%;
+				border: 1px solid var(--d2l-color-mica);
+				border-radius: 8px;
+			}
+
 			d2l-completion-requirement {
 				float: left;
 				display: table-cell;
 				width: 87%;
+				line-height: 24px;
 			}
 
 			d2l-completion-status {
@@ -62,11 +71,12 @@
 				display: table-cell;
 				width: 13%;
 				vertical-align: middle;
+				line-height: 24px;
 			}
 
 		</style>
-		<div class="container">
-			<a id="activityLink" on-click="setCurrent" class$=[[completionRequirement]]>
+		<div id="activityLink">
+			<a id="activityTitle" on-click="setCurrent" class$=[[completionRequirement]]>
 				[[entity.properties.title]]
 			</a>
 			<template is="dom-if" if="[[showCompletionRequirement]]">
@@ -81,6 +91,7 @@
 				class$=[[completionRequirement]]>
 			</d2l-completion-status>
 		</div>
+		</template>
 
 	</template>
 	<script>
@@ -107,6 +118,11 @@
 					showCompletionRequirement: {
 						type: Boolean,
 						value: false
+					},
+					isLessonChild: {
+						type: Boolean,
+						value: false,
+						observer: '_showLessonChild'
 					}
 				};
 			}
@@ -138,6 +154,14 @@
 					case 'optional':
 						this.showCompletionRequirement = true;
 						break;
+				}
+			}
+
+			_showLessonChild( isLessonChild ) {
+				if ( isLessonChild ) {
+					this.$.activityLink.classList.add('lessonChild');
+				} else {
+					this.$.activityLink.classList.remove('lessonChild');
 				}
 			}
 		}

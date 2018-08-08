@@ -9,6 +9,11 @@
 			"href": "data/l1-module1.json"
 		},
 		{
+			"class": ["sequence", "sequenced-activity"],
+			"rel": ["self", "https://api.brightspace.com/rels/sequenced-activity"],
+			"href": "data/l1-activity1.json"
+		},
+		{
 			"class": ["sequence", "sequence-description"],
 			"rel": ["self", "https://api.brightspace.com/rels/sequence-description"],
 			"href": "data/l1-module2.json"
@@ -20,7 +25,7 @@
 			],
 			"properties": {
 			  "completed": 4,
-			  "total": 6,
+			  "total": 7,
 			  "optionalViewed": 1,
 			  "optionalTotal": 2
 			},

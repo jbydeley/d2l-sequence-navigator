@@ -36,7 +36,7 @@
 		"href": "data/l1-module1.json"
 	}, {
 		"rel": ["next"],
-		"href": "data/l1-module2.json"
+		"href": "data/l1-activity1.json"
 	}, {
 		"rel": ["up"],
 		"href": "data/lesson1.json"

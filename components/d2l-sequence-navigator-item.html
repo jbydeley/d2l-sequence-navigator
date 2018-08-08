@@ -25,6 +25,7 @@
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
 				tabindex="0"
+				is-lesson-child="[[isLessonChild]]"
 			></d2l-activity-link>
 		</template>
 	</template>
@@ -60,6 +61,10 @@
 					isActivity: {
 						type: Boolean,
 						computed: '_isActivity(entity)'
+					},
+					isLessonChild: {
+						type: Boolean,
+						value: false
 					}
 				};
 			}
