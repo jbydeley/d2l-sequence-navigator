@@ -60,29 +60,28 @@
 			}
 
 			_getCompletionRequirement(activity) {
-				var itemSubEntity = activity.getSubEntityByRel('item');
-				if (itemSubEntity
-					&& itemSubEntity.getSubEntityByClass('exemption')
-					&& itemSubEntity.getSubEntityByClass('exemption').hasClass('exempted')) {
+				var subEntity = activity.getSubEntityByClass('link-activity') || activity.getSubEntityByClass('file-activity');
+				if (subEntity
+					&& subEntity.getSubEntityByClass('exemption')
+					&& subEntity.getSubEntityByClass('exemption').hasClass('exempted')) {
 					return 'exempt';
 				}
-				var aboutSubEntity =  activity.getSubEntityByRel('about');
-				if (aboutSubEntity && !aboutSubEntity.getSubEntityByClass('completion')) {
+				if (subEntity && !subEntity.getSubEntityByClass('completion')) {
 					return 'optional';
 				}
 				else return 'required';
 			}
 
 			_getCompletionStatus(activity) {
-				var aboutSubEntity =  activity.getSubEntityByRel('about');
-				if (aboutSubEntity && aboutSubEntity.getSubEntityByClass('completion')) {
-					if (aboutSubEntity.getSubEntityByClass('completion').hasClass('completed')) {
+				var subEntity = activity.getSubEntityByClass('link-activity') || activity.getSubEntityByClass('file-activity');
+				if (subEntity && subEntity.getSubEntityByClass('completion')) {
+					if (subEntity.getSubEntityByClass('completion').hasClass('completed')) {
 						return 'complete';
 					} else {
 						return 'incomplete';
 					}
 				} else {
-					if (aboutSubEntity.getSubEntityByClass('last-viewed') ) {
+					if (subEntity.getSubEntityByClass('last-viewed') ) {
 						return 'optional-viewed';
 					}
 					return 'optional';
