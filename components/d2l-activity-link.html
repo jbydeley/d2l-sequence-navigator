@@ -11,18 +11,13 @@
 				display: block;
 				font-family: 'Lato', sans-serif;
 				color: var(--d2l-color-ferrite);
-				padding-left: 15px;
-				padding-right: 15px;
+				padding: 10px 15px 10px 15px;
 			}
 
 			#activityLink {
 				display: table;
 				table-layout: fixed;
 				width: 100%;
-			}
-
-			.current {
-				background-color: #f2f8fc;
 			}
 
 			#activityTitle {
@@ -49,14 +44,6 @@
 				-webkit-line-clamp: 2; /* number of lines to show */
 				line-height: 24px; /* fallback */
 				max-height: 48px; /* fallback */
-			}
-
-			.lessonChild {
-				margin: -15px;
-				padding: 15px;
-				width: 100%;
-				border: 1px solid var(--d2l-color-mica);
-				border-radius: 8px;
 			}
 
 			d2l-completion-requirement {
@@ -118,11 +105,6 @@
 					showCompletionRequirement: {
 						type: Boolean,
 						value: false
-					},
-					isLessonChild: {
-						type: Boolean,
-						value: false,
-						observer: '_showLessonChild'
 					}
 				};
 			}
@@ -154,14 +136,6 @@
 					case 'optional':
 						this.showCompletionRequirement = true;
 						break;
-				}
-			}
-
-			_showLessonChild( isLessonChild ) {
-				if ( isLessonChild ) {
-					this.$.activityLink.classList.add('lessonChild');
-				} else {
-					this.$.activityLink.classList.remove('lessonChild');
 				}
 			}
 		}

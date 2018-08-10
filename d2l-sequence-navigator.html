@@ -21,10 +21,9 @@
 			height: 100%;
 		}
 
-		.module-item {
-			background-color: white;
+		d2l-sequence-navigator-item {
 			width: 100% - 15px;
-			margin-top: 30px;
+			margin-top: 15px;
 		}
 
 		.module-item-list {
@@ -69,6 +68,7 @@
 			overflow-y: auto;
 			padding-bottom: 40px;
 		}
+
 		</style>
 		<siren-entity href="[[_moduleHref]]" token="[[token]]" entity="{{_moduleEntity}}"></siren-entity>
 		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
@@ -82,8 +82,7 @@
 
 			<ol class="module-item-list">
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li class="module-item">
-
+					<li>
 						<d2l-sequence-navigator-item
 							href="[[childLink.href]]"
 							token="[[token]]"
@@ -176,7 +175,6 @@
 					}
 				}
 			}
-
 		}
 
 		window.customElements.define(D2LSequenceNavigator.is, D2LSequenceNavigator);

@@ -16,7 +16,7 @@
 			.header-container {
 				padding: 15px;
 				background-color: var(--d2l-color-gypsum);
-				border-radius: 8px 8px 8px 8px;
+				border-radius: 8px;
 			}
 
 			d2l-accordion-collapse[opened] .header-container {
@@ -73,11 +73,6 @@
 				@include d2l-body-small;
 			}
 
-			d2l-accordion-collapse {
-				border: 1px solid var(--d2l-color-mica);
-				border-radius: 8px;
-			}
-
 			.module-item-list {
 				list-style-type: none;
 				border-collapse: collapse;
@@ -86,13 +81,11 @@
 				margin-bottom: 0px;
 			}
 
-			.module-item {
+			d2l-sequence-navigator-item {
 				width: 100%;
 				margin-top: -1px;
 				margin-bottom: -1px;
 				margin-left: -1px;
-				padding-top: 15px;
-				padding-bottom: 15px;
 
 				/* Compact Body Text - Lato Regular 16 */
 				font-size: 16px;
@@ -101,12 +94,13 @@
 				letter-spacing: 0.2px;
 			}
 
-			.module-item:not(.current):not(:hover) {
+			d2l-sequence-navigator-item:not(.current):not(:hover) {
 				border: 1px solid var(--d2l-color-mica);
-				border-bottom: 1px solid var(--d2l-color-mica);
+				background-color: white;
 			}
 
-			.module-item.current, .module-item:hover {
+			d2l-sequence-navigator-item.current,
+			d2l-sequence-navigator-item:hover {
 				background-color: #f2f8fc;
 				border: 1px solid #99c5e5;
 				border-bottom: 1px solid #99c5e5;
@@ -114,7 +108,7 @@
 				z-index: 0.5;
 			}
 
-			.module-item:last-of-type {
+			li:last-of-type > d2l-sequence-navigator-item {
 				border-radius: 0px 1px 8px 8px;
 			}
 
@@ -138,7 +132,6 @@
 			id="moduleLink"
 			no-icons
 			flex
-			tabindex="0"
 		>
 			<div slot="header" class="header-container">
 				<div class="module-header">
@@ -168,8 +161,8 @@
 
 			<ol class="module-item-list">
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li class$="module-item [[_getIsCurrent(childLink, currentActivity)]]" on-click="_onActivityClicked">
-						<d2l-sequence-navigator-item
+					<li on-click="_onActivityClicked">
+						<d2l-sequence-navigator-item  class$="[[_getIsCurrent(childLink, currentActivity)]]"
 							href="[[childLink.href]]"
 							token="[[token]]"
 							current-activity="{{currentActivity}}"

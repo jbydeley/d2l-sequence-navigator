@@ -10,7 +10,29 @@
 			:host {
 				display: block;
 			}
+
+			d2l-activity-link.standalone.current,
+			d2l-activity-link.standalone:hover {
+				background-color: #f2f8fc;
+				border: 1px solid #99c5e5;
+			}
+
+			d2l-module-link, d2l-activity-link.standalone {
+				background-color: white;
+				border: 1px solid var(--d2l-color-mica);
+				border-radius: 8px;
+			}
+
 		</style>
+		<template is="dom-if" if="[[isStandaloneActivity]]">
+			<d2l-activity-link
+				href="[[getHref(entity)]]"
+				token="[[token]]"
+				current-activity="{{currentActivity}}"
+				tabindex="0"
+				class="standalone"
+			></d2l-activity-link>
+		</template>
 		<template is="dom-if" if="[[isModule]]">
 			<d2l-module-link
 				href="[[selfLink]]"
@@ -19,13 +41,12 @@
 				selected-module="{{selectedModule}}"
 			></d2l-module-link>
 		</template>
-		<template is="dom-if" if="[[isActivity]]">
+		<template is="dom-if" if="[[isModuleActivity]]">
 			<d2l-activity-link
 				href="[[getHref(entity)]]"
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
 				tabindex="0"
-				is-lesson-child="[[isLessonChild]]"
 			></d2l-activity-link>
 		</template>
 	</template>
@@ -65,6 +86,14 @@
 					isLessonChild: {
 						type: Boolean,
 						value: false
+					},
+					isStandaloneActivity: {
+						type: Boolean,
+						computed: '_isStandaloneActivity(entity)'
+					},
+					isModuleActivity: {
+						type: Boolean,
+						computed: '_isModuleActivity(entity)'
 					}
 				};
 			}
@@ -79,6 +108,14 @@
 
 			_isActivity( entity ) {
 				return entity && entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
+			}
+
+			_isStandaloneActivity( entity ) {
+				return this._isActivity( entity ) && this.isLessonChild;
+			}
+
+			_isModuleActivity( entity ) {
+				return this._isActivity( entity ) && !this.isLessonChild;
 			}
 		}
 		customElements.define(D2LSequenceNavigatorItem.is, D2LSequenceNavigatorItem);
