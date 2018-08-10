@@ -107,7 +107,7 @@
 			}
 
 			_isActivity( entity ) {
-				return entity && entity.class[0] === 'sequenced-activity' && Object.keys(entity.properties).length > 0;
+				return entity && this._hasClass(entity, 'sequenced-activity');
 			}
 
 			_isStandaloneActivity( entity ) {

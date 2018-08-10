@@ -289,7 +289,7 @@
 
 			getSubEntities(entity) {
 				return entity.getSubEntities()
-					.filter( subEntity => this._isActivity(subEntity) || subEntity.href )
+					.filter( subEntity => this._hasClass(subEntity, 'sequenced-activity') || subEntity.href )
 					.map(this._getHref);
 			}
 
@@ -299,10 +299,6 @@
 
 			_hasChildren(entity) {
 				return entity.getSubEntities().length !== 0;
-			}
-
-			_isActivity(childEntity) {
-				return childEntity.class[0] === 'sequenced-activity' && Object.keys(childEntity.properties).length > 0;
 			}
 
 			toggleSelected() {

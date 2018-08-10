@@ -59,6 +59,12 @@
 							.not.to
 							.exist;
 					});
+
+					it('should say that it is not an activity', () => {
+						expect(element._isActivity(element.entity))
+							.to
+							.equal(false);
+					});
 				});
 
 				describe('for an activity', () => {
@@ -76,6 +82,12 @@
 						expect(element.shadowRoot.querySelector('d2l-module-link'))
 							.not.to
 							.exist;
+					});
+
+					it('should say that it is an activity', () => {
+						expect(element._isActivity(element.entity))
+							.to
+							.equal(true);
 					});
 				});
 			});
