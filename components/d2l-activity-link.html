@@ -114,6 +114,18 @@
 				];
 			}
 
+			ready() {
+				super.ready();
+				this.addEventListener('keypress', this._onKeyPress);
+			}
+
+			_onKeyPress(event) {
+				if ( event.key !== 'Enter' ) {
+					return;
+				}
+				this.setCurrent();
+			}
+
 			setCurrent() {
 				this.currentActivity = this._getLinkByRel( this.entity, 'self').href;
 			}
