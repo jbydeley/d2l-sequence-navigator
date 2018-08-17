@@ -1,4 +1,6 @@
-<link rel="import" href="../../polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../d2l-polymer-siren-behaviors/store/entity-behavior.html">
+<link rel="import" href="../localize-behavior.html">
 
 <script>
 (function() {
@@ -7,9 +9,13 @@
 		@mixes SirenEntityMixin
 		@memberOf D2L.Polymer.Mixins;
 	*/
-	D2L.Polymer.Mixins.CompletionStatusMixin = function(superClass) {
-		return class extends window.D2L.Polymer.Mixins.SirenEntityMixin(superClass) {
-
+	const CompletionStatusMixin = function() {
+		return class extends Polymer.mixinBehaviors([
+			D2L.PolymerBehaviors.Siren.EntityBehavior,
+			D2L.PolymerBehaviors.SequenceNavigator.LocalizeBehavior
+		],
+		Polymer.Element
+		) {
 			static get properties() {
 				return {
 					completionCount: {
@@ -35,7 +41,7 @@
 			}
 
 			_getStatus(entity) {
-				const completionEntity = entity.getSubEntityByClass('completion');
+				const completionEntity = entity && entity.getSubEntityByClass('completion');
 				if ( !completionEntity || !completionEntity.properties) {
 					return {
 						completed: 0,
@@ -60,6 +66,9 @@
 			}
 
 			_getCompletionRequirement(activity) {
+				if (!activity) {
+					return;
+				}
 				var subEntity = activity.getSubEntityByClass('link-activity') || activity.getSubEntityByClass('file-activity');
 				if (subEntity
 					&& subEntity.getSubEntityByClass('exemption')
@@ -73,25 +82,31 @@
 			}
 
 			_getCompletionStatus(activity) {
-				var subEntity = activity.getSubEntityByClass('link-activity') || activity.getSubEntityByClass('file-activity');
-				if (subEntity && subEntity.getSubEntityByClass('completion')) {
-					if (subEntity.getSubEntityByClass('completion').hasClass('completed')) {
-						return 'complete';
-					} else {
-						return 'incomplete';
-					}
-				} else {
-					if (subEntity.getSubEntityByClass('last-viewed') ) {
+				if (!activity) {
+					return;
+				}
+				const subEntity = activity.getSubEntityByClass('link-activity') || activity.getSubEntityByClass('file-activity');
+				if (!subEntity) {
+					return;
+				}
+
+				const completionClass = subEntity.getSubEntityByClass('completion');
+				if (!completionClass) {
+					if (subEntity.getSubEntityByClass('last-viewed')) {
 						return 'optional-viewed';
 					}
 					return 'optional';
 				}
+
+				return completionClass.hasClass('completed')
+					? 'complete'
+					: 'incomplete';
 			}
 		};
 	};
 	window.D2L = window.D2L || {};
 	window.D2L.Polymer = window.D2L.Polymer || {};
 	window.D2L.Polymer.Mixins = window.D2L.Polymer.Mixins || {};
-	window.D2L.Polymer.Mixins.CompletionStatusMixin = D2L.Polymer.Mixins.CompletionStatusMixin;
+	window.D2L.Polymer.Mixins.CompletionStatusMixin = CompletionStatusMixin;
 })();
 </script>

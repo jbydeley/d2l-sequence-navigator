@@ -1,9 +1,7 @@
-<link rel="import" href="../../polymer/polymer-element.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-icons/d2l-icon.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-icons/tier1-icons.html">
-<link rel="import" href="../localize-behavior.html">
 
 <dom-module id="d2l-completion-status">
 	<template>
@@ -21,7 +19,7 @@
 		@memberOf window.D2L.Polymer.Mixins;
 		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
 		*/
-		class D2LCompletionStatus extends Polymer.mixinBehaviors(D2L.PolymerBehaviors.SequenceNavigator.LocalizeBehavior, D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element )) {
+		class D2LCompletionStatus extends D2L.Polymer.Mixins.CompletionStatusMixin() {
 			static get is() {
 				return 'd2l-completion-status';
 			}

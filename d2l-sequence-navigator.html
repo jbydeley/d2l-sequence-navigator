@@ -1,4 +1,5 @@
-<link rel="import" href="../polymer-siren-mixins/siren-entity-mixin.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-polymer-siren-behaviors/store/entity-behavior.html">
 <link rel="import" href="./components/d2l-sequence-navigator-item.html">
 <link rel="import" href="./components/d2l-lesson-header.html">
 <link rel="import" href="../d2l-accordion/d2l-accordion.html">
@@ -105,12 +106,22 @@
 		@memberOf D2L.Polymer.Mixins;
 		@mixes SirenEntityMixin
 		*/
-		class D2LSequenceNavigator extends Polymer.mixinBehaviors(D2L.PolymerBehaviors.SequenceNavigator.LocalizeBehavior, D2L.Polymer.Mixins.SirenEntityMixin( Polymer.Element )) {
+		class D2LSequenceNavigator extends Polymer.mixinBehaviors([
+			D2L.PolymerBehaviors.Siren.EntityBehavior,
+			D2L.PolymerBehaviors.SequenceNavigator.LocalizeBehavior
+		],
+		Polymer.Element
+		) {
 			static get is() {
 				return 'd2l-sequence-navigator';
 			}
 			static get properties() {
 				return {
+					href: {
+						type: String,
+						reflectToAttribute: true,
+						notify: true
+					},
 					selectedModule: {
 						type: String,
 						value: ''
@@ -141,20 +152,20 @@
 			}
 
 			_getModuleHref(entity) {
-				if (entity && this._hasClass( entity, 'sequence-description') ) {
-					var selfLink = this._getLinkByRel( entity, 'self' );
+				if (entity && entity.hasClass('sequence-description') ) {
+					var selfLink = entity.getLinkByRel('self');
 					return selfLink && selfLink.href || '';
 				}
-				return entity && this._hasClass(entity, 'sequenced-activity') && this._getDirectParentHref( entity ) || '';
+				return entity && entity.hasClass('sequenced-activity') && this._getDirectParentHref( entity ) || '';
 			}
 
 			_getDirectParentHref(entity) {
-				const upLink = this._getLinkByRel( entity, 'up' );
+				const upLink = entity && entity.getLinkByRel('up');
 				return upLink && upLink.href || '';
 			}
 
 			getSubEntities(entity) {
-				return entity.getSubEntities()
+				return entity && entity.getSubEntities()
 					.filter( subEntity =>
 						(subEntity.properties && Object.keys(subEntity.properties).length > 0) || subEntity.href )
 					.map(this._getHref);

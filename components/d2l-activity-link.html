@@ -86,7 +86,7 @@
 		@memberOf window.D2L.Polymer.Mixins;
 		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
 		*/
-		class D2LActivityLink extends D2L.Polymer.Mixins.CompletionStatusMixin( Polymer.Element ) {
+		class D2LActivityLink extends D2L.Polymer.Mixins.CompletionStatusMixin() {
 			static get is() {
 				return 'd2l-activity-link';
 			}
@@ -127,12 +127,12 @@
 			}
 
 			setCurrent() {
-				this.currentActivity = this._getLinkByRel( this.entity, 'self').href;
+				this.currentActivity = this.entity && this.entity.getLinkByRel('self').href;
 			}
 
 			onCurrentActivityChanged( currentActivity, entity ) {
 				if ( currentActivity && entity ) {
-					var current = this._getLinkByRel( entity, 'self').href === currentActivity;
+					var current = entity.getLinkByRel('self').href === currentActivity;
 					if ( current ) {
 						this.$.activityLink.classList.add('current');
 					} else {
