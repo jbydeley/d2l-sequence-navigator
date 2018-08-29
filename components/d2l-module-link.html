@@ -254,35 +254,38 @@
 				return this.completionCount && this.completionCount.total === 0 && this.completionCount.optionalTotal > 0;
 			}
 
-			_isAllOptionalViewed() {
-				return this.completionCount && this.completionCount.optionalTotal > 0 && this.completionCount.optionalTotal === this.completionCount.optionalViewed;
-			}
-
 			_isAllRequiredViewed() {
 				return this.completionCount && this.completionCount.total > 0 && this.completionCount.total === this.completionCount.completed;
 			}
 
-			_isRequiredSomeComplete() {
-				return this.completionCount && this.completionCount.total > 0 && this.completionCount.completed > 0 && this.completionCount.completed <  this.completionCount.total;
-			}
-
 			_showCount() {
-				return this.hasChildren &&
-					!this._isOptionalModule() && (
-					this._isAccordionOpen() ||
-					( !this._isAccordionOpen() && !this._isAllRequiredViewed() && this._isRequiredSomeComplete() )
-				);
+				if ( !this.hasChildren ) {
+					return false;
+				}
+				if ( this._isAccordionOpen() ) {
+					return true;
+				}
+				return !this._isOptionalModule() && !this._isAllRequiredViewed();
 			}
 
 			_showCheckmark() {
-				return !this._isAccordionOpen() && (
-					( this._isOptionalModule() && this._isAllOptionalViewed() ) ||
-					( !this._isOptionalModule() && this._isAllRequiredViewed() )
-				);
+				if ( !this.hasChildren ) {
+					return false;
+				}
+				if ( this._isAccordionOpen() ) {
+					return false;
+				}
+				return !this._isOptionalModule() && this._isAllRequiredViewed();
 			}
 
 			_showOptional() {
-				return this._isOptionalModule() && !this._isAccordionOpen() && !this._isAllOptionalViewed();
+				if ( !this.hasChildren ) {
+					return false;
+				}
+				if ( this._isAccordionOpen() ) {
+					return false;
+				}
+				return this._isOptionalModule();
 			}
 
 			_showDivider(showCount, showCheckmark, showOptional) {

@@ -69,14 +69,13 @@
 							.class('selected');
 
 						accordionElement.$.trigger.click();
-						flush( function(done) {
+						flush( function() {
 							expect(accordionElement)
 								.to.have
 								.class('selected');
 							expect(element.selectedModule)
 								.to
 								.equal('data/lesson1.json');
-							done();
 						});
 
 					});
@@ -109,6 +108,7 @@
 				});
 
 				describe('for module without children', () => {
+
 					let element;
 
 					beforeEach(async() => {
@@ -134,139 +134,24 @@
 						});
 					});
 
-					it('should not show any counts when the accordion is closed', () => {
-						expect(element.shadowRoot.querySelector('.divider-icon'))
-							.to.be
-							.null;
+					it('should not show anything in the header, when the accordion is closed', () => {
 
-						expect(element.shadowRoot.querySelector('.countStatus'))
-							.to.be
-							.null;
+						const countStatus = element.shadowRoot.querySelector('.countStatus');
+						const divider = element.shadowRoot.querySelector('.divider-icon');
+						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+						const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+						expect(countStatus).to.be.hidden;
+
+						expect(divider).to.be.hidden;
+
+						expect(optionalStatus).to.be.hidden;
+
+						expect(checkmark).to.be.hidden;
 					});
 
-					it('should not show any counts when the accordion is open', () => {
-						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						accordionElement.addEventListener('click', () => {
-							expect(element.shadowRoot.querySelector('.countStatus'))
-								.to.be
-								.null;
-						});
-						accordionElement.$.trigger.click();
-					});
-				});
+					it('should not show anything in the header, when the accordion is open', () => {
 
-				describe('for module with required activites that have some read', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
-					});
-
-					it('should show count for a closed accordion that has one completed activity', () => {
-						flush(() => {
-							expect(element.shadowRoot.querySelector('.divider-icon'))
-								.to
-								.exist;
-
-							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							expect(countStatus)
-								.to
-								.exist;
-
-							expect(countStatus)
-								.to.contain
-								.text('1 of 2');
-
-						});
-					});
-
-					it('should show count for a open accordion that has one completed activity', () => {
-						flush(() => {
-							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-							accordionElement.$.trigger.click();
-							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							expect(countStatus)
-								.to
-								.exist;
-
-							expect(countStatus)
-								.to.contain
-								.text('1 of 2');
-
-						});
-					});
-				});
-
-				describe('for module with all unread optional activities', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
-					});
-
-					it('should show the word optional when the accordion is closed', () => {
-						flush(() => {
-							expect(element.shadowRoot.querySelector('.divider-icon'))
-								.to
-								.exist;
-
-							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-							expect(optionalStatus)
-								.to
-								.exist;
-
-							expect(optionalStatus)
-								.to.contain
-								.text('optional');
-
-						});
-					});
-
-					it('should not show the count or divider icon when the accordion is open', () => {
-						flush(() => {
-							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-							accordionElement.addEventListener('click', () => {
-								const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
-								if (dynamicElements) {
-									for (let i = 0; i < dynamicElements.length; i++) {
-										dynamicElements[i].render();
-									}
-								}
-								const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-								expect(optionalStatus)
-									.to
-									.exist;
-
-								expect(optionalStatus)
-									.not.to.be
-									.displayed;
-							});
-
-							accordionElement.$.trigger.click();
-						});
-					});
-				});
-
-				describe('for module with all unread required activities', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
-					});
-
-					it('should not show the count or the divider, when the accordion is closed', () => {
-						flush(() => {
-							expect(element.shadowRoot.querySelector('.divider-icon'))
-								.to.be
-								.null;
-
-							expect(element.shadowRoot.querySelector('.countStatus'))
-								.to.be
-								.null;
-						});
-					});
-
-					it('should show count for a open accordion that has no completed required activites', () => {
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.addEventListener('click', () => {
 							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
@@ -275,53 +160,266 @@
 									dynamicElements[i].render();
 								}
 							}
-
-							expect(element.shadowRoot.querySelector('.countStatus'))
-								.to
-								.exist;
 						});
 						accordionElement.$.trigger.click();
+
+						flush(() => {
+
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							const divider = element.shadowRoot.querySelector('.divider-icon');
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+							expect(countStatus).to.be.hidden;
+
+							expect(divider).to.be.hidden;
+
+							expect(optionalStatus).to.be.hidden;
+
+							expect(checkmark).to.be.hidden;
+						});
 					});
 				});
 
-				describe('for module with all required activities that are completed', () => {
+				describe('for module with required activities, not all completed', () => {
+
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
+					});
+
+					it('should only show the count and the divider, when the accordion is closed', () => {
+
+						const countStatus = element.shadowRoot.querySelector('.countStatus');
+						const divider = element.shadowRoot.querySelector('.divider-icon');
+						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+						const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+						expect(countStatus).to.exist;
+						expect(countStatus).to.be.visible;
+						expect(countStatus).to.contain.text('1 of 3');
+
+						expect(divider).to.exist;
+						expect(divider).to.be.visible;
+
+						expect(optionalStatus).to.be.hidden;
+
+						expect(checkmark).to.be.hidden;
+					});
+
+					it('should only show the count and the divider, when the accordion is open', () => {
+
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+						});
+						accordionElement.$.trigger.click();
+
+						flush(() => {
+
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							const divider = element.shadowRoot.querySelector('.divider-icon');
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+							expect(countStatus).to.exist;
+							expect(countStatus).to.be.visible;
+							expect(countStatus).to.contain.text('1 of 3');
+
+							expect(divider).to.exist;
+							expect(divider).to.be.visible;
+
+							expect(optionalStatus).to.be.hidden;
+
+							expect(checkmark).to.be.hidden;
+						});
+					});
+				});
+
+				describe('for module with all optional activities unread', () => {
+
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
+					});
+
+					it('should only show the word Optional and the divider, when the accordion is closed', () => {
+
+						const countStatus = element.shadowRoot.querySelector('.countStatus');
+						const divider = element.shadowRoot.querySelector('.divider-icon');
+						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+						const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+						expect(countStatus).to.be.hidden;
+
+						expect(divider).to.exist;
+						expect(divider).to.be.visible;
+
+						expect(optionalStatus).to.exist;
+						expect(optionalStatus).to.be.visible;
+						expect(optionalStatus).to.contain.text('Optional');
+
+						expect(checkmark).to.be.hidden;
+					});
+
+					it('should only show the count and the divider, when the accordion is open', () => {
+
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+						});
+						accordionElement.$.trigger.click();
+
+						flush(() => {
+
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							const divider = element.shadowRoot.querySelector('.divider-icon');
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+							expect(countStatus).to.exist;
+							expect(countStatus).to.be.visible;
+							expect(countStatus).to.contain.text('0 of 0');
+
+							expect(divider).to.exist;
+							expect(divider).to.be.visible;
+
+							expect(optionalStatus).to.be.hidden;
+
+							expect(checkmark).to.be.hidden;
+						});
+					});
+				});
+
+				describe('for module with all required activities incomplete', () => {
+
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
+					});
+
+					it('should only show the count and the divider, when the accordion is closed', () => {
+
+						const countStatus = element.shadowRoot.querySelector('.countStatus');
+						const divider = element.shadowRoot.querySelector('.divider-icon');
+						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+						const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+						expect(countStatus).to.exist;
+						expect(countStatus).to.be.visible;
+						expect(countStatus).to.contain.text('0 of 2');
+
+						expect(divider).to.exist;
+						expect(divider).to.be.visible;
+
+						expect(optionalStatus).to.be.hidden;
+
+						expect(checkmark).to.be.hidden;
+					});
+
+					it('should only show the count and the divider, when the accordion is open', () => {
+
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+						});
+						accordionElement.$.trigger.click();
+
+						flush(() => {
+
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							const divider = element.shadowRoot.querySelector('.divider-icon');
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+							expect(countStatus).to.exist;
+							expect(countStatus).to.be.visible;
+							expect(countStatus).to.contain.text('0 of 2');
+
+							expect(divider).to.exist;
+							expect(divider).to.be.visible;
+
+							expect(optionalStatus).to.be.hidden;
+
+							expect(checkmark).to.be.hidden;
+						});
+					});
+				});
+
+				describe('for module with all required activities completed', () => {
+
 					let element;
 
 					beforeEach(async() => {
 						element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
 					});
 
-					it('should show the checkmark status', () => {
-						expect(element.shadowRoot.querySelector('.divider-icon'))
-							.to
-							.exist;
+					it('should only show the checkmark and the divider, when accordion is closed', () => {
 
-						expect(element.shadowRoot.querySelector('.completedStatus'))
-							.to
-							.exist;
+						const countStatus = element.shadowRoot.querySelector('.countStatus');
+						const divider = element.shadowRoot.querySelector('.divider-icon');
+						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+						const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+						expect(countStatus).to.be.hidden;
+
+						expect(divider).to.exist;
+						expect(divider).to.be.visible;
+
+						expect(optionalStatus).to.be.hidden;
+
+						expect(checkmark).to.exist;
+						expect(checkmark).to.be.visible;
 					});
 
-					it('should show the count of completed activites when accordion is open', () => {
-						flush(() => {
-							const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-							accordionElement.addEventListener('click', () => {
-								const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
-								if (dynamicElements) {
-									for (let i = 0; i < dynamicElements.length; i++) {
-										dynamicElements[i].render();
-									}
-								}
-								const countStatus = element.shadowRoot.querySelector('.countStatus');
-								const completedStatus = element.shadowRoot.querySelector('.completedStatus');
-								expect(completedStatus)
-									.not.to.be
-									.displayed;
+					it('should only show the count and the divider, when accordion is open', () => {
 
-								expect(countStatus)
-									.to.contain
-									.text('3 of 3');
-							});
-							accordionElement.$.trigger.click();
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+						});
+						accordionElement.$.trigger.click();
+
+						flush(() => {
+
+							const countStatus = element.shadowRoot.querySelector('.countStatus');
+							const divider = element.shadowRoot.querySelector('.divider-icon');
+							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+							const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+							expect(countStatus).to.exist;
+							expect(countStatus).to.be.visible;
+							expect(countStatus).to.contain.text('3 of 3');
+
+							expect(divider).to.exist;
+							expect(divider).to.be.visible;
+
+							expect(optionalStatus).to.be.hidden;
+
+							expect(checkmark).to.be.hidden;
 						});
 					});
 				});
