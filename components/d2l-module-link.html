@@ -294,7 +294,7 @@
 
 			getSubEntities(entity) {
 				return entity && entity.getSubEntities()
-					.filter( subEntity => subEntity.hasClass('sequenced-activity') || subEntity.href )
+					.filter( subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || ( subEntity.href && subEntity.hasClass('sequence-description') ) )
 					.map(this._getHref);
 			}
 
