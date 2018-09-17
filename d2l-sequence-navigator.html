@@ -18,7 +18,6 @@
 		<style>
 		:host {
 			display: block;
-			font-family: 'Lato', sans-serif;
 			height: 100%;
 		}
 
@@ -38,16 +37,11 @@
 		.end-of-lesson {
 			color: var(--d2l-color-celestine);
 			text-decoration: none;
-
-			/* Label Text - Lato Bold 14 */
-			font-size: 14px;
-			line-height: 20px;
-			font-weight: 700; /* bold */
-			letter-spacing: 0.2px;
+			@apply --d2l-label-text;
 		}
 
 		.end-of-lesson-holder {
-			text-align: center;
+			padding-left: 35px;
 			padding-top: 30px;
 		}
 
@@ -97,7 +91,7 @@
 			</ol>
 
 			<div class="end-of-lesson-holder">
-				<a href="javascript:void(0);" class="end-of-lesson">[[localize('endOfLesson')]]</a>
+				<a on-click="showEndOfLesson" class="end-of-lesson">[[localize('endOfLesson')]]</a>
 			</div>
 		</d2l-accordion>
 	</template>
@@ -173,6 +167,10 @@
 
 			_getHref(entity) {
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
+			}
+
+			showEndOfLesson() {
+				this.href = this._rootHref + '/end-of-sequence';
 			}
 
 			onSidebarScroll() {
