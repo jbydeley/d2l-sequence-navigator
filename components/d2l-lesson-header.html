@@ -2,7 +2,6 @@
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
-<link rel="import" href="../../d2l-typography/d2l-typography.html">
 <!--
 'd2l-lesson-header'
 
@@ -15,10 +14,11 @@
 		<style>
 		:host {
 			display: block;
-			font-family: 'Lato', sans-serif;
 		}
 
 		.module-title {
+			@apply --d2l-heading-3;
+
 			color: var(--d2l-color-ferrite);
 			white-space: nowrap;
 			overflow: hidden;
@@ -26,25 +26,15 @@
 
 			margin-top: 0px;
 			margin-bottom: 0px;
-
-			/* Heading 3 - Lato Bold 20 */
-			font-size: 20px;
-			line-height: 30px;
-			font-weight: 700; /* bold */
-			letter-spacing: 0.2px;
 		}
 
 		.module-completion-count {
+			@apply --d2l-body-small-text;
+
+			color: var(--d2l-color-tungsten);
 			text-align: right;
 			padding-top: 10px;
 			padding-bottom: 20px;
-
-			/* Small Body Text - Lato Regular 14, Tungsten */
-			font-size: 14px;
-			line-height: 20px;
-			font-weight: 400; /* normal */
-			letter-spacing: 0.2px;
-			color: var(--d2l-color-tungsten);
 		}
 
 		</style>

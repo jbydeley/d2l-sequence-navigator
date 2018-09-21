@@ -2,14 +2,12 @@
 <link rel="import" href="d2l-completion-status.html">
 <link rel="import" href="d2l-completion-requirement.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
-<link rel="import" href="../../d2l-typography/d2l-typography.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
 		<style>
 			:host {
 				display: block;
-				font-family: 'Lato', sans-serif;
 				color: var(--d2l-color-ferrite);
 				padding: 10px 15px 10px 15px;
 			}
@@ -21,17 +19,13 @@
 			}
 
 			#activityTitle {
+				@apply --d2l-body-compact-text;
+
 				overflow: hidden;
 				text-overflow: ellipsis;
 				float: left;
 				display: table-cell;
 				width: 100%;
-
-				/* Compact Body Text - Lato Regular 16 */
-				font-size: 16px;
-				line-height: 24px;
-				font-weight: 400; /* normal */
-				letter-spacing: 0.2px;
 			}
 
 			#activityTitle.exempt, #activityTitle.optional {
