@@ -66,12 +66,10 @@
 		}
 
 		</style>
-		<siren-entity href="[[_moduleHref]]" token="[[token]]" entity="{{_moduleEntity}}"></siren-entity>
 		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
 		<d2l-lesson-header class="module-header" id="sidebarHeader"
 			href="[[_rootHref]]"
 			token="[[token]]"
-			entity="{{_lessonEntity}}"
 			tabindex="0"
 		></d2l-lesson-header>
 		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
@@ -123,18 +121,11 @@
 					},
 					_rootHref: {
 						type: String,
-						computed: '_getDirectParentHref(_moduleEntity)'
+						computed: '_getRootHref(entity)'
 					},
 					subEntities: {
 						type: Array,
 						computed: 'getSubEntities(_lessonEntity)'
-					},
-					_moduleEntity: {
-						type: Object
-					},
-					_moduleHref: {
-						type: String,
-						computed: '_getModuleHref(entity)'
 					},
 					_lessonEntity:{
 						type: Object
@@ -146,17 +137,9 @@
 				super.connectedCallback();
 			}
 
-			_getModuleHref(entity) {
-				if (entity && entity.hasClass('sequence-description') ) {
-					var selfLink = entity.getLinkByRel('self');
-					return selfLink && selfLink.href || '';
-				}
-				return entity && entity.hasClass('sequenced-activity') && this._getDirectParentHref( entity ) || '';
-			}
-
-			_getDirectParentHref(entity) {
-				const upLink = entity && entity.getLinkByRel('up');
-				return upLink && upLink.href || '';
+			_getRootHref(entity) {
+				const rootLink = entity && entity.getLinkByRel('sequence-root');
+				return rootLink && rootLink.href || '';
 			}
 
 			getSubEntities(entity) {
