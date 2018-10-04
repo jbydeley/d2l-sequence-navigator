@@ -13,7 +13,7 @@
 			}
 
 			.header-container {
-				padding: 15px;
+				padding: 10px 15px 8px 15px;
 				background-color: var(--d2l-color-gypsum);
 				border-radius: 8px;
 			}
@@ -38,7 +38,7 @@
 				text-overflow: ellipsis;
 				float: left;
 				display: table-cell;
-				width: 65%;
+				width: calc(100% - 5rem);
 			}
 
 			.module-completion-count {
@@ -47,8 +47,9 @@
 				text-align: right;
 				float: right;
 				display: table-cell;
-				width: 35%;
+				width: 5rem;
 				color: var(--d2l-color-tungsten);
+				line-height: inherit !important;
 			}
 
 			.module-completion-count d2l-icon:not(.moduleComplete) {
@@ -90,9 +91,7 @@
 			.nav-item:hover {
 				background-color: #f2f8fc;
 				border: 1px solid #99c5e5;
-				border-bottom: 1px solid #99c5e5;
 				position: relative;
-				z-index: 0.5;
 			}
 
 			li:last-of-type > .nav-item {
