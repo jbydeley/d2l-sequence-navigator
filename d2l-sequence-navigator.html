@@ -138,7 +138,7 @@
 			}
 
 			_getRootHref(entity) {
-				const rootLink = entity && entity.getLinkByRel('sequence-root');
+				const rootLink = entity && entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-root');
 				return rootLink && rootLink.href || '';
 			}
 
