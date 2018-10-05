@@ -335,9 +335,9 @@
 			}
 
 			_onActivityClicked(e) {
-				var newActivityLink = e.model.__data.childLink.href;
-				if ( this.currentActivity !== newActivityLink ) {
-					this.currentActivity = newActivityLink;
+				var childLink =  e.model.__data.childLink;
+				if ( childLink.class.includes('sequenced-activity') && this.currentActivity !== childLink.href ) {
+					this.currentActivity = childLink.href;
 				}
 			}
 		}
