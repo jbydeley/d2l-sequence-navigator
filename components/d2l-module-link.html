@@ -158,7 +158,7 @@
 						</d2l-sequence-navigator-item>
 					</li>
 				</template>
-				<template is="dom-if" if="[[!hasChildren]]">
+				<template is="dom-if" if="[[!hasChildModulesOrTopics]]">
 					<div class="no-topics">
 						[[localize('moduleHasNoTopics')]]
 					</div>
@@ -200,6 +200,10 @@
 					hasChildren: {
 						type: Boolean,
 						computed: '_hasChildren(entity)'
+					},
+					hasChildModulesOrTopics: {
+						type: Boolean,
+						computed: '_hasChildModulesOrTopics(entity)'
 					},
 					showCount: {
 						type: Boolean,
@@ -289,6 +293,11 @@
 
 			_hasChildren(entity) {
 				return entity && entity.getSubEntities().length !== 0;
+			}
+
+			_hasChildModulesOrTopics(entity) {
+				return entity && entity.getSubEntities()
+					.filter( subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || ( subEntity.href && subEntity.hasClass('sequence-description') ) ).length !== 0;
 			}
 
 			toggleSelected() {
