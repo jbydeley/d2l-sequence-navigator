@@ -1,5 +1,5 @@
 {
-	"countStatus": "{completed} of {total}",
+	"countStatus": "{completed}/{total}",
 	"endOfLesson": "End of Lesson",
 	"moduleHasNoTopics": "This module has no topics",
 	"modulesDone": "Done {completed}/{total}",

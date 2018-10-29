@@ -11,34 +11,13 @@
 				display: block;
 			}
 
-			d2l-activity-link {
-				padding: 10px 15px 8px 15px;
-			}
-
-			d2l-activity-link:hover {
-				cursor: pointer;
-			}
-
-			d2l-activity-link.standalone.current,
-			d2l-activity-link.standalone:hover {
-				background-color: #f2f8fc;
-				border: 1px solid #99c5e5;
-			}
-
-			d2l-module-link, d2l-activity-link.standalone {
-				background-color: white;
-				border: 1px solid var(--d2l-color-mica);
-				border-radius: 8px;
-			}
-
 		</style>
-		<template is="dom-if" if="[[isStandaloneActivity]]">
+		<template is="dom-if" if="[[isActivity]]">
 			<d2l-activity-link
 				href="[[getHref(entity)]]"
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
 				tabindex="0"
-				class="standalone"
 			></d2l-activity-link>
 		</template>
 		<template is="dom-if" if="[[isModule]]">
@@ -47,15 +26,8 @@
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
 				selected-module="{{selectedModule}}"
+				inner-module$="[[isInnerModule]]"
 			></d2l-module-link>
-		</template>
-		<template is="dom-if" if="[[isModuleActivity]]">
-			<d2l-activity-link
-				href="[[getHref(entity)]]"
-				token="[[token]]"
-				current-activity="{{currentActivity}}"
-				tabindex="0"
-			></d2l-activity-link>
 		</template>
 	</template>
 	<script>
@@ -99,13 +71,9 @@
 						type: Boolean,
 						value: false
 					},
-					isStandaloneActivity: {
+					isInnerModule: {
 						type: Boolean,
-						computed: '_isStandaloneActivity(entity)'
-					},
-					isModuleActivity: {
-						type: Boolean,
-						computed: '_isModuleActivity(entity)'
+						computed: '_isInnerModule(entity)'
 					}
 				};
 			}
@@ -122,12 +90,8 @@
 				return entity && entity.hasClass('sequenced-activity');
 			}
 
-			_isStandaloneActivity( entity ) {
-				return this._isActivity( entity ) && this.isLessonChild;
-			}
-
-			_isModuleActivity( entity ) {
-				return this._isActivity( entity ) && !this.isLessonChild;
+			_isInnerModule( entity ) {
+				return this._isModule( entity ) && !this.isLessonChild;
 			}
 		}
 		customElements.define(D2LSequenceNavigatorItem.is, D2LSequenceNavigatorItem);

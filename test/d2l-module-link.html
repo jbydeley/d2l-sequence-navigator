@@ -137,13 +137,10 @@
 					it('should not show anything in the header, when the accordion is closed', () => {
 
 						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const divider = element.shadowRoot.querySelector('.divider-icon');
 						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 						const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 						expect(countStatus).to.be.hidden;
-
-						expect(divider).to.be.hidden;
 
 						expect(optionalStatus).to.be.hidden;
 
@@ -166,13 +163,10 @@
 						flush(() => {
 
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const divider = element.shadowRoot.querySelector('.divider-icon');
 							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 							const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 							expect(countStatus).to.be.hidden;
-
-							expect(divider).to.be.hidden;
 
 							expect(optionalStatus).to.be.hidden;
 
@@ -189,26 +183,22 @@
 						element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
 					});
 
-					it('should only show the count and the divider, when the accordion is closed', () => {
+					it('should only show the count, when the accordion is closed', () => {
 
 						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const divider = element.shadowRoot.querySelector('.divider-icon');
 						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 						const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 						expect(countStatus).to.exist;
 						expect(countStatus).to.be.visible;
-						expect(countStatus).to.contain.text('1 of 3');
-
-						expect(divider).to.exist;
-						expect(divider).to.be.visible;
+						expect(countStatus).to.contain.text('1/3');
 
 						expect(optionalStatus).to.be.hidden;
 
 						expect(checkmark).to.be.hidden;
 					});
 
-					it('should only show the count and the divider, when the accordion is open', () => {
+					it('should only show the count, when the accordion is open', () => {
 
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.addEventListener('click', () => {
@@ -224,16 +214,12 @@
 						flush(() => {
 
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const divider = element.shadowRoot.querySelector('.divider-icon');
 							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 							const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 							expect(countStatus).to.exist;
 							expect(countStatus).to.be.visible;
-							expect(countStatus).to.contain.text('1 of 3');
-
-							expect(divider).to.exist;
-							expect(divider).to.be.visible;
+							expect(countStatus).to.contain.text('1/3');
 
 							expect(optionalStatus).to.be.hidden;
 
@@ -250,17 +236,13 @@
 						element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
 					});
 
-					it('should only show the word Optional and the divider, when the accordion is closed', () => {
+					it('should only show the word Optional, when the accordion is closed', () => {
 
 						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const divider = element.shadowRoot.querySelector('.divider-icon');
 						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 						const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 						expect(countStatus).to.be.hidden;
-
-						expect(divider).to.exist;
-						expect(divider).to.be.visible;
 
 						expect(optionalStatus).to.exist;
 						expect(optionalStatus).to.be.visible;
@@ -269,7 +251,7 @@
 						expect(checkmark).to.be.hidden;
 					});
 
-					it('should only show the count and the divider, when the accordion is open', () => {
+					it('should only show the count, when the accordion is open', () => {
 
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.addEventListener('click', () => {
@@ -285,16 +267,12 @@
 						flush(() => {
 
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const divider = element.shadowRoot.querySelector('.divider-icon');
 							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 							const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 							expect(countStatus).to.exist;
 							expect(countStatus).to.be.visible;
-							expect(countStatus).to.contain.text('0 of 0');
-
-							expect(divider).to.exist;
-							expect(divider).to.be.visible;
+							expect(countStatus).to.contain.text('0/0');
 
 							expect(optionalStatus).to.be.hidden;
 
@@ -311,26 +289,22 @@
 						element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
 					});
 
-					it('should only show the count and the divider, when the accordion is closed', () => {
+					it('should only show the count, when the accordion is closed', () => {
 
 						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const divider = element.shadowRoot.querySelector('.divider-icon');
 						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 						const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 						expect(countStatus).to.exist;
 						expect(countStatus).to.be.visible;
-						expect(countStatus).to.contain.text('0 of 2');
-
-						expect(divider).to.exist;
-						expect(divider).to.be.visible;
+						expect(countStatus).to.contain.text('0/2');
 
 						expect(optionalStatus).to.be.hidden;
 
 						expect(checkmark).to.be.hidden;
 					});
 
-					it('should only show the count and the divider, when the accordion is open', () => {
+					it('should only show the count, when the accordion is open', () => {
 
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.addEventListener('click', () => {
@@ -346,16 +320,12 @@
 						flush(() => {
 
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const divider = element.shadowRoot.querySelector('.divider-icon');
 							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 							const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 							expect(countStatus).to.exist;
 							expect(countStatus).to.be.visible;
-							expect(countStatus).to.contain.text('0 of 2');
-
-							expect(divider).to.exist;
-							expect(divider).to.be.visible;
+							expect(countStatus).to.contain.text('0/2');
 
 							expect(optionalStatus).to.be.hidden;
 
@@ -372,17 +342,13 @@
 						element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
 					});
 
-					it('should only show the checkmark and the divider, when accordion is closed', () => {
+					it('should only show the checkmark, when accordion is closed', () => {
 
 						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const divider = element.shadowRoot.querySelector('.divider-icon');
 						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 						const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 						expect(countStatus).to.be.hidden;
-
-						expect(divider).to.exist;
-						expect(divider).to.be.visible;
 
 						expect(optionalStatus).to.be.hidden;
 
@@ -390,7 +356,7 @@
 						expect(checkmark).to.be.visible;
 					});
 
-					it('should only show the count and the divider, when accordion is open', () => {
+					it('should only show the count, when accordion is open', () => {
 
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
 						accordionElement.addEventListener('click', () => {
@@ -406,16 +372,12 @@
 						flush(() => {
 
 							const countStatus = element.shadowRoot.querySelector('.countStatus');
-							const divider = element.shadowRoot.querySelector('.divider-icon');
 							const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
 							const checkmark = element.shadowRoot.querySelector('.completedStatus');
 
 							expect(countStatus).to.exist;
 							expect(countStatus).to.be.visible;
-							expect(countStatus).to.contain.text('3 of 3');
-
-							expect(divider).to.exist;
-							expect(divider).to.be.visible;
+							expect(countStatus).to.contain.text('3/3');
 
 							expect(optionalStatus).to.be.hidden;
 

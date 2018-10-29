@@ -13,13 +13,30 @@
 			}
 
 			.header-container {
-				padding: 10px 15px 8px 15px;
-				background-color: var(--d2l-color-gypsum);
-				border-radius: 8px;
+				padding: 12px 20px;
 			}
 
-			d2l-accordion-collapse[opened] .header-container {
-				border-radius: 8px 8px 0px 0px;
+			.outer-module .header-container {
+				padding-right: 25px;
+				padding-top: 15px;
+			}
+
+			d2l-accordion-collapse[opened] {
+				background-color: white;
+			}
+
+			d2l-accordion-collapse[opened].inner-module {
+				border-radius: 8px;
+				background-color: var(--d2l-color-sylvite);
+				box-shadow: 0px 0px 0px 5px white;
+			}
+
+			.inner-module {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+
+			.outer-module {
 				border-bottom: 1px solid var(--d2l-color-mica);
 			}
 
@@ -29,103 +46,98 @@
 				width: 100%;
 			}
 
-			.module-title {
-				@apply --d2l-body-standard-text;
-
-				color: var(--d2l-color-ferrite);
-				white-space: nowrap;
+			.module-title {	
 				overflow: hidden;
 				text-overflow: ellipsis;
 				float: left;
 				display: table-cell;
-				width: calc(100% - 5rem);
+
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2; /* number of lines to show */
+				padding-bottom: 5px;
+			}
+
+			.outer-module .module-title {
+				@apply --d2l-body-compact-text;
+				font-weight: 700;
+				color: var(--d2l-color-ferrite);
+
+				width: calc(100% - 2rem);
+			}
+
+			.inner-module .module-title {
+				@apply --d2l-body-small-text;
+				color: var(--d2l-color-tungsten);
+
+				width: 100%;
 			}
 
 			.module-completion-count {
 				@apply --d2l-body-small-text;
+				font-weight: 700;
+				color: var(--d2l-color-tungsten);
 
 				text-align: right;
 				float: right;
 				display: table-cell;
-				width: 5rem;
-				color: var(--d2l-color-tungsten);
+				width: 2rem;
 				line-height: inherit !important;
 			}
 
-			.module-completion-count d2l-icon:not(.moduleComplete) {
-				color: var(--d2l-color-tungsten);
-			}
-
 			.no-topics {
-				@apply --d2l-body-small-text;
-				
-				padding: 20px 15px;
-				background-color: white;
-				display: block;
-				color: var(--d2l-color-ferrite);
+				padding: 10px;
+				line-height: 24px;
+				color: var(--d2l-color-tungsten);
 			}
 
 			.module-item-list {
 				list-style-type: none;
 				border-collapse: collapse;
-				padding-left: 0px;
-				margin-top: 0px;
-				margin-bottom: 0px;
+				margin: 0px;
+				padding: 0px;
 			}
 
-			d2l-sequence-navigator-item {
+			.outer-module .module-item-list {
+				padding-right: 10px;
+			}
+
+			.nav-item {
 				@apply --d2l-body-compact-text;
 
 				width: 100%;
-				margin-top: -1px;
-				margin-bottom: -1px;
-				margin-left: -1px;
 			}
 
-			.nav-item:not(.current):not(:hover) {
-				border: 1px solid var(--d2l-color-mica);
-				background-color: white;
+			.inner-module .nav-item {
+				width: calc(100% - 20px);
+				padding: 0px 10px;
 			}
 
 			.nav-item.current,
-			.nav-item:hover {
-				background-color: #f2f8fc;
-				border: 1px solid #99c5e5;
-				position: relative;
-			}
-
-			li:last-of-type > .nav-item {
-				border-radius: 0px 1px 8px 8px;
+			.nav-item:hover:not(.current),
+			.header-container:hover {
+				background-color: var(--d2l-color-celestine-plus-2);
 			}
 
 			.optionalStatus {
 				color: var(--d2l-color-tungsten);
 			}
 
-			.moduleComplete {
-				color: var(--d2l-color-olivine);
-			}
-
-			.divider-icon {
-				color: var(--d2l-color-mica) !important;
-			}
-
 		</style>
 
 		<d2l-accordion-collapse
-			class$="[[_getIsSelected(selectedModule)]]"
+			class$="[[_getIsSelected(selectedModule)]] [[_getIsInnerModule(innerModule)]]"
 			on-click="toggleSelected"
 			id="moduleLink"
 			no-icons
 			flex
+			opened$=[[innerModule]]
+			disabled$=[[innerModule]]
 		>
 			<div slot="header" class="header-container">
 				<div class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
-						<template is="dom-if" if="[[showDivider]]">
-							<d2l-icon icon="d2l-tier1:divider-solid" class="divider-icon"></d2l-icon>
-						</template>
 						<template is="dom-if" if="[[showCount]]">
 							<span class="countStatus" aria-hidden="true">
 								[[localize('countStatus', 'completed', completionCompleted, 'total', completionTotal)]]
@@ -134,7 +146,7 @@
 						</template>
 						<template is="dom-if" if="[[showCheckmark]]">
 							<span class="completedStatus">
-								<d2l-icon class="moduleComplete" aria-label$="[[localize('completed')]]" icon="d2l-tier1:check"></d2l-icon>
+								<d2l-icon aria-label$="[[localize('completed')]]" icon="d2l-tier1:check"></d2l-icon>
 							</span>
 						</template>
 						<template is="dom-if" if="[[showOptional]]">
@@ -181,8 +193,7 @@
 					currentActivity: {
 						type: String,
 						value: '',
-						notify: true,
-						observer: '_closeModule'
+						notify: true
 					},
 					hasCurrentActivity: {
 						type: Boolean,
@@ -192,6 +203,10 @@
 						type: String,
 						value: '',
 						notify: true
+					},
+					innerModule: {
+						type: Boolean,
+						value: false
 					},
 					subEntities: {
 						type: Array,
@@ -219,17 +234,8 @@
 						type: Boolean,
 						value: false,
 						computed: '_showOptional(completionCount, selectedModule, hasCurrentActivity)'
-					},
-					showDivider: {
-						type: Boolean,
-						value: false,
-						computed: '_showDivider(showCount, showCheckmark, showOptional)'
 					}
 				};
-			}
-
-			connectedCallback() {
-				super.connectedCallback();
 			}
 
 			_isAccordionOpen() {
@@ -248,6 +254,9 @@
 			}
 
 			_showCount() {
+				if ( this.innerModule ) {
+					return false;
+				}
 				if ( !this.hasChildren ) {
 					return false;
 				}
@@ -258,6 +267,9 @@
 			}
 
 			_showCheckmark() {
+				if ( this.innerModule ) {
+					return false;
+				}
 				if ( !this.hasChildren ) {
 					return false;
 				}
@@ -268,6 +280,9 @@
 			}
 
 			_showOptional() {
+				if ( this.innerModule ) {
+					return false;
+				}
 				if ( !this.hasChildren ) {
 					return false;
 				}
@@ -275,10 +290,6 @@
 					return false;
 				}
 				return this._isOptionalModule();
-			}
-
-			_showDivider(showCount, showCheckmark, showOptional) {
-				return showCount || showCheckmark || showOptional;
 			}
 
 			getSubEntities(entity) {
@@ -315,6 +326,10 @@
 				return (selected) ? 'selected' : 'not-selected';
 			}
 
+			_getIsInnerModule(innerModule) {
+				return (innerModule) ? 'inner-module' : 'outer-module';
+			}
+
 			_getIsCurrent(childLink, currentActivity) {
 				if ( childLink.href === currentActivity ) {
 					this.shadowRoot.querySelector('#moduleLink').setAttribute('opened', '');
@@ -322,25 +337,6 @@
 					return 'current';
 				}
 				this.hasCurrentActivity = false;
-			}
-
-			_closeModule() {
-				if ( !this.entity ) {
-					return;
-				}
-				// Filter is for our demo data having sequence in the class of the subentity
-				const children = this.entity &&
-					this.entity.getSubEntities().filter( subEntity => subEntity.class.includes('sequenced-activity'));
-				for ( let i = 0; i < children.length; i++ ) {
-					// Doing this because our demo data structure was made without embedded sub entities
-					var childLink =  children[i].href ? children[i].href : children[i].getLinkByRel('self').href;
-
-					if ( childLink === this.currentActivity ) {
-						this.shadowRoot.querySelector('#moduleLink').setAttribute('opened', '');
-						return;
-					}
-				}
-				this.shadowRoot.querySelector('#moduleLink').removeAttribute('opened');
 			}
 
 			_onActivityClicked(e) {
