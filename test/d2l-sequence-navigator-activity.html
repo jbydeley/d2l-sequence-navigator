@@ -21,8 +21,6 @@
 	/* global SirenFixture */
 	describe('d2l-sequence-navigator-activity for an activity', () => {
 		let element;
-		const moduleUrl = 'http://example.com/module';
-		const activityUrl = 'http://example.com/activity';
 
 		beforeEach(async() => {
 			element = await SirenFixture.load('data/m2-activity5.json', fixture('ActivityLinked'));
@@ -32,35 +30,6 @@
 			expect( element.shadowRoot.querySelector('d2l-lesson-header') ).to.exist;
 		});
 
-		it('should return self if href is a module', () => {
-			flush(() => {
-				const stub = sinon.stub();
-				const entityFake = {
-					class: ['', 'sequence-description'],
-					getLinkByRel: stub.returns({href: moduleUrl}),
-					hasClass: () => true
-				};
-
-				expect( element._getModuleHref(entityFake)).to.equal( moduleUrl );
-				sinon.assert.calledOnce(stub);
-				sinon.assert.calledWithMatch(stub, 'self');
-			});
-		});
-
-		it('should return uplink if href is an activity', () => {
-			flush(() => {
-				const stub = sinon.stub();
-				const entityFake = {
-					class: ['', 'sequenced-activity'],
-					getLinkByRel: stub.returns({href: activityUrl}),
-					hasClass: (input) => input === 'sequenced-activity'
-				};
-
-				expect( element._getModuleHref(entityFake)).to.equal( activityUrl );
-				sinon.assert.calledOnce(stub);
-				sinon.assert.calledWithMatch(stub, 'up');
-			});
-		});
 	});
 </script>
 </body>

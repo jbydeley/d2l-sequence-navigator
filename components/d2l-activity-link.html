@@ -2,6 +2,7 @@
 <link rel="import" href="d2l-completion-status.html">
 <link rel="import" href="d2l-completion-requirement.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-icons/d2l-icons.html">
 
 <dom-module id="d2l-activity-link">
 	<template>
@@ -55,10 +56,16 @@
 				vertical-align: middle;
 				line-height: 24px;
 			}
+			
+			d2l-icon {
+				margin-right: 1rem;
+			}
 
 		</style>
 		<div id="activityLink">
+			
 			<a id="activityTitle" on-click="setCurrent" class$=[[completionRequirement]]>
+				<d2l-icon icon="[[_getIconSetKey(entity)]]"></d2l-icon>
 				[[entity.properties.title]]
 			</a>
 			<template is="dom-if" if="[[showCompletionRequirement]]">
@@ -135,6 +142,15 @@
 					}
 					this.dispatchEvent( new CustomEvent('activitySelected', { detail:{ activityHref: currentActivity }, composed: true } ) );
 				}
+			}
+			_getIconSetKey(entity) {
+				var tierClass = 'tier1';
+
+				if (!entity || !entity.getSubEntityByClass(tierClass)) {
+					return 'd2l-tier1:help';
+				}
+		
+				return (entity.getSubEntityByClass(tierClass)).properties.iconSetKey;
 			}
 
 			_showCompletionRequirement( exemption ) {

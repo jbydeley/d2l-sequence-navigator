@@ -12,6 +12,7 @@
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
 		<link rel="import" href="../components/d2l-activity-link.html">
+
 	</head>
 	<body>
 		<test-fixture id="CompletedActivityTestFixture">
@@ -41,6 +42,11 @@
 		<test-fixture id="IsNotCurrentActivityTestFixture">
 			<template>
 				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle" current-activity="someotheractivity"></d2l-activity-link>
+			</template>
+		</test-fixture>
+		<test-fixture id="ActivityWithIconTestFixture">
+			<template>
+				<d2l-activity-link href="data/activity4-with-icon.json" token="bamboozle"></d2l-activity-link>
 			</template>
 		</test-fixture>
 
@@ -117,6 +123,32 @@
 						expect(el)
 							.to.have
 							.class('current');
+					});
+				});
+
+				describe('for an activity that has an icon', ()=>{
+					let element;
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/activity4-with-icon.json', fixture('ActivityWithIconTestFixture'));
+					});
+
+					it('should have the correct icon property', ()=> {
+						const el = element.shadowRoot.querySelector('d2l-icon');
+						expect(el).to.have.attribute('icon');
+						expect(el).attribute('icon').to.equal('d2l-tier1:discussions');
+					});
+				});
+
+				describe('for an activity that does not have an icon', ()=>{
+					let element;
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/activity3.json', fixture('ActivityWithIconTestFixture'));
+					});
+
+					it('should have the default icon', ()=> {
+						const el = element.shadowRoot.querySelector('d2l-icon');
+						expect(el).to.have.attribute('icon');
+						expect(el).attribute('icon').to.equal('d2l-tier1:help');
 					});
 				});
 			});

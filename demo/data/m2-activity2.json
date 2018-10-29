@@ -59,7 +59,12 @@
 		"href": "data/m2-activity3.json"
 	}, {
 		"rel": ["up"],
-		"href": "data/l1-module2.json"
+		"href": "data/l1-module2.json" },{
+			"rel": [
+			"https://sequences.api.brightspace.com/rels/sequence-root"
+			],
+			"href": "data/lesson1.json"
+			
 	}],
 	"class": ["sequenced-activity"]
 }
