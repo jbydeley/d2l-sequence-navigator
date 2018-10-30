@@ -134,12 +134,6 @@
 
 			onCurrentActivityChanged( currentActivity, entity ) {
 				if ( currentActivity && entity ) {
-					var current = entity.getLinkByRel('self').href === currentActivity;
-					if ( current ) {
-						this.$.activityLink.classList.add('current');
-					} else {
-						this.$.activityLink.classList.remove('current');
-					}
 					this.dispatchEvent( new CustomEvent('activitySelected', { detail:{ activityHref: currentActivity }, composed: true } ) );
 				}
 			}

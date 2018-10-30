@@ -11,6 +11,7 @@
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
+		<script src="../../sinonjs/sinon.js"></script>
 		<link rel="import" href="../components/d2l-activity-link.html">
 
 	</head>
@@ -33,26 +34,48 @@
 			</template>
 		</test-fixture>
 
-		<test-fixture id="IsCurrentActivityTestFixture">
-			<template>
-				<d2l-activity-link token="bamboozle" current-activity="data/unit2-activity1.json"></d2l-activity-link>
-			</template>
-		</test-fixture>
-
-		<test-fixture id="IsNotCurrentActivityTestFixture">
-			<template>
-				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle" current-activity="someotheractivity"></d2l-activity-link>
-			</template>
-		</test-fixture>
 		<test-fixture id="ActivityWithIconTestFixture">
 			<template>
 				<d2l-activity-link href="data/activity4-with-icon.json" token="bamboozle"></d2l-activity-link>
 			</template>
 		</test-fixture>
 
+		<test-fixture id="basic">
+			<template>
+				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle" current-activity="an-activity"></d2l-activity-link>
+			</template>
+		</test-fixture>
+
 		<script>
 			/* global SirenFixture */
 			describe('d2l-activity-link', () => {
+
+				describe('basic', () => {
+					let element, sandbox;
+					beforeEach(() =>{
+						element = fixture('basic');
+						sandbox = sinon.sandbox.create();
+					});
+
+					describe('on navigation', () => {
+						beforeEach(()=>{
+							element.dispatchEvent = sandbox.stub();
+						});
+
+						it('should raise a navigation event if it is not the current activity', () => {
+							element.currentActivity = 'http://google.ca';
+							expect(element.dispatchEvent).to.have.been.called;
+						});
+
+						it('should not raise a navigation event if its the current activity', () => {
+							//the addition and slicing is to make a string that is new, but is actually the same
+							element.currentActivity = (' ' + element.currentActivity).slice(1);
+							expect(element.dispatchEvent).to.not.be.called;
+						});
+
+					});
+				});
+
 				describe('for a completed activity', () => {
 					let element;
 
@@ -70,27 +93,6 @@
 					});
 				});
 
-				describe('for active activity', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/unit2-activity1.json', fixture('IsCurrentActivityTestFixture'));
-					});
-
-					it('should know that it is active', () => {
-						expect(element.shadowRoot.querySelector('#activityLink'))
-							.to.have
-							.class('current');
-					});
-
-					it('should know that another activity is active instead of itself', () => {
-						element.currentActivity = 'someotheractivity';
-						expect(element.shadowRoot.querySelector('#activityLink'))
-							.not.to.have
-							.class('current');
-					});
-				});
-
 				describe('for an incomplete activity', () => {
 					let element;
 
@@ -102,27 +104,6 @@
 						expect(element.shadowRoot.querySelector('#IsComplete'))
 							.not.to
 							.exist;
-					});
-				});
-
-				describe('for an activity that is not active', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/unit2-activity1.json', fixture('IsNotCurrentActivityTestFixture'));
-					});
-
-					it('select activity to be current activity by clicking on it', () => {
-						const el = element.shadowRoot.querySelector('#activityLink');
-
-						expect(el)
-							.not.to.have
-							.class('current');
-
-						element.shadowRoot.querySelector('a').click();
-						expect(el)
-							.to.have
-							.class('current');
 					});
 				});
 
