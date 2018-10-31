@@ -3,12 +3,22 @@
 <link rel="import" href="d2l-module-link.html">
 <link rel="import" href="d2l-activity-link.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-typography/d2l-typography.html">
 
 <dom-module id="d2l-sequence-navigator-item">
 	<template>
 		<style>
 			:host {
 				display: block;
+				cursor: pointer;
+				@apply --d2l-body-compact-text;
+				width: 100%
+			}
+
+			:host(.current),
+			:host(:hover),
+			:host(:focus){
+				background-color: var(--d2l-color-celestine-plus-2);
 			}
 
 		</style>

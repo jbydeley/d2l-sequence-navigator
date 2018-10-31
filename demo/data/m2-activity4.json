@@ -83,5 +83,5 @@
 		"rel": ["up"],
 		"href": "data/l1-module2.json"
 	}],
-	"class": ["sequenced-activity"]
+	"class": ["sequenced-activity", "available"]
 }

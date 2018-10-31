@@ -4,27 +4,27 @@
 	},
 	"entities": [
 		{
-			"class": ["sequence", "sequenced-activity"],
+			"class": ["sequence", "sequenced-activity", "available"],
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/m2-activity1.json"
 		},
 		{
-			"class": ["sequence", "sequenced-activity"],
+			"class": ["sequence", "sequenced-activity", "available"],
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/m2-activity2.json"
 		},
 		{
-			"class": ["sequence", "sequenced-activity"],
+			"class": ["sequence", "sequenced-activity", "available"],
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/m2-activity3.json"
 		},
 		{
-			"class": ["sequence", "sequenced-activity"],
+			"class": ["sequence", "sequenced-activity", "available"],
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/m2-activity4.json"
 		},
 		{
-			"class": ["sequence", "sequenced-activity"],
+			"class": ["sequence", "sequenced-activity", "available"],
 			"rel": ["https://api.brightspace.com/rels/sequenced-activity"],
 			"href": "data/m2-activity5.json"
 		},
