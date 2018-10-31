@@ -1,0 +1,168 @@
+<link rel="import" href="d2l-sequence-navigator-item.html">
+<link rel="import" href="../utility/completion-status-mixin.html">
+<link rel="import" href="../../d2l-colors/d2l-colors.html">
+<link rel="import" href="../../d2l-icons/d2l-icons.html">
+<link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
+
+<dom-module id="d2l-inner-module">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+			:host > div {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				border-radius: 8px;
+				background-color: var(--d2l-color-sylvite);
+				box-shadow: 0px 0px 0px 10px white;
+			}
+
+			.header-container {
+				padding: 12px 20px;
+			}
+
+			.module-header {
+				display: table;
+				table-layout: fixed;
+				width: 100%;
+			}
+
+			.module-title {	
+				@apply --d2l-body-small-text;
+				color: var(--d2l-color-tungsten);
+
+				width: 100%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				float: left;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2; /* number of lines to show */
+				max-height: 2.0rem; /* fallback */
+			}
+
+			ol {
+				list-style-type: none;
+				border-collapse: collapse;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			d2l-sequence-navigator-item {
+				@apply --d2l-body-compact-text;
+
+				width: calc(100% - 20px);
+				padding: 0px 10px;
+			}
+
+			d2l-sequence-navigator-item.current {
+				background-color: var(--d2l-color-celestine-plus-1);
+			}
+
+			d2l-sequence-navigator-item:hover:not(.current),
+			.header-container:hover {
+				background-color: var(--d2l-color-celestine-plus-2);
+			}
+
+		</style>
+
+		<div
+			class$="[[_getIsSelected(selectedModule)]]"
+			on-click="toggleSelected"
+		>
+			<div class="header-container">
+				<div class="module-header">
+					<span class="module-title">[[entity.properties.title]]</span>
+				</div>
+			</div>
+
+			<ol>
+				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+					<li on-click="_onActivityClicked">
+						<d2l-sequence-navigator-item class$="[[_getIsCurrent(childLink, currentActivity)]]"
+							href="[[childLink.href]]"
+							token="[[token]]"
+							current-activity="{{currentActivity}}"
+							selected-module="{{selectedModule}}"
+						>
+						</d2l-sequence-navigator-item>
+					</li>
+				</template>
+			</ol>
+		</div>
+	</template>
+
+	<script>
+		/*
+		@memberOf window.D2L.Polymer.Mixins;
+		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
+		*/
+		class D2LInnerModule extends D2L.Polymer.Mixins.CompletionStatusMixin() {
+			static get is() {
+				return 'd2l-inner-module';
+			}
+			static get properties() {
+				return {
+					currentActivity: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					hasCurrentActivity: {
+						type: Boolean,
+						value: false
+					},
+					selectedModule: {
+						type: String,
+						value: '',
+						notify: true
+					},
+					subEntities: {
+						type: Array,
+						computed: 'getSubEntities(entity)'
+					}
+				};
+			}
+
+			getSubEntities(entity) {
+				return entity && entity.getSubEntities()
+					.filter( subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || ( subEntity.href && subEntity.hasClass('sequence-description') ) )
+					.map(this._getHref);
+			}
+
+			_getHref(entity) {
+				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
+			}
+
+			toggleSelected() {
+				this.selectedModule = (this.selectedModule === '') ?
+					this.entity.getLinkByRel('self').href :
+					'';
+			}
+
+			_getIsSelected(selectedModule) {
+				var selected = this.entity && this.entity.getLinkByRel('self').href === selectedModule;
+				return (selected) ? 'selected' : 'not-selected';
+			}
+
+			_getIsCurrent(childLink, currentActivity) {
+				if ( childLink.href === currentActivity ) {
+					this.hasCurrentActivity = true;
+					return 'current';
+				}
+				this.hasCurrentActivity = false;
+			}
+
+			_onActivityClicked(e) {
+				var childLink =  e.model.__data.childLink;
+				if ( childLink.class.includes('sequenced-activity') && this.currentActivity !== childLink.href ) {
+					this.currentActivity = childLink.href;
+				}
+			}
+		}
+		customElements.define(D2LInnerModule.is, D2LInnerModule);
+
+	</script>
+</dom-module>

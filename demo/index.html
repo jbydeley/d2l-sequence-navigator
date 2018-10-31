@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="font-size:20px; font-family: 'Lato', sans-serif;">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
@@ -13,9 +13,8 @@
 			<style>
 				.sidebar {
 					width: 330px;
-					height: 400px;
-					background: linear-gradient(to right, var(--d2l-color-regolith), white);
-					box-shadow: 0px 2px 3px 2px rgba(214,220,229,0.5); /* 50% D6DCE5 */
+					height: 800px;
+					background: white;
 				}
 			</style>
 		</custom-style>
@@ -37,12 +36,22 @@
 			</demo-snippet>
 			<demo-snippet>
 				<template>
-					<h4>Module</h4>
-					<d2l-module-link
+					<h4>Outer Module</h4>
+					<d2l-outer-module
 						href="data/l1-module2.json"
 						token="foozleberries"
 					>
-					</d2l-module-link>
+					</d2l-outer-module>
+				</template>
+			</demo-snippet>
+			<demo-snippet>
+				<template>
+					<h4>Inner Module</h4>
+					<d2l-inner-module
+						href="data/l1-module2.json"
+						token="foozleberries"
+					>
+					</d2l-inner-module>
 				</template>
 			</demo-snippet>
 			<demo-snippet>
@@ -65,11 +74,11 @@
 			<demo-snippet>
 				<template>
 					<h4>Empty Module</h4>
-					<d2l-module-link
+					<d2l-outer-module
 						href="data/empty-module.json"
 						token="emptytoken"
 					>
-				</d2l-module-link>
+				</d2l-outer-module>
 				</template>
 			</demo-snippet>
 			<demo-snippet>

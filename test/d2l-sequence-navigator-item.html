@@ -50,8 +50,8 @@
 							.equal('bamboozle');
 					});
 
-					it('should create a child d2l-module-link instead of an d2l-activity-link', () => {
-						expect(element.shadowRoot.querySelector('d2l-module-link'))
+					it('should create a child d2l-inner-module instead of an d2l-activity-link', () => {
+						expect(element.shadowRoot.querySelector('d2l-inner-module'))
 							.to
 							.exist;
 
@@ -74,12 +74,12 @@
 						element = await SirenFixture.load('data/m2-activity5.json', fixture('Empty'));
 					});
 
-					it('should create a child d2l-activity-link instead of an d2l-module-link', () => {
+					it('should create a child d2l-activity-link instead of an d2l-outer-module', () => {
 						expect(element.shadowRoot.querySelector('d2l-activity-link'))
 							.to
 							.exist;
 
-						expect(element.shadowRoot.querySelector('d2l-module-link'))
+						expect(element.shadowRoot.querySelector('d2l-outer-module'))
 							.not.to
 							.exist;
 					});

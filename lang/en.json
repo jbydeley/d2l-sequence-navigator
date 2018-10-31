@@ -1,7 +1,6 @@
 {
 	"countStatus": "{completed}/{total}",
 	"endOfLesson": "End of Lesson",
-	"moduleHasNoTopics": "This module has no topics",
 	"completedMofN": "Completed {completed}/{total}",
 	"optional": "optional",
 	"completed": "completed"

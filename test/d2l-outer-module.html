@@ -4,37 +4,37 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<title>d2l-module-link test</title>
+		<title>d2l-outer-module test</title>
 
 		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 		<script src="../../web-component-tester/browser.js"></script>
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<link rel="import" href="../../polymer/polymer.html">
-		<link rel="import" href="../components/d2l-module-link.html">
+		<link rel="import" href="../components/d2l-outer-module.html">
 
 	</head>
 	<body>
 		<test-fixture id="ModuleWithChildrenFixture">
 			<template>
-				<d2l-module-link href="data/lesson1.json" token="bamboozle"></d2l-module-link>
+				<d2l-outer-module href="data/lesson1.json" token="bamboozle"></d2l-outer-module>
 			</template>
 		</test-fixture>
 
 		<test-fixture id="Empty">
 				<template>
-					<d2l-module-link token="bamboozle"></d2l-module-link>
+					<d2l-outer-module token="bamboozle"></d2l-outer-module>
 				</template>
 			</test-fixture>
 
 		<test-fixture id="ModuleWithNoChildrenFixture">
 			<template>
-				<d2l-module-link token="bamboozle"></d2l-module-link>
+				<d2l-outer-module token="bamboozle"></d2l-outer-module>
 			</template>
 		</test-fixture>
 		<script>
 			/* global SirenFixture */
-			describe('d2l-module-link', () => {
+			describe('d2l-outer-module', () => {
 				describe('for module with children', () => {
 					let element;
 
@@ -53,7 +53,7 @@
 					});
 
 					it('should create d2l-navigation-item elements for child entities', () => {
-						expect(element.shadowRoot.querySelector('.module-item-list'))
+						expect(element.shadowRoot.querySelector('ol'))
 							.to
 							.exist;
 					});
