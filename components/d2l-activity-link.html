@@ -43,14 +43,11 @@
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				max-height: 3.0rem;
-			}
-
-			a.exempt, a.optional {
-				-webkit-line-clamp: 1; /* number of lines to show */
-			}
-
-			a.required {
 				-webkit-line-clamp: 2; /* number of lines to show */
+			}
+
+			a.d2l-activity-link-one-line {
+				-webkit-line-clamp: 1; /* number of lines to show */
 			}
 
 			d2l-completion-status {
@@ -64,15 +61,13 @@
 		</style>
 		<div>
 			<d2l-icon icon="[[_getIconSetKey(entity)]]"></d2l-icon>
-			<a on-click="setCurrent" class$="[[completionRequirement]]">
+			<a on-click="setCurrent" class$="[[completionRequirementClass]]">
 				[[entity.properties.title]]
 			</a>
-			<template is="dom-if" if="[[showCompletionRequirement]]">
-				<d2l-completion-requirement
-					href="[[href]]"
-					token="[[token]]">
-				</d2l-completion-requirement>
-			</template>
+			<d2l-completion-requirement
+				href="[[href]]"
+				token="[[token]]">
+			</d2l-completion-requirement>
 			<d2l-completion-status
 				href="[[href]]"
 				token="[[token]]">
@@ -97,14 +92,9 @@
 						value: '',
 						notify: true
 					},
-					completionRequirement: {
+					completionRequirementClass: {
 						type: String,
-						computed: '_getCompletionRequirement(entity)',
-						observer: '_showCompletionRequirement'
-					},
-					showCompletionRequirement: {
-						type: Boolean,
-						value: false
+						computed: '_getCompletionRequirementClass(entity)'
 					}
 				};
 			}
@@ -130,11 +120,12 @@
 				this.currentActivity = this.entity && this.entity.getLinkByRel('self').href;
 			}
 
-			onCurrentActivityChanged( currentActivity, entity ) {
-				if ( currentActivity && entity ) {
+			onCurrentActivityChanged(currentActivity, entity) {
+				if (currentActivity && entity) {
 					this.dispatchEvent( new CustomEvent('activitySelected', { detail:{ activityHref: currentActivity }, composed: true } ) );
 				}
 			}
+
 			_getIconSetKey(entity) {
 				var tierClass = 'tier1';
 
@@ -145,13 +136,14 @@
 				return (entity.getSubEntityByClass(tierClass)).properties.iconSetKey;
 			}
 
-			_showCompletionRequirement( exemption ) {
-				switch ( exemption ) {
+			_getCompletionRequirementClass(entity) {
+				const completionRequirement = this._getCompletionRequirement(entity);
+				switch ( completionRequirement ) {
 					case 'exempt':
 					case 'optional':
-						this.showCompletionRequirement = true;
-						break;
+						return 'd2l-activity-link-one-line';
 				}
+				return '';
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);

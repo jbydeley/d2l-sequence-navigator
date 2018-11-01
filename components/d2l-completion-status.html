@@ -6,12 +6,12 @@
 <dom-module id="d2l-completion-status">
 	<template>
 		<style>
-			.complete {
+			d2l-icon {
 				color: var(--d2l-color-ferrite);
 			}
 		</style>
 		<template is="dom-if" if="[[isComplete]]">
-			<d2l-icon class="complete" aria-label$="[[localize('completed')]]" icon="d2l-tier1:check"></d2l-icon>
+			<d2l-icon aria-label$="[[localize('completed')]]" icon="d2l-tier1:check"></d2l-icon>
 		</template>
 	</template>
 	<script>
