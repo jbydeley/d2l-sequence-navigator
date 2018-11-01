@@ -4,3 +4,4 @@ bower-*.json
 .idea/
 analysis.json
 locales.json
+build
