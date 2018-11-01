@@ -40,6 +40,12 @@
 			</template>
 		</test-fixture>
 
+		<test-fixture id="ActivityWithoutIconTestFixture">
+				<template>
+					<d2l-activity-link href="data/activity3.json" token="bamboozle"></d2l-activity-link>
+				</template>
+			</test-fixture>
+
 		<test-fixture id="basic">
 			<template>
 				<d2l-activity-link href="data/unit2-activity1.json" token="bamboozle" current-activity="an-activity"></d2l-activity-link>
@@ -123,13 +129,12 @@
 				describe('for an activity that does not have an icon', ()=>{
 					let element;
 					beforeEach(async() => {
-						element = await SirenFixture.load('data/activity3.json', fixture('ActivityWithIconTestFixture'));
+						element = await SirenFixture.load('data/activity3.json', fixture('ActivityWithoutIconTestFixture'));
 					});
 
-					it('should have the default icon', ()=> {
+					it('should not have a d2l-icon element', ()=> {
 						const el = element.shadowRoot.querySelector('d2l-icon');
-						expect(el).to.have.attribute('icon');
-						expect(el).attribute('icon').to.equal('d2l-tier1:help');
+						expect(el).not.to.exist;
 					});
 				});
 			});
