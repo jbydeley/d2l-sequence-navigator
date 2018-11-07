@@ -40,18 +40,12 @@
 						observer: '_showCompletionRequirementType'
 					},
 					isExempt: {
-						type: Boolean,
-						value: false
+						type: Boolean
 					},
 					isOptional: {
-						type: Boolean,
-						value: false
+						type: Boolean
 					}
 				};
-			}
-
-			connectedCallback() {
-				super.connectedCallback();
 			}
 
 			_showCompletionRequirementType( exemption ) {
@@ -62,6 +56,9 @@
 					case 'optional':
 						this.isOptional = true;
 						break;
+					default:
+						this.isExempt = false;
+						this.isOptional = false;
 				}
 			}
 		}

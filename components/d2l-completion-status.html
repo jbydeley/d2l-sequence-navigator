@@ -31,18 +31,12 @@
 						observer: '_showCompletionType'
 					},
 					isOptional: {
-						type: Boolean,
-						value: false
+						type: Boolean
 					},
 					isComplete: {
-						type: Boolean,
-						value: false
+						type: Boolean
 					}
 				};
-			}
-
-			connectedCallback() {
-				super.connectedCallback();
 			}
 
 			_showCompletionType( completion ) {
@@ -57,6 +51,9 @@
 					case 'optional':
 						this.isOptional = true;
 						break;
+					case 'incomplete':
+						this.isComplete = false;
+						this.isOptional = false;
 				}
 			}
 		}
