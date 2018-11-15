@@ -119,6 +119,7 @@
 							token="[[token]]"
 							current-activity="{{currentActivity}}"
 							selected-module="{{selectedModule}}"
+							is-child-active="{{isChildActive}}"
 						>
 						</d2l-sequence-navigator-item>
 					</li>
@@ -174,6 +175,10 @@
 						type: Boolean,
 						value: false,
 						computed: '_showOptional(completionCount, selectedModule, hasCurrentActivity)'
+					},
+					isChildActive: {
+						type: Boolean,
+						observer: '_openAccordion'
 					}
 				};
 			}
@@ -265,6 +270,12 @@
 				var childLink =  e.model.__data.childLink;
 				if ( childLink.class.includes('sequenced-activity') && this.currentActivity !== childLink.href ) {
 					this.currentActivity = childLink.href;
+				}
+			}
+
+			_openAccordion(isChildActive) {
+				if ( isChildActive ) {
+					this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
 				}
 			}
 		}

@@ -122,6 +122,10 @@
 					subEntities: {
 						type: Array,
 						computed: 'getSubEntities(entity)'
+					},
+					isChildActive: {
+						type: Boolean,
+						notify: true
 					}
 				};
 			}
@@ -150,8 +154,10 @@
 			_getIsCurrent(childLink, currentActivity) {
 				if ( childLink.href === currentActivity ) {
 					this.hasCurrentActivity = true;
+					this.isChildActive = true;
 					return 'current';
 				}
+				this.isChildActive = false;
 				this.hasCurrentActivity = false;
 			}
 

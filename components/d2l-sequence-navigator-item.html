@@ -43,6 +43,7 @@
 				token="[[token]]"
 				current-activity="{{currentActivity}}"
 				selected-module="{{selectedModule}}"
+				is-child-active="{{isChildActive}}"
 			></d2l-inner-module>
 		</template>
 	</template>
@@ -94,6 +95,10 @@
 					isOuterModule: {
 						type: Boolean,
 						computed: '_isOuterModule(entity)'
+					},
+					isChildActive: {
+						type: Boolean,
+						notify: true
 					}
 				};
 			}
