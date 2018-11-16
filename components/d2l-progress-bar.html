@@ -5,23 +5,25 @@
 		<style>
 			:host {
 				display: block;
+				color: var(--d2l-lesson-header-text-color);
 			}
 			#outerBar {
-				background-color: var(--d2l-color-mica);
+				background-color: var(--d2l-lesson-header-background-color);
 				border-radius: 12px; /* (height of inner div) / 2 + padding */
 				padding: 1px;
 				margin-top: 15px;
 				width: 270px;
+				border: 1px solid var(--d2l-lesson-header-text-color);
 			}
 
 			#innerBar {
-				background-color: var(--d2l-color-olivine);
-				height: 10px;
-				border-radius: 5px;
+				background-color: var(--d2l-lesson-header-text-color);
+				height: 12px;
+				border-radius: 8px;
 			}
 
 			#innerBar.zero {
-				background-color: var(--d2l-color-mica);
+				background-color: var(--d2l-lesson-header-text-color);
 				width: 1px;
 			}
 		</style>

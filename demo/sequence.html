@@ -1,40 +1,60 @@
 <!doctype html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-	<title>d2l-sequence-navigator demo</title>
-	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-	<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-	<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-	<link rel="import" href="../d2l-sequence-navigator.html">
-	<custom-style>
-		<style is="custom-style" include="demo-pages-shared-styles"></style>
-		<style>
-			.sidebar {
-				width: 330px;
-				height: 400px;
-				background: linear-gradient(to right, var(--d2l-color-regolith), white);
-				box-shadow: 0px 2px 3px 2px rgba(214,220,229,0.5); /* 50% D6DCE5 */
-			}
-		</style>
-	</custom-style>
-</head>
-<body>
-<div class="vertical-section-container centered">
+<html lang="en" style="font-size:20px; font-family: 'Lato', sans-serif;">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+		<title>d2l-sequence-navigator demo</title>
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+		<link rel="import" href="../d2l-sequence-navigator.html">
+		<link rel="import" href="../../d2l-typography/d2l-typography.html">
+		<link rel="import" href="../d2l-sequence-navigator-styles.html">
 
-	<h3>Simple sequence-navigator</h3>
-	<demo-snippet>
-		<template>
-			<h4>Lesson navigator in a sidebar</h4>
-			<div class="sidebar">
-				<d2l-sequence-navigator
-					href="data/m2-activity2.json"
-					token="foozleberries"
-				></d2l-sequence-navigator>
-			</div>
-		</template>
-	</demo-snippet>
-</div>
-</body>
+		<custom-style>
+			<style is="custom-style" include="demo-pages-shared-styles"></style>
+			<style is="custom-style" include="d2l-sequence-navigator-styles">
+				html {
+					--d2l-branding-asv-primary-color: #990000;
+					--d2l-branding-asv-accent-color: #8e7cc3;
+					--d2l-branding-asv-text-color: var(--d2l-color-ferrite);
+					--d2l-branding-asv-selected-text-color: var(--d2l-color-white);
+					--d2l-branding-asv-hover-color: #9900002E;
+					--d2l-branding-asv-border-color: transparent;
+				}
+
+				.sidebar {
+					width: 330px;
+					height: 800px;
+					background-color: var(--d2l-asv-primary-color);
+				}
+
+			</style>
+		</custom-style>
+		<custom-style include="d2l-typography">
+			<style is="custom-style" include="d2l-typography"></style>
+			<style>
+				body {
+					@apply --d2l-typography;
+				}
+			</style>
+		</custom-style>
+	</head>
+	<body class="d2l-typography">
+		<div class="vertical-section-container centered">
+			<h3>Simple sequence-navigator</h3>
+			<demo-snippet>
+				<template>
+					<h4>Sequence navigator in a sidebar</h4>
+					<div class="sidebar">
+						<d2l-sequence-navigator
+							href="data/m2-activity2.json"
+							token="foozleberries"
+							current-activity="data/m2-activity2.json"
+						></d2l-sequence-navigator>
+					</div>
+				</template>
+			</demo-snippet>
+		</div>
+	</body>
 </html>

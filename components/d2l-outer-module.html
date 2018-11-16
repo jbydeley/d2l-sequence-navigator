@@ -4,6 +4,7 @@
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
 <link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
+<link rel="import" href="../d2l-sequence-navigator-styles.html">
 
 <dom-module id="d2l-outer-module">
 	<template>
@@ -66,13 +67,9 @@
 				padding: 0px;
 			}
 
-			d2l-sequence-navigator-item.current {
-				background-color: var(--d2l-color-celestine-plus-1);
-			}
-
 			d2l-sequence-navigator-item:hover:not(.current),
 			.header-container:hover {
-				background-color: var(--d2l-color-celestine-plus-2);
+				background-color: var(--d2l-asv-hover-color);
 			}
 
 			.optionalStatus {
@@ -253,7 +250,7 @@
 			}
 
 			_getIsSelected(selectedModule) {
-				var selected = this.entity && this.entity.getLinkByRel('self').href === selectedModule;
+				const selected = this.entity && this.entity.getLinkByRel('self').href === selectedModule;
 				return (selected) ? 'selected' : 'not-selected';
 			}
 
@@ -267,7 +264,7 @@
 			}
 
 			_onActivityClicked(e) {
-				var childLink =  e.model.__data.childLink;
+				const childLink =  e.model.__data.childLink;
 				if ( childLink.class.includes('sequenced-activity') && this.currentActivity !== childLink.href ) {
 					this.currentActivity = childLink.href;
 				}

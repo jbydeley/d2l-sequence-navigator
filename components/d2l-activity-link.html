@@ -133,12 +133,12 @@
 			}
 
 			_hasIcon(entity) {
-				var tierClass = 'tier1';
+				const tierClass = 'tier1';
 				return entity && entity.getSubEntityByClass(tierClass);
 			}
 
 			_getIconSetKey(entity) {
-				var tierClass = 'tier1';
+				const tierClass = 'tier1';
 				return (entity.getSubEntityByClass(tierClass)).properties.iconSetKey;
 			}
 
