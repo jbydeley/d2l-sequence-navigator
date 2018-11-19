@@ -33,7 +33,7 @@
 				width: 100%;
 			}
 
-			.module-title {	
+			.module-title {
 				@apply --d2l-body-small-text;
 				color: var(--d2l-color-tungsten);
 
@@ -111,6 +111,13 @@
 			}
 			static get properties() {
 				return {
+					viewMode: {
+						type: String
+					},
+					ToCMode: {
+						type: String,
+						value: "toc"
+					},
 					currentActivity: {
 						type: String,
 						value: '',
@@ -137,6 +144,9 @@
 			}
 
 			getSubEntities(entity) {
+				if (this.viewMode === this.ToCMode) {
+					return entity && entity.getSubEntities().filter( subEntity => subEntity.hasClass('sequenced-activity') || subEntity.hasClass('sequence-description')).map(this._getHref);	
+				}
 				return entity && entity.getSubEntities()
 					.filter( subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || ( subEntity.href && subEntity.hasClass('sequence-description') ) )
 					.map(this._getHref);
