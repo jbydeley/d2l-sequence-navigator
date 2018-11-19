@@ -115,8 +115,11 @@
 						element = await SirenFixture.load('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
 					});
 
-					it('should not create any child d2l-sequence-navigator-item elements', () => {
-						expect(element.shadowRoot.querySelector('d2l-sequence-navigator-item'))
+					it('should not create any child elements', () => {
+						expect(element.shadowRoot.querySelector('d2l-inner-module'))
+							.to.be
+							.null;
+						expect(element.shadowRoot.querySelector('d2l-activity-link'))
 							.to.be
 							.null;
 					});

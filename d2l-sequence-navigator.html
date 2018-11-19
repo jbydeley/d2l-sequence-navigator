@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-polymer-siren-behaviors/store/entity-behavior.html">
-<link rel="import" href="./components/d2l-sequence-navigator-item.html">
+<link rel="import" href="./components/d2l-outer-module.html">
 <link rel="import" href="./components/d2l-lesson-header.html">
 <link rel="import" href="../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
@@ -69,14 +69,12 @@
 			<ol class="module-item-list">
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
 					<li>
-						<d2l-sequence-navigator-item
+						<d2l-outer-module
 							href="[[childLink.href]]"
 							token="[[token]]"
 							current-activity="{{href}}"
 							selected-module="{{selectedModule}}"
-							is-lesson-child
-						>
-						</d2l-sequence-navigator-item>
+						></d2l-outer-module>
 					</li>
 				</template>
 			</ol>

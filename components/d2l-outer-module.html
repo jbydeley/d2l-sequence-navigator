@@ -1,4 +1,5 @@
-<link rel="import" href="d2l-sequence-navigator-item.html">
+<link rel="import" href="d2l-inner-module.html">
+<link rel="import" href="d2l-activity-link.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
@@ -11,6 +12,9 @@
 		<style>
 			:host {
 				display: block;
+				cursor: pointer;
+				@apply --d2l-body-compact-text;
+				width: 100%;
 			}
 
 			d2l-accordion-collapse {
@@ -62,12 +66,17 @@
 				padding: 0px 10px 0px 0px;
 			}
 
-			d2l-sequence-navigator-item {
-				width: 100%;
-				padding: 0px;
+			d2l-activity-link:focus {
+				outline: none;
 			}
 
-			d2l-sequence-navigator-item:hover:not(.current),
+			d2l-activity-link,
+			d2l-inner-module {
+				width: 100%;
+			}
+
+			d2l-activity-link:hover:not(.current),
+			d2l-inner-module:hover:not(.current),
 			.header-container:hover {
 				background-color: var(--d2l-asv-hover-color);
 			}
@@ -111,14 +120,23 @@
 			<ol>
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
 					<li on-click="_onActivityClicked">
-						<d2l-sequence-navigator-item class$="[[_getIsCurrent(childLink, currentActivity)]]"
-							href="[[childLink.href]]"
-							token="[[token]]"
-							current-activity="{{currentActivity}}"
-							selected-module="{{selectedModule}}"
-							is-child-active="{{isChildActive}}"
-						>
-						</d2l-sequence-navigator-item>
+						<template is="dom-if" if="[[_isActivity(childLink)]]">
+							<d2l-activity-link class$="[[_getIsCurrent(childLink, currentActivity)]]"
+								href="[[childLink.href]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+								tabindex="0"
+							></d2l-activity-link>
+						</template>
+						<template is="dom-if" if="[[!_isActivity(childLink)]]">
+							<d2l-inner-module class$="[[_getIsCurrent(childLink, currentActivity)]]"
+								href="[[childLink.href]]"
+								token="[[token]]"
+								current-activity="{{currentActivity}}"
+								selected-module="{{selectedModule}}"
+								is-child-active="{{isChildActive}}"
+							></d2l-inner-module>
+						</template>
 					</li>
 				</template>
 			</ol>
@@ -193,6 +211,10 @@
 
 			_isAllRequiredViewed() {
 				return this.completionCount && this.completionCount.total > 0 && this.completionCount.total === this.completionCount.completed;
+			}
+
+			_isActivity( link ) {
+				return link && link.hasClass('sequenced-activity');
 			}
 
 			_showCount() {
