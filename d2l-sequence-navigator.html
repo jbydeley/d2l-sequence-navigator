@@ -79,8 +79,7 @@
 
 		</style>
 		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
-		<slot name="lesson-header">
-		</slot>
+		<slot name="lesson-header"></slot>
 		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
 
 			<ol class="module-item-list">
@@ -105,9 +104,7 @@
 					</li>
 				</template>
 			</ol>
-			<slot name="end-of-lesson">
-				
-			</slot>
+			<slot name="end-of-lesson"></slot>
 		</d2l-accordion>
 	</template>
 	<script>
