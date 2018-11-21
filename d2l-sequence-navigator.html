@@ -79,13 +79,8 @@
 
 		</style>
 		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
-		<d2l-lesson-header id="sidebarHeader"
-			href="[[_rootHref]]"
-			current-activity="{{href}}"
-			token="[[token]]"
-			current-activity="{{href}}"
-			tabindex="0"
-		></d2l-lesson-header>
+		<slot name="lesson-header">
+		</slot>
 		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
 
 			<ol class="module-item-list">
@@ -110,10 +105,9 @@
 					</li>
 				</template>
 			</ol>
-
-			<div class="end-of-lesson-holder">
-				<a on-click="showEndOfLesson" class="end-of-lesson">[[localize('endOfLesson')]]</a>
-			</div>
+			<slot name="end-of-lesson">
+				
+			</slot>
 		</d2l-accordion>
 	</template>
 	<script>
