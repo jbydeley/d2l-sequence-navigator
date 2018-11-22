@@ -39,7 +39,7 @@
 				if (slots[i].name === 'lesson-header') {
 					const assignedNode = slots[i].assignedNodes() && slots[i].assignedNodes()[0];
 	
-					const queryResult = assignedNode.querySelector('d2l-lesson-header');
+					const queryResult = assignedNode && assignedNode.querySelector('d2l-lesson-header');
 					if (queryResult) {
 						lessonHeader = queryResult;
 						break;
