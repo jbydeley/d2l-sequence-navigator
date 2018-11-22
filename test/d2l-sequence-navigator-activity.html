@@ -36,7 +36,7 @@
 			let lessonHeader;
 			const slots = element.shadowRoot.querySelectorAll('slot');
 			for (var i = 0; i < slots.length; i++) {
-				if (slots[i].name === 'lesson-header') {
+				if (slots[i].getAttribute('name') === 'lesson-header') {
 					const assignedNode = slots[i].assignedNodes() && slots[i].assignedNodes()[0];
 	
 					const queryResult = assignedNode && assignedNode.querySelector('d2l-lesson-header');
