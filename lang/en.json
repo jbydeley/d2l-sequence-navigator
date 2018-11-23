@@ -1,6 +1,5 @@
 {
 	"countStatus": "{completed}/{total}",
-	"endOfLesson": "End of Lesson",
 	"completedMofN": "Completed {completed}/{total}",
 	"optional": "optional",
 	"completed": "completed"
