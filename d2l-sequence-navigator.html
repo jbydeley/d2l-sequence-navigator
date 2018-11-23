@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-polymer-siren-behaviors/store/entity-behavior.html">
 <link rel="import" href="./components/d2l-outer-module.html">
-<link rel="import" href="./components/d2l-lesson-header.html">
 <link rel="import" href="../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
 <link rel="import" href="../siren-entity/siren-entity.html">
@@ -30,17 +29,7 @@
 			margin: 0px;
 		}
 
-		.end-of-lesson {
-			@apply --d2l-heading-3;
-			text-decoration: none;
-			cursor: pointer;
-		}
-
-		.end-of-lesson-holder{
-			padding: 20px 40px 20px 20px;
-		}
-
-		.shadowed {
+		::slotted(.shadowed) {
 			position: relative;
 			z-index: 1;
 			box-shadow: 0 4px 0 0 rgba(185,194,208,.3);
@@ -78,7 +67,7 @@
 		}
 
 		</style>
-		<siren-entity href="[[_rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
+		<siren-entity href="[[rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
 		<slot name="lesson-header"></slot>
 		<d2l-accordion auto-close class="module-content" id="sidebarContent" on-scroll="onSidebarScroll">
 
@@ -132,9 +121,8 @@
 						type: String,
 						value: ''
 					},
-					_rootHref: {
-						type: String,
-						computed: '_getRootHref(entity)'
+					rootHref: {
+						type: String
 					},
 					subEntities: {
 						type: Array,
@@ -142,13 +130,12 @@
 					},
 					_lessonEntity:{
 						type: Object
+					},
+					sidebarContent: {
+						type: Object,
+						computed: 'getSideBarContent()'
 					}
 				};
-			}
-
-			_getRootHref(entity) {
-				const rootLink = entity && entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-root');
-				return rootLink && rootLink.href || '';
 			}
 
 			getSubEntities(entity) {
@@ -175,20 +162,23 @@
 				this.hasCurrentActivity = false;
 			}
 
-			showEndOfLesson() {
-				this.href = this._rootHref + '/end-of-sequence';
-			}
-
 			onSidebarScroll() {
+				const sidebarHeader = this.getSideBarHeader();
 				if ( this.$.sidebarContent.scrollTop === 0 ) {
-					if ( this.$.sidebarHeader.classList.contains('shadowed') ) {
-						this.$.sidebarHeader.classList.remove('shadowed');
+					if ( sidebarHeader.classList.contains('shadowed') ) {
+						sidebarHeader.classList.remove('shadowed');
 					}
 				} else {
-					if ( !this.$.sidebarHeader.classList.contains('shadowed') ) {
-						this.$.sidebarHeader.classList.add('shadowed');
+					if ( !sidebarHeader.classList.contains('shadowed') ) {
+						sidebarHeader.classList.add('shadowed');
 					}
 				}
+			}
+
+			getSideBarHeader() {
+				const sidebarHeaderSlot = this.shadowRoot.querySelector('slot');
+				const sidebarHeader = sidebarHeaderSlot.assignedNodes()[0].querySelector('d2l-lesson-header#sidebarHeader');
+				return sidebarHeader;
 			}
 		}
 
