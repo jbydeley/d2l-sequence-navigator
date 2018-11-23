@@ -11,30 +11,28 @@
 				display: block;
 				cursor: pointer;
 				@apply --d2l-body-compact-text;
-				width: 100%;
-				color: var(--d2l-color-ferrite);
+				
+				color: var(--d2l-activity-link-text-color);
 				padding: 10px;
+				background-color: var(--d2l-activity-link-background-color);
 			}
 
 			:host > div {
-				display: table;
-				table-layout: fixed;
-				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
 			}
 
 			d2l-icon,
 			a,
 			d2l-completion-requirement,
 			d2l-completion-status {
-				display: table-cell;
 				vertical-align: top;
 			}
 
-			a,
-			d2l-completion-requirement {
-				float: left;
+			.d2l-activity-link-title {
 				padding-left: 15px;
-				padding-right: 15px;
+				flex: 1 100%;
 			}
 
 			a {
@@ -66,13 +64,15 @@
 			<template is="dom-if" if="[[hasIcon]]">
 				<d2l-icon icon="[[_getIconSetKey(entity)]]"></d2l-icon>
 			</template>
-			<a on-click="setCurrent" class$="[[completionRequirementClass]]">
-				[[entity.properties.title]]
-			</a>
-			<d2l-completion-requirement
-				href="[[href]]"
-				token="[[token]]">
-			</d2l-completion-requirement>
+			<div class="d2l-activity-link-title">
+				<a on-click="setCurrent" class$="[[completionRequirementClass]]">
+					[[entity.properties.title]]
+				</a>
+				<d2l-completion-requirement
+					href="[[href]]"
+					token="[[token]]">
+				</d2l-completion-requirement>
+			</div>
 			<d2l-completion-status
 				href="[[href]]"
 				token="[[token]]">

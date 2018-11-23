@@ -3,7 +3,21 @@
 		"title": "Wikipedia Log"
 	},
 	"rel": ["item"],
-	"entities": [{
+	"entities": [
+		{
+			"class": [
+					"icon",
+					"tier2"
+			],
+			"rel": [
+					"icon"
+			],
+			"properties": {
+					"iconSetKey": "d2l-tier2:discussions",
+					"imagePath": "https://s.brightspace.com/lib/bsi/10.8.8-daylight.5/images/tier2/discussions.svg"
+			}
+		},
+		{
 		"links": [{
 			"rel": ["about"],
 			"href": "https://en.wikipedia.org/static/images/project-logos/enwiki-2x.png"
