@@ -122,7 +122,8 @@
 						value: ''
 					},
 					rootHref: {
-						type: String
+						type: String,
+						computed: '_getRootHref(entity)'
 					},
 					subEntities: {
 						type: Array,
@@ -136,6 +137,11 @@
 						computed: 'getSideBarContent()'
 					}
 				};
+			}
+
+			_getRootHref(entity) {
+				const rootLink = entity && entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-root');
+				return rootLink && rootLink.href || '';
 			}
 
 			getSubEntities(entity) {
