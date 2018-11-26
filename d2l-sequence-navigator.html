@@ -154,6 +154,13 @@
 					}
 				};
 			}
+			ready() {
+				super.ready();
+				const styles = JSON.parse(document.getElementsByTagName('html')[0].getAttribute('data-asv-css-vars'));
+				this.updateStyles(
+					styles
+				);
+			}
 
 			_getRootHref(entity) {
 				const rootLink = entity && entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-root');
