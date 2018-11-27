@@ -14,7 +14,13 @@
 
 <test-fixture id="ActivityLinked">
 	<template>
-		<d2l-sequence-navigator token="bamboozle"></d2l-sequence-navigator>
+		<d2l-sequence-navigator token="bamboozle">
+			<span slot="lesson-header">
+				<d2l-lesson-header id="sidebarHeader"
+					token="[[token]]"
+				></d2l-lesson-header>
+			</span>
+		</d2l-sequence-navigator>
 	</template>
 </test-fixture>
 <script>
@@ -27,7 +33,20 @@
 		});
 
 		it('should create a d2l-lesson-header child', function() {
-			expect( element.shadowRoot.querySelector('d2l-lesson-header') ).to.exist;
+			let lessonHeader;
+			const slots = element.shadowRoot.querySelectorAll('slot');
+			for (var i = 0; i < slots.length; i++) {
+				if (slots[i].getAttribute('name') === 'lesson-header') {
+					const assignedNode = slots[i].assignedNodes() && slots[i].assignedNodes()[0];
+	
+					const queryResult = assignedNode && assignedNode.querySelector('d2l-lesson-header');
+					if (queryResult) {
+						lessonHeader = queryResult;
+						break;
+					}
+				}
+			}
+			expect( lessonHeader ).to.exist;
 		});
 
 	});
