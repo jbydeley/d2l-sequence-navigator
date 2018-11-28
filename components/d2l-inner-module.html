@@ -60,7 +60,6 @@
 
 			d2l-activity-link {
 				@apply --d2l-body-compact-text;
-
 				width: calc(100% - 20px);
 			}
 
@@ -75,19 +74,16 @@
 
 		</style>
 
-		<div
-			class$="[[_getIsSelected(selectedModule)]]"
-			on-click="toggleSelected"
-		>
-			<div class="header-container">
-				<div class="module-header">
+		<div>
+			<div class$="header-container [[_getIsSelected()]]">
+				<a class="module-header" on-click="_onHeaderClicked">
 					<span class="module-title">[[entity.properties.title]]</span>
-				</div>
+				</a>
 			</div>
 
 			<ol>
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li on-click="_onActivityClicked">
+					<li>
 						<d2l-activity-link class$="[[_getIsCurrent(childLink, currentActivity)]]"
 							href="[[childLink.href]]"
 							token="[[token]]"
@@ -152,8 +148,8 @@
 					'';
 			}
 
-			_getIsSelected(selectedModule) {
-				const selected = this.entity && this.entity.getLinkByRel('self').href === selectedModule;
+			_getIsSelected() {
+				const selected = this.entity && this.entity.getLinkByRel('self').href === this.currentActivity;
 				return (selected) ? 'selected' : 'not-selected';
 			}
 
@@ -167,12 +163,10 @@
 				this.hasCurrentActivity = false;
 			}
 
-			_onActivityClicked(e) {
-				const childLink = e.model.__data.childLink;
-				if ( childLink.class.includes('sequenced-activity') && this.currentActivity !== childLink.href ) {
-					this.currentActivity = childLink.href;
-				}
+			_onHeaderClicked() {
+				this.currentActivity = this.entity.getLinkByRel('self').href;
 			}
+
 		}
 		customElements.define(D2LInnerModule.is, D2LInnerModule);
 
