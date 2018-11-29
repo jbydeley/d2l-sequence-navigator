@@ -5,7 +5,6 @@
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
 <link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
-<link rel="import" href="../d2l-sequence-navigator-styles.html">
 
 <dom-module id="d2l-outer-module">
 	<template>
@@ -15,14 +14,27 @@
 				cursor: pointer;
 				@apply --d2l-body-compact-text;
 				width: 100%;
+				--d2l-outer-module-text-color: var(--d2l-asv-text-color);
 			}
 
 			d2l-accordion-collapse {
 				border-bottom: 1px solid var(--d2l-color-mica);
 			}
 
-			.header-container {
+			#header-container {
 				padding: 15px 25px 12px 20px;
+				color: var(--d2l-outer-module-text-color);
+				background-color: var(--d2l-outer-module-background-color);
+			}
+
+			#header-container:hover:not(.d2l-asv-current) {
+				background-color: var(--d2l-asv-hover-color);
+			}
+
+			#header-container.d2l-asv-current {
+				--d2l-outer-module-background-color: var(--d2l-asv-primary-color);
+				--d2l-outer-module-text-color: var(--d2l-asv-selected-text-color);
+				outline: 1px solid var(--d2l-border-color);
 			}
 
 			.module-header {
@@ -34,7 +46,6 @@
 			.module-title {	
 				@apply --d2l-body-compact-text;
 				font-weight: 700;
-				color: var(--d2l-color-ferrite);
 				width: calc(100% - 2rem);
 
 				overflow: hidden;
@@ -50,8 +61,7 @@
 			.module-completion-count {
 				@apply --d2l-body-small-text;
 				font-weight: 700;
-				color: var(--d2l-color-tungsten);
-
+				color: var(--d2l-outer-module-text-color);
 				text-align: right;
 				float: right;
 				display: table-cell;
@@ -66,31 +76,18 @@
 				padding: 0px 10px 0px 0px;
 			}
 
-			d2l-activity-link:hover:not(.d2l-outer-module-current-activity-link),
-			d2l-inner-module:hover:not(.d2l-outer-module-current-activity-link),
-			.header-container:hover {
-				background-color: var(--d2l-asv-hover-color);
-			}
-
 			.optionalStatus {
 				color: var(--d2l-color-tungsten);
-			}
-
-			.d2l-outer-module-current-activity-link {
-				--d2l-activity-link-background-color: var(--d2l-asv-primary-color);
-				--d2l-activity-link-text-color: var(--d2l-asv-selected-text-color);
-				outline: 1px solid var(--d2l-border-color);
 			}
 
 		</style>
 
 		<d2l-accordion-collapse
-			class$="[[_getIsSelected(selectedModule)]]"
 			on-click="toggleSelected"
 			no-icons
 			flex
 		>
-			<div slot="header" class="header-container" on-click="_onHeaderClicked">
+			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
 				<div class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
@@ -118,7 +115,7 @@
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
 					<li on-click="_onActivityClicked">
 						<template is="dom-if" if="[[_isActivity(childLink)]]">
-							<d2l-activity-link class$="[[_getIsCurrent(childLink, currentActivity)]]"
+							<d2l-activity-link
 								href="[[childLink.href]]"
 								token="[[token]]"
 								current-activity="{{currentActivity}}"
@@ -264,22 +261,9 @@
 					'';
 			}
 
-			_getIsOpened(selectedModule) {
-				return this._getIsSelected(selectedModule) === 'selected';
-			}
-
-			_getIsSelected(selectedModule) {
-				const selected = this.entity && this.entity.getLinkByRel('self').href === selectedModule;
-				return (selected) ? 'selected' : 'not-selected';
-			}
-
-			_getIsCurrent(childLink, currentActivity) {
-				if ( childLink.href === currentActivity ) {
-					this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
-					this.hasCurrentActivity = true;
-					return 'd2l-outer-module-current-activity-link';
-				}
-				this.hasCurrentActivity = false;
+			_getIsSelected(currentActivity) {
+				const selected = this.entity && this.entity.getLinkByRel('self').href === currentActivity;
+				return (selected) ? 'd2l-asv-current' : '';
 			}
 
 			_onActivityClicked(e) {

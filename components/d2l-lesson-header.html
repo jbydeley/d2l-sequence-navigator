@@ -3,7 +3,6 @@
 <link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-typography/d2l-typography.html">
-<link rel="import" href="../d2l-sequence-navigator-styles.html">
 
 <!--
 'd2l-lesson-header'
@@ -25,7 +24,13 @@
 			padding: 20px 30px 20px 25px;
 		}
 
-		:host(:hover) {
+		:host-context(.d2l-asv-current) {
+			--d2l-lesson-header-background-color: var(--d2l-asv-primary-color);
+			--d2l-lesson-header-text-color: var(--d2l-asv-selected-text-color);
+			outline: 1px solid var(--d2l-border-color);
+		}
+
+		:host(:hover:not(.d2l-asv-current)) {
 			--d2l-lesson-header-background-color: var(--d2l-asv-hover-color);
 		}
 
@@ -99,13 +104,13 @@
 			_getHeaderClass(currentActivity) {
 				const selfLink = this.entity && this.entity.getLinkByRel('self').href;
 				if ( currentActivity === selfLink ) {
-					return 'current';
+					return 'd2l-asv-current';
 				}
 				return '';
 			}
 
 			_onHeaderClicked() {
-				this.currentActivity = this.entity.getLinkByRel('self').href;
+				this.currentActivity = this.entity && this.entity.getLinkByRel('self').href || '';
 			}
 		}
 
