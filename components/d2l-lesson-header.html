@@ -17,21 +17,28 @@
 		:host {
 			--d2l-lesson-header-text-color: var(--d2l-asv-text-color);
 			--d2l-lesson-header-background-color: transparent;
+			--d2l-lesson-header-border-color: var(--d2l-lesson-header-background-color);
 			display: table;
 			table-layout: fixed;
 			background-color: var(--d2l-lesson-header-background-color);
 			color: var(--d2l-lesson-header-text-color);
-			padding: 20px 30px 20px 25px;
+			padding: 20px 26px 20px 25px;
+			border: 2px solid var(--d2l-lesson-header-border-color);
+			border-radius: 8px;
 		}
 
 		:host-context(.d2l-asv-current) {
 			--d2l-lesson-header-background-color: var(--d2l-asv-primary-color);
 			--d2l-lesson-header-text-color: var(--d2l-asv-selected-text-color);
-			outline: 1px solid var(--d2l-border-color);
+			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
+		}
+		:host-context(:focus){
+			outline: none;
 		}
 
 		:host(:hover:not(.d2l-asv-current)) {
 			--d2l-lesson-header-background-color: var(--d2l-asv-hover-color);
+			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
 		}
 
 		.module-title {

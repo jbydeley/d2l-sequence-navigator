@@ -25,16 +25,21 @@
 				padding: 15px 25px 12px 20px;
 				color: var(--d2l-outer-module-text-color);
 				background-color: var(--d2l-outer-module-background-color);
+				border: 2px solid var(--d2l-outer-module-border-color);
+				--d2l-outer-module-border-color: var(--d2l-outer-module-background-color);
 			}
 
 			#header-container:hover:not(.d2l-asv-current) {
+				padding: 13px 23px 11px 18px;
 				background-color: var(--d2l-asv-hover-color);
+				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
 			}
 
 			#header-container.d2l-asv-current {
+				padding: 13px 23px 11px 18px;
 				--d2l-outer-module-background-color: var(--d2l-asv-primary-color);
 				--d2l-outer-module-text-color: var(--d2l-asv-selected-text-color);
-				outline: 1px solid var(--d2l-border-color);
+				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
 			}
 
 			.module-header {
