@@ -23,12 +23,13 @@
 				box-shadow: 0px 0px 0px 10px white;
 			}
 
+			#header-container:focus,
 			#header-container:hover {
 				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
 
-			#header-container.d2l-asv-current {
+			.d2l-asv-current {
 				--d2l-inner-module-background-color: var(--d2l-asv-primary-color);
 				--d2l-inner-module-text-color: var(--d2l-asv-selected-text-color);
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
@@ -36,16 +37,15 @@
 
 			#header-container {
 				--d2l-inner-module-border-color: var(--d2l-inner-module-background-color);
-				padding: 12px 20px;
+				padding: 12px 0px;
 				border-radius: 8px;
-				background-color: var(--d2l-inner-module-background-color);
-				border: 2px solid var(--d2l-inner-module-border-color);
 			}
 
-			.module-header {
-				display: table;
-				table-layout: fixed;
-				width: 100%;
+			#module-header {
+				display: flex;
+				padding: 0px 20px;
+				background-color: var(--d2l-inner-module-background-color);
+				border: 2px solid var(--d2l-inner-module-border-color);
 			}
 
 			.module-title {	
@@ -78,10 +78,12 @@
 		</style>
 
 		<div>
-			<div id="header-container" class$="[[_getIsSelected(currentActivity)]]">
-				<a class="module-header" on-click="_onHeaderClicked">
-					<span class="module-title">[[entity.properties.title]]</span>
-				</a>
+			<div id="header-container">
+				<div id="module-header" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
+					<a on-click="_onHeaderClicked">
+						<span class="module-title">[[entity.properties.title]]</span>
+					</a>
+				</div>
 			</div>
 
 			<ol>
