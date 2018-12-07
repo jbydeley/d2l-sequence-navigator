@@ -1,6 +1,8 @@
 {
 	"countStatus": "{completed}/{total}",
 	"completedMofN": "Completed {completed}/{total}",
-	"optional": "optional",
+	"requirementsCompleted":"{completed} of {total} requirements completed",
+	"optional":"Optional",
+	"exempt":"Exempt",
 	"completed": "completed"
 }
