@@ -1,12 +1,14 @@
 language: node_js
 node_js:
-- '8'
+- '10'
 sudo: false
 script:
 - npm run lint
-- if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then polymer test --skip-plugin local;
+- if [ $TRAVIS_SECURE_ENV_VARS != false ]; then 
+    polymer test --skip-plugin local;
   fi
-- if [ "$TRAVIS_SECURE_ENV_VARS" = "false" ]; then polymer test --skip-plugin sauce;
+- if [ $TRAVIS_SECURE_ENV_VARS != true ]; then 
+    polymer test --skip-plugin sauce;
   fi
 env:
   global:
