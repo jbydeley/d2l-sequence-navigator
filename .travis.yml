@@ -1,15 +1,13 @@
 language: node_js
-node_js:
-- '10'
+node_js: 10
 sudo: false
+branches:
+  only:
+  - master
+  - /^v.*$/
 script:
 - npm run lint
-- if [ $TRAVIS_SECURE_ENV_VARS != false ]; then 
-    polymer test --skip-plugin local;
-  fi
-- if [ $TRAVIS_SECURE_ENV_VARS != true ]; then 
-    polymer test --skip-plugin sauce;
-  fi
+- polymer test --skip-plugin local;
 env:
   global:
   - secure: sjiAUsP/vZlfKZu8rE8s/eSLVzhFKDkvCFbuPaC6dkkcuhCOgSWk/PhYmBTsaxU4j47IO9+edkX7wGk3oQaspAV8C1EjGBnh6WnS7tRZAebfDaKie9+4TTKK2h9RmtB8+wcH3pIzpM0mvn1UgRiVLu4AaWZK0Z7FJ+8QCkFH8fHLsPpZ04Jg16DRLDsrdFQLIihTFeQNE7ckfGFJV5s7axJezwc4bIW4AqrRdQC5te7lTpvVX78fdcG+F0uoeqzikfVtllSnBK+USpO76tbL1cOZtxncg17+ZSXpy1hxwRCUq/GiK2W0zYU7SVBrJ9TWRzu75Ppfe5rOCv+qPtJe/wfDcBHvvMvFDnpvGJi30P1eSOEWKvWOzAIul3FyUA2dEyURRHqsjif6GmNE15CpoMNLIaX6R/oacfTieD1Jg4OhbwtIdkcLhnP2kTPfMdEy4z8esCkRn4DCV3D6hdJHj+3KCFjBGA3VOTH64wnBtbJRmXQIfFD5JRyHDYjSSQCHhsC4t6sludbu8oHeA1j+wHF/oaScEWlRwcpFyXBLkkdm/K1XLbI70IlJK/Whg00Dr5vRz/6O8jMbP4HyqnSqFNOD2dl/NXe4eQhieAXTCXRa3s6iLkiWKO29GhBoxbYhLdFLnXoifLzWtfClNBga3XKmDkAed9eqaULIV2qL6IU=
