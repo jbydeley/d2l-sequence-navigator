@@ -59,12 +59,26 @@
 					}
 				};
 			}
+
+			ready() {
+				super.ready();
+				this.addEventListener('keypress', this._onKeyPress);
+			}
+
 			_getContainerClass(currentActivity) {
 				if (this.href === currentActivity) {
 					return 'd2l-asv-current';
 				}
 				return '';
 			}
+
+			_onKeyPress(event) {
+				if ( event.key !== 'Enter' ) {
+					return;
+				}
+				this.showEndOfLesson();
+			}
+
 			showEndOfLesson() {
 				this.currentActivity = this.href;
 			}

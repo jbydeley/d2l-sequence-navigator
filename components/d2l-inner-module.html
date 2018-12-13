@@ -79,7 +79,7 @@
 
 		<div>
 			<div id="header-container">
-				<div id="module-header" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
+				<div id="module-header" class$="[[_getIsSelected(currentActivity, entity)]]" on-click="_onHeaderClicked">
 					<a on-click="_onHeaderClicked">
 						<span class="module-title">[[entity.properties.title]]</span>
 					</a>
@@ -94,6 +94,7 @@
 							token="[[token]]"
 							current-activity="{{currentActivity}}"
 							tabindex="0"
+							on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
 						></d2l-activity-link>
 					</li>
 				</template>
@@ -138,13 +139,20 @@
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
 			}
 
-			_getIsSelected(currentActivity) {
-				const selected = this.entity && this.entity.getLinkByRel('self').href === currentActivity;
+			_getIsSelected(currentActivity, entity) {
+				const selected = entity && entity.getLinkByRel('self').href === currentActivity;
+				if (selected) {
+					this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
+				}
 				return (selected) ? 'd2l-asv-current' : '';
 			}
 
 			_onHeaderClicked() {
 				this.currentActivity = this.entity.getLinkByRel('self').href;
+			}
+
+			childIsActiveEvent() {
+				this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
 			}
 
 		}

@@ -124,6 +124,7 @@
 								token="[[token]]"
 								current-activity="{{currentActivity}}"
 								tabindex="0"
+								on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
 							></d2l-activity-link>
 						</template>
 						<template is="dom-if" if="[[!_isActivity(childLink)]]">
@@ -131,6 +132,7 @@
 								href="[[childLink.href]]"
 								token="[[token]]"
 								current-activity="{{currentActivity}}"
+								on-sequencenavigator-d2l-inner-module-current-activity="childIsActiveEvent"
 							></d2l-inner-module>
 						</template>
 					</li>
@@ -258,6 +260,10 @@
 
 			_onHeaderClicked() {
 				this.currentActivity = this.entity.getLinkByRel('self').href;
+			}
+
+			childIsActiveEvent() {
+				this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
 			}
 		}
 		customElements.define(D2LOuterModule.is, D2LOuterModule);
