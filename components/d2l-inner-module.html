@@ -23,6 +23,7 @@
 				box-shadow: 0px 0px 0px 10px white;
 			}
 
+			#header-container:focus-within,
 			#header-container:focus,
 			#header-container:hover {
 				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
@@ -46,6 +47,12 @@
 				padding: 0px 20px;
 				background-color: var(--d2l-inner-module-background-color);
 				border: 2px solid var(--d2l-inner-module-border-color);
+			}
+
+			#module-header > a{
+				text-decoration: none;
+				color: var(--d2l-inner-module-text-color);
+				outline: none;
 			}
 
 			.module-title {	
@@ -80,7 +87,7 @@
 		<div>
 			<div id="header-container">
 				<div id="module-header" class$="[[_getIsSelected(currentActivity, entity)]]" on-click="_onHeaderClicked">
-					<a on-click="_onHeaderClicked">
+					<a on-click="_onHeaderClicked" href="javascript:void(0)">
 						<span class="module-title">[[entity.properties.title]]</span>
 					</a>
 				</div>
@@ -93,7 +100,6 @@
 							href="[[childLink.href]]"
 							token="[[token]]"
 							current-activity="{{currentActivity}}"
-							tabindex="0"
 							on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
 						></d2l-activity-link>
 					</li>

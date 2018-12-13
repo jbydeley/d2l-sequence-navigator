@@ -30,8 +30,9 @@
 				
 			}
 
-			#header-container:focus:not(.d2l-asv-current),
-			#header-container:hover:not(.d2l-asv-current) {
+			#header-container:focus-within,
+			#header-container:focus,
+			#header-container:hover {
 				background-color: var(--d2l-asv-hover-color);
 				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
 			}
@@ -123,8 +124,8 @@
 								href="[[childLink.href]]"
 								token="[[token]]"
 								current-activity="{{currentActivity}}"
-								tabindex="0"
 								on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
+
 							></d2l-activity-link>
 						</template>
 						<template is="dom-if" if="[[!_isActivity(childLink)]]">
