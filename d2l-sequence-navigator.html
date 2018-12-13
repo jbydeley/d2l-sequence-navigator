@@ -61,11 +61,10 @@
 								href="[[childLink.href]]"
 								token="[[token]]"
 								current-activity="{{href}}"
-								selected-module="{{selectedModule}}"
 							></d2l-outer-module>
 						</template>						
 						<template is="dom-if" if="[[_isActivity(childLink)]]">
-							<d2l-activity-link class$="[[_getIsCurrent(childLink, currentActivity)]]"
+							<d2l-activity-link
 								href="[[childLink.href]]"
 								token="[[token]]"
 								current-activity="{{href}}"
@@ -98,10 +97,6 @@
 						type: String,
 						reflectToAttribute: true,
 						notify: true
-					},
-					selectedModule: {
-						type: String,
-						value: ''
 					},
 					rootHref: {
 						type: String,
@@ -146,15 +141,6 @@
 
 			_getHref(entity) {
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
-			}
-
-			_getIsCurrent(childLink, currentActivity) {
-				if ( childLink.href === currentActivity ) {
-					this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
-					this.hasCurrentActivity = true;
-					return 'current';
-				}
-				this.hasCurrentActivity = false;
 			}
 
 			onSidebarScroll() {

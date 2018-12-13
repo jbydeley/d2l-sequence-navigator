@@ -60,50 +60,18 @@
 
 					it('should select the module by clicking on it', () => {
 						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						expect(element.selectedModule)
-							.to.be
-							.empty;
 
 						expect(accordionElement)
 							.not.to.have
-							.class('selected');
+							.class('d2l-asv-current');
 
 						accordionElement.$.trigger.click();
 						flush( function() {
 							expect(accordionElement)
 								.to.have
-								.class('selected');
-							expect(element.selectedModule)
-								.to
-								.equal('data/lesson1.json');
+								.class('d2l-asv-current');
 						});
 
-					});
-
-					it('should select then deselect the module by clicking on it again', function() {
-						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						accordionElement.$.trigger.click();
-						accordionElement.$.trigger.click();
-						expect(accordionElement)
-							.not.to.have
-							.class('selected');
-
-						expect(element.selectedModule)
-							.to.be
-							.empty;
-					});
-
-					it('should select then unselect by setting another module as selected', function() {
-						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
-						accordionElement.$.trigger.click();
-						element.selectedModule = 'someotherModule';
-						expect(accordionElement)
-							.not.to.have
-							.class('selected');
-
-						expect(element.selectedModule)
-							.to
-							.equal('someotherModule');
 					});
 				});
 

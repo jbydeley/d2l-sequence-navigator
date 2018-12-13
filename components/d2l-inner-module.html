@@ -121,18 +121,9 @@
 						type: Boolean,
 						value: false
 					},
-					selectedModule: {
-						type: String,
-						value: '',
-						notify: true
-					},
 					subEntities: {
 						type: Array,
 						computed: 'getSubEntities(entity)'
-					},
-					isChildActive: {
-						type: Boolean,
-						notify: true
 					}
 				};
 			}
@@ -145,12 +136,6 @@
 
 			_getHref(entity) {
 				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
-			}
-
-			toggleSelected() {
-				this.selectedModule = (this.selectedModule === '') ?
-					this.entity.getLinkByRel('self').href :
-					'';
 			}
 
 			_getIsSelected(currentActivity) {
