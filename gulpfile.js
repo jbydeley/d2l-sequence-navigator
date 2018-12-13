@@ -1,18 +1,21 @@
-/*global require */
-var gulp = require('gulp');
-var merge = require('gulp-merge-json');
-var path = require('path');
+/* global require exports */
+const { src, dest } = require('gulp');
+const merge = require('gulp-merge-json');
+const path = require('path');
 
-gulp.task('build-locales', () => {
-	gulp.src('lang/*.json')
+// merge all json files inside lang to `locales.json`
+function defaultTask() {
+	return src('lang/*.json')
 		.pipe(merge({
 			fileName: 'locales.json',
-			edit: (parsedJson, file) => {
-				const lang = path.basename(file.path, '.json');
+			edit: (parsedJson, { basename }) => {
+				const lang = path.basename(basename, '.json');
 				return {
 					[lang]: parsedJson
 				};
 			}
 		}))
-		.pipe(gulp.dest('.'));
-});
+		.pipe(dest('.'));
+}
+
+exports.default = defaultTask;
