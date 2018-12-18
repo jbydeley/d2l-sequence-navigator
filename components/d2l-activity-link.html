@@ -205,6 +205,10 @@
 				}
 				return (selected) ? 'd2l-asv-current' : '';
 			}
+			getLaunchLink() {
+				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
+				return launchLink && launchLink.href || '';
+			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);
 	</script>

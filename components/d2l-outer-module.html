@@ -278,6 +278,10 @@
 			childIsActiveEvent() {
 				this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
 			}
+			getLaunchLink() {
+				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
+				return launchLink && launchLink.href || '';
+			}
 		}
 		customElements.define(D2LOuterModule.is, D2LOuterModule);
 
