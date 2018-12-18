@@ -165,17 +165,6 @@
 				const sidebarHeader = sidebarHeaderSlot.assignedNodes()[0].querySelector('d2l-lesson-header#sidebarHeader');
 				return sidebarHeader;
 			}
-
-			_contentObjectClick(e) {
-				const contentTopicClicked = new CustomEvent('d2l-content-topic-click', {
-					bubbles: true,
-					detail: {
-						launchLink: e.srcElement.getLaunchLink()
-					}
-				});
-
-				window.dispatchEvent(contentTopicClicked);
-			}
 		}
 
 		window.customElements.define(D2LSequenceNavigator.is, D2LSequenceNavigator);

@@ -95,7 +95,7 @@
 			}
 
 		</style>
-		<div>
+		<div on-click="_contentObjectClick">
 			<template is="dom-if" if="[[hasIcon]]">
 				<d2l-icon icon="[[_getIconSetKey(entity)]]"></d2l-icon>
 			</template>
@@ -208,6 +208,15 @@
 			getLaunchLink() {
 				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
 				return launchLink && launchLink.href || '';
+			}
+			_contentObjectClick() {
+				const contentTopicClicked = new CustomEvent('d2l-content-topic-click', {
+					bubbles: true,
+					detail: {
+						launchLink: this.getLaunchLink()
+					}
+				});
+				window.dispatchEvent(contentTopicClicked);
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);

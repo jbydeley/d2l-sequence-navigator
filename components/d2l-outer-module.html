@@ -271,16 +271,24 @@
 				}
 			}
 
+			getLaunchLink() {
+				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
+				return launchLink && launchLink.href || '';
+			}
+
 			_onHeaderClicked() {
 				this.currentActivity = this.entity.getLinkByRel('self').href;
+				const contentTopicClicked = new CustomEvent('d2l-content-topic-click', {
+					bubbles: true,
+					detail: {
+						launchLink: this.getLaunchLink()
+					}
+				});
+				window.dispatchEvent(contentTopicClicked);
 			}
 
 			childIsActiveEvent() {
 				this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
-			}
-			getLaunchLink() {
-				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
-				return launchLink && launchLink.href || '';
 			}
 		}
 		customElements.define(D2LOuterModule.is, D2LOuterModule);
