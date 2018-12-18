@@ -180,8 +180,20 @@
 						type: Boolean,
 						value: false,
 						computed: '_showOptional(completionCount)'
+					},
+					disabled: {
+						type: Boolean,
+						observer: '_disableAccordions'
 					}
 				};
+			}
+
+			_disableAccordions(disabled) {
+				if ( !disabled || !this.shadowRoot || !this.shadowRoot.querySelector('d2l-accordion-collapse') ) {
+					return;
+				}
+				this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
+				this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('disabled', '');
 			}
 
 			_isAccordionOpen() {

@@ -32,6 +32,12 @@
 				<d2l-outer-module token="bamboozle"></d2l-outer-module>
 			</template>
 		</test-fixture>
+
+		<test-fixture id="DisabledModuleWithChildrenFixture">
+			<template>
+				<d2l-outer-module token="bamboozle" disabled></d2l-outer-module>
+			</template>
+		</test-fixture>
 		<script>
 			/* global SirenFixture */
 			describe('d2l-outer-module', () => {
@@ -353,6 +359,44 @@
 							expect(optionalStatus).to.be.hidden;
 
 							expect(checkmark).to.be.hidden;
+						});
+					});
+				});
+
+				describe('for module with the disabled attribute', () => {
+
+					let element;
+
+					beforeEach(async() => {
+						element = await SirenFixture.load('data/lesson1.json', fixture('DisabledModuleWithChildrenFixture'));
+					});
+
+					it('should have the d2l-accordion-collapse elements opened and disabled, regardless of clicked', () => {
+						const accordionElement = element.shadowRoot.querySelector('d2l-accordion-collapse');
+						accordionElement.addEventListener('click', () => {
+							const dynamicElements = accordionElement.shadowRoot.querySelectorAll('dom-if');
+							if (dynamicElements) {
+								for (let i = 0; i < dynamicElements.length; i++) {
+									dynamicElements[i].render();
+								}
+							}
+						});
+
+						flush(() => {
+							expect(accordionElement.opened).to.be.true;
+							expect(accordionElement.disabled).to.be.true;
+
+							accordionElement.$.trigger.click();
+							expect(accordionElement.opened).to.be.true;
+							expect(accordionElement.disabled).to.be.true;
+
+							accordionElement.$.trigger.click();
+							expect(accordionElement.opened).to.be.true;
+							expect(accordionElement.disabled).to.be.true;
+
+							accordionElement.$.trigger.click();
+							expect(accordionElement.opened).to.be.true;
+							expect(accordionElement.disabled).to.be.true;
 						});
 					});
 				});
