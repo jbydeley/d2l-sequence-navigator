@@ -1,4 +1,5 @@
 <link rel="import" href="../utility/completion-status-mixin.html">
+<link rel="import" href="../utility/polymer-asv-launch-mixin.html">
 <link rel="import" href="d2l-completion-status.html">
 <link rel="import" href="d2l-completion-requirement.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
@@ -123,8 +124,9 @@
 		/*
 		@memberOf window.D2L.Polymer.Mixins;
 		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
+		@mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
 		*/
-		class D2LActivityLink extends D2L.Polymer.Mixins.CompletionStatusMixin() {
+		class D2LActivityLink extends D2L.Polymer.Mixins.PolymerASVLaunchMixin(D2L.Polymer.Mixins.CompletionStatusMixin()) {
 			static get is() {
 				return 'd2l-activity-link';
 			}
@@ -204,19 +206,6 @@
 					this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-activity-link-current-activity', {detail: { href: this.href}}));
 				}
 				return (selected) ? 'd2l-asv-current' : '';
-			}
-			getLaunchLink() {
-				const launchLink = this.entity && this.entity.getLinkByRel('https://sequences.api.brightspace.com/rels/sequence-viewer-application');
-				return launchLink && launchLink.href || '';
-			}
-			_contentObjectClick() {
-				const contentTopicClicked = new CustomEvent('d2l-content-topic-click', {
-					bubbles: true,
-					detail: {
-						launchLink: this.getLaunchLink()
-					}
-				});
-				window.dispatchEvent(contentTopicClicked);
 			}
 		}
 		customElements.define(D2LActivityLink.is, D2LActivityLink);
