@@ -16,16 +16,18 @@
 				width: 100%;
 				--d2l-outer-module-text-color: var(--d2l-asv-text-color);
 				--d2l-outer-module-background-color: transparent;
+				--d2l-activity-link-padding: 10px 24px;
 			}
 
 			#header-container {
 				--d2l-outer-module-border-color: var(--d2l-outer-module-background-color);
-				border-radius: 8px 0px 0px 8px;
-				padding: 15px 25px 12px 20px;
+
+				box-sizing: border-box;
+				padding: var(--d2l-activity-link-padding);
 				color: var(--d2l-outer-module-text-color);
 				background-color: var(--d2l-outer-module-background-color);
 				border-style: solid;
-				border-width: 2px 0px 2px 2px;
+				border-width: var(--d2l-outer-module-border-width, 2px 0px 2px 0);
 				border-color:  var(--d2l-outer-module-border-color);
 				
 			}
@@ -38,7 +40,6 @@
 			}
 
 			#header-container.d2l-asv-current {
-				padding: 13px 23px 11px 20px;
 				--d2l-outer-module-background-color: var(--d2l-asv-primary-color);
 				--d2l-outer-module-text-color: var(--d2l-asv-selected-text-color);
 				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
@@ -76,11 +77,15 @@
 				line-height: inherit !important;
 			}
 
+			.should-pad {
+				padding: 0 10px;
+			}
+
 			ol {
 				list-style-type: none;
 				border-collapse: collapse;
 				margin: 0px;
-				padding: 0px 10px 0px 0px;
+				padding: 0;
 			}
 
 			.optionalStatus {
@@ -118,7 +123,7 @@
 			</div>
 			<ol>
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li on-click="_onActivityClicked">
+					<li on-click="_onActivityClicked" class$="[[_padOnActivity(childLink)]]">
 						<template is="dom-if" if="[[_isActivity(childLink)]]">
 							<d2l-activity-link
 								href="[[childLink.href]]"
@@ -184,6 +189,9 @@
 					disabled: {
 						type: Boolean,
 						observer: '_disableAccordions'
+					},
+					isSidebar: {
+						type: Boolean
 					}
 				};
 			}
@@ -262,6 +270,12 @@
 			_getIsSelected(currentActivity) {
 				const selected = this.entity && this.entity.getLinkByRel('self').href === currentActivity;
 				return (selected) ? 'd2l-asv-current' : '';
+			}
+
+			_padOnActivity(childLink) {
+				return this.isSidebar || this._isActivity(childLink)
+					? ''
+					: 'should-pad';
 			}
 
 			_onActivityClicked(e) {

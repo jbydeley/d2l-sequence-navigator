@@ -18,7 +18,7 @@
 		:host {
 			display: block;
 			height: 100%;
-			border-right: 1px solid var(--d2l-color-mica);
+			border-right: var(--d2l-sequence-navigator-border-right, 1px solid var(--d2l-color-mica));
 			background-color: white;
 		}
 
@@ -36,16 +36,10 @@
 
 		.module-content {
 			height: calc( 100% - 259px );
-			overflow-y: scroll;
 		}
 
 		d2l-activity-link:focus {
 			outline: none;
-		}
-
-		d2l-activity-link {
-			@apply --d2l-body-compact-text;
-			width: calc(100% - 20px);
 		}
 
 		</style>
@@ -62,6 +56,7 @@
 								token="[[token]]"
 								current-activity="{{href}}"
 								disabled="[[disabled]]"
+								is-sidebar="[[isSidebar]]"
 							></d2l-outer-module>
 						</template>						
 						<template is="dom-if" if="[[_isActivity(childLink)]]">
@@ -109,11 +104,10 @@
 					_lessonEntity:{
 						type: Object
 					},
-					sidebarContent: {
-						type: Object,
-						computed: 'getSideBarContent()'
-					},
 					disabled: {
+						type: Boolean
+					},
+					isSidebar: {
 						type: Boolean
 					}
 				};

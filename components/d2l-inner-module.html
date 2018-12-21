@@ -8,19 +8,15 @@
 	<template>
 		<style>
 			:host {
+				--d2l-activity-link-padding: 10px 14px;
 				display: block;
 				cursor: pointer;
 				@apply --d2l-body-compact-text;
-				width: 100%;
 				--d2l-inner-module-background-color: transparent;
-			}
+				margin: 10px 0;
 
-			:host > div {
-				margin-top: 10px;
-				margin-bottom: 10px;
 				border-radius: 8px;
 				background-color: var(--d2l-color-sylvite);
-				box-shadow: 0px 0px 0px 10px white;
 			}
 
 			#header-container:focus-within,
@@ -30,29 +26,35 @@
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
 
-			.d2l-asv-current {
-				--d2l-inner-module-background-color: var(--d2l-asv-primary-color);
-				--d2l-inner-module-text-color: var(--d2l-asv-selected-text-color);
-				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
-			}
-
 			#header-container {
 				--d2l-inner-module-border-color: var(--d2l-inner-module-background-color);
-				padding: 12px 0px;
-				border-radius: 8px;
+				display: flex;
+				padding: 10px 0;
+				border-radius: 8px 8px 0 0;
+				border-style: solid;
+				border-width: var(--d2l-inner-module-border-width, 0);
+				border-color:  var(--d2l-inner-module-border-color, transparent);
 			}
 
 			#module-header {
 				display: flex;
-				padding: 0px 20px;
+				flex-grow: 1;
+				padding: 0 14px;
 				background-color: var(--d2l-inner-module-background-color);
-				border: 2px solid var(--d2l-inner-module-border-color);
+				border: 2px solid var(--d2l-inner-module-border-color, transparent);
+				border-width: 2px 0;
 			}
 
 			#module-header > a{
 				text-decoration: none;
 				color: var(--d2l-inner-module-text-color);
 				outline: none;
+			}
+
+			.d2l-asv-current {
+				--d2l-inner-module-background-color: var(--d2l-asv-primary-color);
+				--d2l-inner-module-text-color: var(--d2l-asv-selected-text-color);
+				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
 
 			.module-title {	
@@ -76,36 +78,28 @@
 				padding: 0px;
 			}
 
-			d2l-activity-link {
-				@apply --d2l-body-compact-text;
-				width: calc(100% - 20px);
-			}
-
-
 		</style>
 
-		<div>
-			<div id="header-container">
-				<div id="module-header" class$="[[_getIsSelected(currentActivity, entity)]]" on-click="_onHeaderClicked">
-					<a on-click="_onHeaderClicked" href="javascript:void(0)">
-						<span class="module-title">[[entity.properties.title]]</span>
-					</a>
-				</div>
+		<div id="header-container">
+			<div id="module-header" class$="[[_getIsSelected(currentActivity, entity)]]" on-click="_onHeaderClicked">
+				<a on-click="_onHeaderClicked" href="javascript:void(0)">
+					<span class="module-title">[[entity.properties.title]]</span>
+				</a>
 			</div>
-
-			<ol>
-				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
-					<li>
-						<d2l-activity-link
-							href="[[childLink.href]]"
-							token="[[token]]"
-							current-activity="{{currentActivity}}"
-							on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
-						></d2l-activity-link>
-					</li>
-				</template>
-			</ol>
 		</div>
+
+		<ol>
+			<template is="dom-repeat" items="[[subEntities]]" as="childLink">
+				<li>
+					<d2l-activity-link
+						href="[[childLink.href]]"
+						token="[[token]]"
+						current-activity="{{currentActivity}}"
+						on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
+					></d2l-activity-link>
+				</li>
+			</template>
+		</ol>
 	</template>
 
 	<script>
