@@ -1,6 +1,7 @@
 <link rel="import" href="d2l-inner-module.html">
 <link rel="import" href="d2l-activity-link.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
+<link rel="import" href="../utility/polymer-asv-launch-mixin.html">
 <link rel="import" href="../../d2l-accordion/d2l-accordion.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-icons/d2l-icons.html">
@@ -151,8 +152,9 @@
 		/*
 		@memberOf window.D2L.Polymer.Mixins;
 		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
+		@mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
 		*/
-		class D2LOuterModule extends D2L.Polymer.Mixins.CompletionStatusMixin() {
+		class D2LOuterModule extends D2L.Polymer.Mixins.PolymerASVLaunchMixin(D2L.Polymer.Mixins.CompletionStatusMixin()) {
 			static get is() {
 				return 'd2l-outer-module';
 			}
@@ -287,6 +289,7 @@
 
 			_onHeaderClicked() {
 				this.currentActivity = this.entity.getLinkByRel('self').href;
+				this._contentObjectClick();
 			}
 
 			childIsActiveEvent() {
