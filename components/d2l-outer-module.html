@@ -22,10 +22,8 @@
 
 			#header-container {
 				--d2l-outer-module-border-color: var(--d2l-outer-module-background-color);
-
 				box-sizing: border-box;
 				padding: var(--d2l-activity-link-padding);
-				color: var(--d2l-outer-module-text-color);
 				background-color: var(--d2l-outer-module-background-color);
 				border-style: solid;
 				border-width: var(--d2l-outer-module-border-width, 2px 0px 2px 0);
@@ -50,6 +48,8 @@
 				display: table;
 				table-layout: fixed;
 				width: 100%;
+				text-decoration: none;
+				color: var(--d2l-outer-module-text-color);
 			}
 
 			.module-title {	
@@ -100,7 +100,7 @@
 			flex
 		>
 			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
-				<div class="module-header">
+				<a class="module-header" target="_top" href="[[_getLaunchLink(entity)]]">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
 						<template is="dom-if" if="[[showCount]]">
@@ -120,7 +120,7 @@
 							</span>
 						</template>
 					</span>
-				</div>
+				</a>
 			</div>
 			<ol>
 				<template is="dom-repeat" items="[[subEntities]]" as="childLink">
@@ -289,7 +289,7 @@
 
 			_onHeaderClicked() {
 				this.currentActivity = this.entity.getLinkByRel('self').href;
-				this._contentObjectClick();
+				// this._contentObjectClick();
 			}
 
 			childIsActiveEvent() {
