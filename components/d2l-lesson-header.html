@@ -29,17 +29,18 @@
 			border-radius: 8px 0px 0px 8px;
 		}
 
-		:host-context(.d2l-asv-current) {
+		:host(.d2l-asv-current:not(:hover)){
 			--d2l-lesson-header-background-color: var(--d2l-asv-primary-color);
 			--d2l-lesson-header-text-color: var(--d2l-asv-selected-text-color);
 			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
 		}
-		:host-context(:focus){
+
+		:host-context(:focus) {
 			outline: none;
 		}
 
 		:host(:focus:not(.d2l-asv-current)),
-		:host(:hover:not(.d2l-asv-current)) {
+		:host(:hover) {
 			--d2l-lesson-header-background-color: var(--d2l-asv-hover-color);
 			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
 		}
@@ -74,7 +75,6 @@
 		}
 
 		</style>
-
 		<a
 			class="d2l-header-lesson-link"
 			on-click="_onHeaderClicked">
@@ -101,7 +101,7 @@
 					class: {
 						type: String,
 						reflectToAttribute: true,
-						computed:'_getHeaderClass(currentActivity)'
+						computed:'_getHeaderClass(currentActivity, entity)'
 					},
 					currentActivity: {
 						type: String,
@@ -111,8 +111,8 @@
 				};
 			}
 
-			_getHeaderClass(currentActivity) {
-				const selfLink = this.entity && this.entity.getLinkByRel('self').href;
+			_getHeaderClass(currentActivity, entity) {
+				const selfLink = entity && entity.getLinkByRel('self').href;
 				if ( currentActivity === selfLink ) {
 					return 'd2l-asv-current';
 				}
