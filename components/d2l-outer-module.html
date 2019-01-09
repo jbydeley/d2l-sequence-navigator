@@ -98,6 +98,8 @@
 		<d2l-accordion-collapse
 			no-icons
 			flex
+			id="collapse"
+			on-keydown="_keyDownListener"
 		>
 			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
 				<div class="module-header">
@@ -196,6 +198,12 @@
 						type: Boolean
 					}
 				};
+			}
+
+			_keyDownListener(event) {
+				if (event.keyCode === 13) {
+					this._contentObjectClick();
+				}
 			}
 
 			_disableAccordions(disabled) {
