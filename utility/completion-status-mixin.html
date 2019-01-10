@@ -54,7 +54,10 @@
 			}
 
 			_getPercentCompleted() {
-				if (!this.completionCount || this.completionCount.total === 0) return 0;
+				if (!this.completionCount || this.completionCount.total === 0) {
+					this.percentCompleted = '0';
+					return;
+				}
 				this.percentCompleted = 100 * this.completionCount.completed / this.completionCount.total;
 			}
 
