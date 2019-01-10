@@ -98,7 +98,7 @@
 		<d2l-accordion-collapse
 			no-icons
 			flex
-			on-keydown="_keyDownListener"
+			on-keyup="_keyUpListener"
 		>
 			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
 				<div class="module-header">
@@ -199,7 +199,7 @@
 				};
 			}
 
-			_keyDownListener(event) {
+			_keyUpListener(event) {
 				if (event.keyCode === 13) {
 					this._contentObjectClick();
 				}
