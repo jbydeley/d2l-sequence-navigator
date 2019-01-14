@@ -58,14 +58,14 @@
 					});
 
 					it('should create progress bar element with correct percentage completion', () => {
-						const progressBar = element.shadowRoot.querySelector('d2l-progress-bar');
+						const progressBar = element.shadowRoot.querySelector('progress');
 						expect( progressBar )
 							.to
 							.exist;
 
-						expect( progressBar.shadowRoot.querySelector('#innerBar').style.width )
+						expect( progressBar.value )
 							.to
-							.equal( '80%' );
+							.equal( 80 );
 					});
 
 					it('should create correct completion count label', () => {

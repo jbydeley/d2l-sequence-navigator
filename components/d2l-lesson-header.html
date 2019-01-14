@@ -1,8 +1,8 @@
-<link rel="import" href="d2l-progress-bar.html">
 <link rel="import" href="../utility/completion-status-mixin.html">
 <link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
 <link rel="import" href="../../d2l-colors/d2l-colors.html">
 <link rel="import" href="../../d2l-typography/d2l-typography.html">
+<link rel="import" href="../../d2l-progress/d2l-progress.html">
 
 <!--
 'd2l-lesson-header'
@@ -80,6 +80,32 @@
 			color: var(--d2l-lesson-header-text-color);
 			text-decoration: none;
 		}
+		progress.d2l-progress {
+					@apply --d2l-progress;
+					background-color: var(--d2l-color-gypsum);
+					width: 270px;
+					height:12px;
+				}
+				/* this is necessary to avoid white bleed over rounded corners in chrome and safari */
+				progress.d2l-progress::-webkit-progress-bar {
+					@apply --d2l-progress-webkit-progress-bar;
+				}
+				/* strangely, comma separating the selectors for these pseudo-elements causes them to break */
+				progress.d2l-progress::-webkit-progress-value {
+					@apply --d2l-progress-webkit-progress-value;
+					background-color: var(--d2l-color-celestine);
+					border:none;
+				}
+				/* note: unable to get firefox to animate the width... seems animation is not implemented for progress in FF */
+				progress.d2l-progress::-moz-progress-bar {
+					@apply --d2l-progress-moz-progress-bar;
+					background-color: var(--d2l-color-celestine);
+					border:none;
+				}
+				progress.d2l-progress::-ms-fill {
+					@apply --d2l-progress-ms-fill;
+					background-color: var(--d2l-color-celestine);
+				}
 
 		</style>
 		<a href="javascript:void(0)"
@@ -87,7 +113,7 @@
 			on-click="_onHeaderClicked">
 			<div>
 				<span class="module-title">[[entity.properties.title]]</span>
-				<d2l-progress-bar percent-completed=[[percentCompleted]] aria-hidden="true"></d2l-progress-bar>
+				<progress class="d2l-progress" value="[[percentCompleted]]" max="100"></progress>
 				<div class="module-completion-count" aria-hidden="true">[[localize('completedMofN', 'completed', completionCompleted, 'total', completionTotal)]]</div>
 				<div><d2l-offscreen>[[localize('requirementsCompleted', 'completed', completionCompleted, 'total', completionTotal)]]</d2l-offscreen></div>
 			</div>
