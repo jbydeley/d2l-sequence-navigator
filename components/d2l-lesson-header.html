@@ -83,7 +83,7 @@
 		progress.d2l-progress {
 					@apply --d2l-progress;
 					background-color: var(--d2l-color-gypsum);
-					width: 270px;
+					width: 274px;
 					height:12px;
 				}
 				/* this is necessary to avoid white bleed over rounded corners in chrome and safari */
@@ -104,7 +104,11 @@
 				}
 				progress.d2l-progress::-ms-fill {
 					@apply --d2l-progress-ms-fill;
-					background-color: var(--d2l-color-celestine);
+					border: 1px solid transparent;
+					border-radius: 10px;
+					/*Added default value since --d2l-color-celestine doesn't work on Edge
+					https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12837456/*/
+					background-color: var(--d2l-color-celestine, #006fbf);
 				}
 
 		</style>
