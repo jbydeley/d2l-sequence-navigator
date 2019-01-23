@@ -29,18 +29,17 @@
 				border-style: solid;
 				border-width: var(--d2l-outer-module-border-width, 2px 0px 2px 0);
 				border-color:  var(--d2l-outer-module-border-color);
-				
 			}
 
-			#header-container:focus-within {
-				background-color: var(--d2l-asv-hover-color);
+			d2l-accordion-collapse:focus-within {
+				--d2l-outer-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
 				--d2l-outer-module-text-color: var(--d2l-asv-text-color);
+				outline: none;
 			}
 
-			#header-container:focus,
 			#header-container:hover {
-				background-color: var(--d2l-asv-hover-color);
+				--d2l-outer-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
 				--d2l-outer-module-text-color: var(--d2l-asv-text-color);
 			}
