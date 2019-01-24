@@ -2,13 +2,13 @@
 
 # d2l-sequence-navigator
 
-[Polymer](https://www.polymer-project.org)-based web component for a D2L sequence navigator.
+[Polymer-3](https://www.polymer-project.org)-based web component for a D2L sequence navigator.
 
 
 ## Installation
 
 ```shell
-bower install d2l-sequence-navigator
+npm install d2l-sequence-navigator
 ```
 
 ## Usage
@@ -44,5 +44,5 @@ polymer test --skip-plugin sauce
 To lint AND run local unit tests:
 
 ```shell
-npm test
+npm run test
 ```
