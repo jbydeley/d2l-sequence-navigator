@@ -1,7 +1,4 @@
-bower_components*
 node_modules
-bower-*.json
 .idea/
 analysis.json
 locales.json
-build

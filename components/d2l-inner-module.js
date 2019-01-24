@@ -1,12 +1,18 @@
-<link rel="import" href="d2l-activity-link.html">
-<link rel="import" href="../utility/completion-status-mixin.html">
-<link rel="import" href="../utility/polymer-asv-launch-mixin.html">
-<link rel="import" href="../../d2l-colors/d2l-colors.html">
-<link rel="import" href="../../d2l-icons/d2l-icons.html">
-<link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
-
-<dom-module id="d2l-inner-module">
-	<template>
+import './d2l-activity-link.js';
+import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
+import { PolymerASVLaunchMixin } from '../utility/polymer-asv-launch-mixin.js';
+import 'd2l-colors/d2l-colors.js';
+import 'd2l-icons/d2l-icons.js';
+import 'd2l-offscreen/d2l-offscreen.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+/*
+@memberOf window.D2L.Polymer.Mixins;
+@mixes D2L.Polymer.Mixins.CompletionStatusMixin
+@mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
+*/
+class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
+	static get template() {
+		return html`
 		<style>
 			:host {
 				--d2l-inner-module-text-color: var(--d2l-asv-text-color);
@@ -39,7 +45,7 @@
 				border-radius: 8px 8px 0 0;
 				border-style: solid;
 				border-width: var(--d2l-inner-module-border-width, 0);
-				border-color:  var(--d2l-inner-module-border-color, transparent);
+				border-color:	var(--d2l-inner-module-border-color, transparent);
 			}
 
 			#module-header {
@@ -97,74 +103,59 @@
 		<ol>
 			<template is="dom-repeat" items="[[subEntities]]" as="childLink">
 				<li>
-					<d2l-activity-link
-						href="[[childLink.href]]"
-						token="[[token]]"
-						current-activity="{{currentActivity}}"
-						on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"
-					></d2l-activity-link>
+					<d2l-activity-link href="[[childLink.href]]" token="[[token]]" current-activity="{{currentActivity}}" on-sequencenavigator-d2l-activity-link-current-activity="childIsActiveEvent"></d2l-activity-link>
 				</li>
 			</template>
 		</ol>
-	</template>
+`;
+	}
 
-	<script>
-		/*
-		@memberOf window.D2L.Polymer.Mixins;
-		@mixes D2L.Polymer.Mixins.CompletionStatusMixin
-		@mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
-		*/
-		class D2LInnerModule extends D2L.Polymer.Mixins.PolymerASVLaunchMixin(D2L.Polymer.Mixins.CompletionStatusMixin()) {
-			static get is() {
-				return 'd2l-inner-module';
+	static get is() {
+		return 'd2l-inner-module';
+	}
+	static get properties() {
+		return {
+			currentActivity: {
+				type: String,
+				value: '',
+				notify: true
+			},
+			hasCurrentActivity: {
+				type: Boolean,
+				value: false
+			},
+			subEntities: {
+				type: Array,
+				computed: 'getSubEntities(entity)'
 			}
-			static get properties() {
-				return {
-					currentActivity: {
-						type: String,
-						value: '',
-						notify: true
-					},
-					hasCurrentActivity: {
-						type: Boolean,
-						value: false
-					},
-					subEntities: {
-						type: Array,
-						computed: 'getSubEntities(entity)'
-					}
-				};
-			}
+		};
+	}
 
-			getSubEntities(entity) {
-				return entity && entity.getSubEntities()
-					.filter( subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || ( subEntity.href && subEntity.hasClass('sequence-description') ) )
-					.map(this._getHref);
-			}
+	getSubEntities(entity) {
+		return entity && entity.getSubEntities()
+			.filter(subEntity => (subEntity.hasClass('sequenced-activity') && subEntity.hasClass('available')) || (subEntity.href && subEntity.hasClass('sequence-description')))
+			.map(this._getHref);
+	}
 
-			_getHref(entity) {
-				return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
-			}
+	_getHref(entity) {
+		return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
+	}
 
-			_getIsSelected(currentActivity, entity) {
-				const selected = entity && entity.getLinkByRel('self').href === currentActivity;
-				if (selected) {
-					this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
-				}
-				return (selected) ? 'd2l-asv-current' : '';
-			}
-
-			_onHeaderClicked() {
-				this.currentActivity = this.entity.getLinkByRel('self').href;
-				this._contentObjectClick();
-			}
-
-			childIsActiveEvent() {
-				this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
-			}
-
+	_getIsSelected(currentActivity, entity) {
+		const selected = entity && entity.getLinkByRel('self').href === currentActivity;
+		if (selected) {
+			this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
 		}
-		customElements.define(D2LInnerModule.is, D2LInnerModule);
+		return (selected) ? 'd2l-asv-current' : '';
+	}
 
-	</script>
-</dom-module>
+	_onHeaderClicked() {
+		this.currentActivity = this.entity.getLinkByRel('self').href;
+		this._contentObjectClick();
+	}
+
+	childIsActiveEvent() {
+		this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
+	}
+}
+customElements.define(D2LInnerModule.is, D2LInnerModule);

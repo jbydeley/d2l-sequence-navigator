@@ -1,18 +1,27 @@
-<link rel="import" href="../utility/completion-status-mixin.html">
-<link rel="import" href="../../d2l-offscreen/d2l-offscreen.html">
-<link rel="import" href="../../d2l-colors/d2l-colors.html">
-<link rel="import" href="../../d2l-typography/d2l-typography.html">
-<link rel="import" href="../../d2l-progress/d2l-progress.html">
-
-<!--
+/**
 'd2l-lesson-header'
 
-
 @demo demo/index.html
--->
+*/
+/*
+	FIXME(polymer-modulizer): the above comments were extracted
+	from HTML and may be out of place here. Review them and
+	then delete this comment!
+*/
+import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
 
-<dom-module id="d2l-lesson-header">
-	<template>
+import 'd2l-offscreen/d2l-offscreen.js';
+import 'd2l-colors/d2l-colors.js';
+import 'd2l-typography/d2l-typography.js';
+import 'd2l-progress/d2l-progress.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+/*
+@memberOf D2L.Polymer.Mixins;
+@mixes CompletionStatusMixin
+*/
+class D2LLessonHeader extends CompletionStatusMixin() {
+	static get template() {
+		return html`
 		<style>
 		:host {
 			--d2l-lesson-header-text-color: var(--d2l-asv-text-color);
@@ -25,7 +34,7 @@
 			padding: 20px 28px 20px 25px;
 			border-style: solid;
 			border-width: 2px 0px 2px 2px;
-			border-color:  var(--d2l-lesson-header-border-color);
+			border-color:	var(--d2l-lesson-header-border-color);
 			border-radius: 8px 0px 0px 8px;
 		}
 
@@ -112,9 +121,7 @@
 				}
 
 		</style>
-		<a href="javascript:void(0)"
-			class="d2l-header-lesson-link"
-			on-click="_onHeaderClicked">
+		<a href="javascript:void(0)" class="d2l-header-lesson-link" on-click="_onHeaderClicked">
 			<div>
 				<span class="module-title">[[entity.properties.title]]</span>
 				<progress class="d2l-progress" value="[[percentCompleted]]" max="100"></progress>
@@ -122,45 +129,38 @@
 				<div><d2l-offscreen>[[localize('requirementsCompleted', 'completed', completionCompleted, 'total', completionTotal)]]</d2l-offscreen></div>
 			</div>
 		</a>
+`;
+	}
 
-	</template>
-	<script>
-		/*
-		@memberOf D2L.Polymer.Mixins;
-		@mixes CompletionStatusMixin
-		*/
-		class D2LLessonHeader extends D2L.Polymer.Mixins.CompletionStatusMixin() {
-			static get is() {
-				return 'd2l-lesson-header';
+	static get is() {
+		return 'd2l-lesson-header';
+	}
+	static get properties() {
+		return {
+			class: {
+				type: String,
+				reflectToAttribute: true,
+				computed:'_getHeaderClass(currentActivity, entity)'
+			},
+			currentActivity: {
+				type: String,
+				value: '',
+				notify: true
 			}
-			static get properties() {
-				return {
-					class: {
-						type: String,
-						reflectToAttribute: true,
-						computed:'_getHeaderClass(currentActivity, entity)'
-					},
-					currentActivity: {
-						type: String,
-						value: '',
-						notify: true
-					}
-				};
-			}
+		};
+	}
 
-			_getHeaderClass(currentActivity, entity) {
-				const selfLink = entity && entity.getLinkByRel('self').href;
-				if ( currentActivity === selfLink ) {
-					return 'd2l-asv-current';
-				}
-				return '';
-			}
-
-			_onHeaderClicked() {
-				this.currentActivity = this.entity && this.entity.getLinkByRel('self').href || '';
-			}
+	_getHeaderClass(currentActivity, entity) {
+		const selfLink = entity && entity.getLinkByRel('self').href;
+		if (currentActivity === selfLink) {
+			return 'd2l-asv-current';
 		}
+		return '';
+	}
 
-		window.customElements.define(D2LLessonHeader.is, D2LLessonHeader);
-	</script>
-</dom-module>
+	_onHeaderClicked() {
+		this.currentActivity = this.entity && this.entity.getLinkByRel('self').href || '';
+	}
+}
+
+window.customElements.define(D2LLessonHeader.is, D2LLessonHeader);

@@ -6,12 +6,12 @@
 
 		<title>d2l-lesson-header test</title>
 
-		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../wct-browser-legacy/browser.js"></script>
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
-		<link rel="import" href="../../polymer/polymer.html">
-		<link rel="import" href="../components/d2l-lesson-header.html">
+		<script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
+		<script type="module" src="../components/d2l-lesson-header.js"></script>
 		
 	</head>
 	<body>
@@ -26,79 +26,81 @@
 				<d2l-lesson-header token="bamboozle"></d2l-lesson-header>
 			</template>
 		</test-fixture>
-		<script>
-			/* global SirenFixture */
-			describe('d2l-lesson-header', () => {
-				describe('for a lesson', () => {
-					let element;
+		<script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import '../components/d2l-lesson-header.js';
+/* global SirenFixture */
+describe('d2l-lesson-header', () => {
+	describe('for a lesson', () => {
+		let element;
 
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/lesson1.json', fixture('LessonFixture'));
-					});
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/lesson1.json', fixture('LessonFixture'));
+		});
 
-					it('should instantiate the element with default properties', () => {
-						expect(element.href)
-							.to
-							.equal('data/lesson1.json');
+		it('should instantiate the element with default properties', () => {
+			expect(element.href)
+				.to
+				.equal('data/lesson1.json');
 
-						expect(element.token)
-							.to
-							.equal('bamboozle');
-					});
+			expect(element.token)
+				.to
+				.equal('bamboozle');
+		});
 
-					it('should create module title element', () => {
-						const moduleTitle = element.shadowRoot.querySelector('.module-title');
-						expect( moduleTitle )
-							.to
-							.exist;
+		it('should create module title element', () => {
+			const moduleTitle = element.shadowRoot.querySelector('.module-title');
+			expect( moduleTitle )
+				.to
+				.exist;
 
-						expect( moduleTitle )
-							.to.contain
-							.text( 'Lesson 1' );
-					});
+			expect( moduleTitle )
+				.to.contain
+				.text( 'Lesson 1' );
+		});
 
-					it('should create progress bar element with correct percentage completion', () => {
-						const progressBar = element.shadowRoot.querySelector('progress');
-						expect( progressBar )
-							.to
-							.exist;
+		it('should create progress bar element with correct percentage completion', () => {
+			const progressBar = element.shadowRoot.querySelector('progress');
+			expect( progressBar )
+				.to
+				.exist;
 
-						expect( progressBar.value )
-							.to
-							.equal( 80 );
-					});
+			expect( progressBar.value )
+				.to
+				.equal( 80 );
+		});
 
-					it('should create correct completion count label', () => {
-						const completionCount = element.shadowRoot.querySelector('.module-completion-count');
-						expect( completionCount )
-							.to
-							.exist;
+		it('should create correct completion count label', () => {
+			const completionCount = element.shadowRoot.querySelector('.module-completion-count');
+			expect( completionCount )
+				.to
+				.exist;
 
-						expect( completionCount )
-							.to.contain
-							.text('Completed 4/5');
-					});
-				});
+			expect( completionCount )
+				.to.contain
+				.text('Completed 4/5');
+		});
+	});
 
-				describe('with no completion status', () => {
-					let element;
+	describe('with no completion status', () => {
+		let element;
 
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/lesson5.json', fixture('BadLessonFixture'));
-					});
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/lesson5.json', fixture('BadLessonFixture'));
+		});
 
-					it('should create default completion count label', () => {
-						const completionCount = element.shadowRoot.querySelector('.module-completion-count');
-						expect( completionCount )
-							.to
-							.exist;
+		it('should create default completion count label', () => {
+			const completionCount = element.shadowRoot.querySelector('.module-completion-count');
+			expect( completionCount )
+				.to
+				.exist;
 
-						expect( completionCount )
-							.to.contain
-							.text('Completed 0/0');
-					});
-				});
-			});
-		</script>
+			expect( completionCount )
+				.to.contain
+				.text('Completed 0/0');
+		});
+	});
+});
+</script>
 	</body>
 </html>

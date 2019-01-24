@@ -17,7 +17,7 @@ properties: {
 */
 resources: {
 value: function () {
-return {{> locales }};
+return {"ar":{},"de":{},"en":{"countStatus":"{completed}/{total}","completedMofN":"Completed {completed}/{total}","requirementsCompleted":"{completed} of {total} requirements completed","optional":"Optional","exempt":"Exempt","completed":"completed"},"es":{},"fr":{},"ja":{},"ko":{},"nb":{},"nl":{},"pt":{},"sv":{},"tr":{},"zh-TW":{},"zh":{}};
 }
 }
 }

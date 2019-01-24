@@ -6,12 +6,12 @@
 
 		<title>d2l-inner-module test</title>
 
-		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../wct-browser-legacy/browser.js"></script>
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
-		<link rel="import" href="../../polymer/polymer.html">
-		<link rel="import" href="../components/d2l-inner-module.html">
+		<script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
+		<script type="module" src="../components/d2l-inner-module.js"></script>
 
 	</head>
 	<body>
@@ -32,162 +32,164 @@
 				<d2l-inner-module token="bamboozle"></d2l-inner-module>
 			</template>
 		</test-fixture>
-		<script>
-			/* global SirenFixture */
-			describe('d2l-inner-module', () => {
-				describe('for module with children', () => {
-					let element;
+		<script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import '../components/d2l-inner-module.js';
+/* global SirenFixture */
+describe('d2l-inner-module', () => {
+	describe('for module with children', () => {
+		let element;
 
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/lesson1.json', fixture('Empty'));
-					});
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/lesson1.json', fixture('Empty'));
+		});
 
-					it('should instantiate the element with default properties', () => {
-						expect(element.href)
-							.to
-							.equal('data/lesson1.json');
+		it('should instantiate the element with default properties', () => {
+			expect(element.href)
+				.to
+				.equal('data/lesson1.json');
 
-						expect(element.token)
-							.to
-							.equal('bamboozle');
-					});
+			expect(element.token)
+				.to
+				.equal('bamboozle');
+		});
 
-					it('should create d2l-navigation-item elements for child entities', () => {
-						expect(element.shadowRoot.querySelector('ol'))
-							.to
-							.exist;
-					});
-				});
+		it('should create d2l-navigation-item elements for child entities', () => {
+			expect(element.shadowRoot.querySelector('ol'))
+				.to
+				.exist;
+		});
+	});
 
-				describe('for module without children', () => {
+	describe('for module without children', () => {
 
-					let element;
+		let element;
 
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
-					});
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
+		});
 
-					it('should not create any child d2l-activity-link elements', () => {
-						expect(element.shadowRoot.querySelector('d2l-activity-link'))
-							.to.be
-							.null;
-					});
+		it('should not create any child d2l-activity-link elements', () => {
+			expect(element.shadowRoot.querySelector('d2l-activity-link'))
+				.to.be
+				.null;
+		});
 
-					it('should create empty text', () => {
-						flush(() => {
-							const item = element.shadowRoot.querySelector('.no-topics');
-							expect(item)
-								.to
-								.exist;
+		it('should create empty text', () => {
+			flush(() => {
+				const item = element.shadowRoot.querySelector('.no-topics');
+				expect(item)
+					.to
+					.exist;
 
-							expect(item)
-								.to.contain.trimmed
-								.text('This module has no topics');
-						});
-					});
-
-					it('should show only the title in the header', () => {
-
-						const titleElement = element.shadowRoot.querySelector('.module-title');
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						const checkmark = element.shadowRoot.querySelector('.completedStatus');
-
-						expect(titleElement).to.exist;
-						expect(countStatus).to.be.null;
-						expect(optionalStatus).to.be.null;
-						expect(checkmark).to.be.null;
-					});
-				});
-
-				describe('for module with required activities, not all completed', () => {
-
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
-					});
-
-					it('should show only the title in the header', () => {
-
-						const titleElement = element.shadowRoot.querySelector('.module-title');
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						const checkmark = element.shadowRoot.querySelector('.completedStatus');
-
-						expect(titleElement).to.exist;
-						expect(countStatus).to.be.null;
-						expect(optionalStatus).to.be.null;
-						expect(checkmark).to.be.null;
-					});
-				});
-
-				describe('for module with all optional activities unread', () => {
-
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
-					});
-
-					it('should show only the title in the header', () => {
-
-						const titleElement = element.shadowRoot.querySelector('.module-title');
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						const checkmark = element.shadowRoot.querySelector('.completedStatus');
-
-						expect(titleElement).to.exist;
-						expect(countStatus).to.be.null;
-						expect(optionalStatus).to.be.null;
-						expect(checkmark).to.be.null;
-					});
-				});
-
-				describe('for module with all required activities incomplete', () => {
-
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
-					});
-
-					it('should show only the title in the header', () => {
-
-						const titleElement = element.shadowRoot.querySelector('.module-title');
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						const checkmark = element.shadowRoot.querySelector('.completedStatus');
-
-						expect(titleElement).to.exist;
-						expect(countStatus).to.be.null;
-						expect(optionalStatus).to.be.null;
-						expect(checkmark).to.be.null;
-					});
-				});
-
-				describe('for module with all required activities completed', () => {
-
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
-					});
-
-					it('should show only the title in the header', () => {
-
-						const titleElement = element.shadowRoot.querySelector('.module-title');
-						const countStatus = element.shadowRoot.querySelector('.countStatus');
-						const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
-						const checkmark = element.shadowRoot.querySelector('.completedStatus');
-
-						expect(titleElement).to.exist;
-						expect(countStatus).to.be.null;
-						expect(optionalStatus).to.be.null;
-						expect(checkmark).to.be.null;
-					});
-				});
+				expect(item)
+					.to.contain.trimmed
+					.text('This module has no topics');
 			});
-		</script>
+		});
+
+		it('should show only the title in the header', () => {
+
+			const titleElement = element.shadowRoot.querySelector('.module-title');
+			const countStatus = element.shadowRoot.querySelector('.countStatus');
+			const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+			const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+			expect(titleElement).to.exist;
+			expect(countStatus).to.be.null;
+			expect(optionalStatus).to.be.null;
+			expect(checkmark).to.be.null;
+		});
+	});
+
+	describe('for module with required activities, not all completed', () => {
+
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
+		});
+
+		it('should show only the title in the header', () => {
+
+			const titleElement = element.shadowRoot.querySelector('.module-title');
+			const countStatus = element.shadowRoot.querySelector('.countStatus');
+			const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+			const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+			expect(titleElement).to.exist;
+			expect(countStatus).to.be.null;
+			expect(optionalStatus).to.be.null;
+			expect(checkmark).to.be.null;
+		});
+	});
+
+	describe('for module with all optional activities unread', () => {
+
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
+		});
+
+		it('should show only the title in the header', () => {
+
+			const titleElement = element.shadowRoot.querySelector('.module-title');
+			const countStatus = element.shadowRoot.querySelector('.countStatus');
+			const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+			const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+			expect(titleElement).to.exist;
+			expect(countStatus).to.be.null;
+			expect(optionalStatus).to.be.null;
+			expect(checkmark).to.be.null;
+		});
+	});
+
+	describe('for module with all required activities incomplete', () => {
+
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
+		});
+
+		it('should show only the title in the header', () => {
+
+			const titleElement = element.shadowRoot.querySelector('.module-title');
+			const countStatus = element.shadowRoot.querySelector('.countStatus');
+			const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+			const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+			expect(titleElement).to.exist;
+			expect(countStatus).to.be.null;
+			expect(optionalStatus).to.be.null;
+			expect(checkmark).to.be.null;
+		});
+	});
+
+	describe('for module with all required activities completed', () => {
+
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
+		});
+
+		it('should show only the title in the header', () => {
+
+			const titleElement = element.shadowRoot.querySelector('.module-title');
+			const countStatus = element.shadowRoot.querySelector('.countStatus');
+			const optionalStatus = element.shadowRoot.querySelector('.optionalStatus');
+			const checkmark = element.shadowRoot.querySelector('.completedStatus');
+
+			expect(titleElement).to.exist;
+			expect(countStatus).to.be.null;
+			expect(optionalStatus).to.be.null;
+			expect(checkmark).to.be.null;
+		});
+	});
+});
+</script>
 	</body>
 </html>

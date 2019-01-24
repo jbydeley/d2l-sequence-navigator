@@ -6,13 +6,13 @@
 
 		<title>d2l-activity-link test</title>
 
-		<script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-		<script src="../../web-component-tester/browser.js"></script>
+		<script src="../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+		<script src="../../wct-browser-legacy/browser.js"></script>
 		<script src="../node_modules/chai-dom/chai-dom.js"></script>
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
-		<link rel="import" href="../../polymer/polymer.html">
+		<script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
 		<script src="../../sinonjs/sinon.js"></script>
-		<link rel="import" href="../components/d2l-activity-link.html">
+		<script type="module" src="../components/d2l-activity-link.js"></script>
 
 	</head>
 	<body>
@@ -52,92 +52,94 @@
 			</template>
 		</test-fixture>
 
-		<script>
-			/* global SirenFixture */
-			describe('d2l-activity-link', () => {
+		<script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import '../components/d2l-activity-link.js';
+/* global SirenFixture */
+describe('d2l-activity-link', () => {
 
-				describe('basic', () => {
-					let element, sandbox;
-					beforeEach(() =>{
-						element = fixture('basic');
-						sandbox = sinon.sandbox.create();
-					});
+	describe('basic', () => {
+		let element, sandbox;
+		beforeEach(() =>{
+			element = fixture('basic');
+			sandbox = sinon.sandbox.create();
+		});
 
-					describe('on navigation', () => {
-						beforeEach(()=>{
-							element.dispatchEvent = sandbox.stub();
-						});
-
-						it('should raise a navigation event if it is not the current activity', () => {
-							element.currentActivity = 'http://google.ca';
-							expect(element.dispatchEvent).to.have.been.called;
-						});
-
-						it('should not raise a navigation event if its the current activity', () => {
-							//the addition and slicing is to make a string that is new, but is actually the same
-							element.currentActivity = (' ' + element.currentActivity).slice(1);
-							expect(element.dispatchEvent).to.not.be.called;
-						});
-
-					});
-				});
-
-				describe('for a completed activity', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/unit2-activity1.json', fixture('Empty'));
-					});
-
-					it('should instantiate the element with default properties', () => {
-						expect(element.href)
-							.to.be
-							.equal('data/unit2-activity1.json');
-						expect(element.token)
-							.to.be
-							.equal('bamboozle');
-					});
-				});
-
-				describe('for an incomplete activity', () => {
-					let element;
-
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/activity1.json', fixture('IncompleteActivityTestFixture'));
-					});
-
-					it('should not show that it is complete', () => {
-						expect(element.shadowRoot.querySelector('#IsComplete'))
-							.not.to
-							.exist;
-					});
-				});
-
-				describe('for an activity that has an icon', ()=>{
-					let element;
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/activity4-with-icon.json', fixture('ActivityWithIconTestFixture'));
-					});
-
-					it('should have the correct icon property', ()=> {
-						const el = element.shadowRoot.querySelector('d2l-icon');
-						expect(el).to.have.attribute('icon');
-						expect(el).attribute('icon').to.equal('d2l-tier1:discussions');
-					});
-				});
-
-				describe('for an activity that does not have an icon', ()=>{
-					let element;
-					beforeEach(async() => {
-						element = await SirenFixture.load('data/activity3.json', fixture('ActivityWithoutIconTestFixture'));
-					});
-
-					it('should not have a d2l-icon element', ()=> {
-						const el = element.shadowRoot.querySelector('d2l-icon');
-						expect(el).not.to.exist;
-					});
-				});
+		describe('on navigation', () => {
+			beforeEach(()=>{
+				element.dispatchEvent = sandbox.stub();
 			});
-		</script>
+
+			it('should raise a navigation event if it is not the current activity', () => {
+				element.currentActivity = 'http://google.ca';
+				expect(element.dispatchEvent).to.have.been.called;
+			});
+
+			it('should not raise a navigation event if its the current activity', () => {
+				//the addition and slicing is to make a string that is new, but is actually the same
+				element.currentActivity = (' ' + element.currentActivity).slice(1);
+				expect(element.dispatchEvent).to.not.be.called;
+			});
+
+		});
+	});
+
+	describe('for a completed activity', () => {
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/unit2-activity1.json', fixture('Empty'));
+		});
+
+		it('should instantiate the element with default properties', () => {
+			expect(element.href)
+				.to.be
+				.equal('data/unit2-activity1.json');
+			expect(element.token)
+				.to.be
+				.equal('bamboozle');
+		});
+	});
+
+	describe('for an incomplete activity', () => {
+		let element;
+
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/activity1.json', fixture('IncompleteActivityTestFixture'));
+		});
+
+		it('should not show that it is complete', () => {
+			expect(element.shadowRoot.querySelector('#IsComplete'))
+				.not.to
+				.exist;
+		});
+	});
+
+	describe('for an activity that has an icon', ()=>{
+		let element;
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/activity4-with-icon.json', fixture('ActivityWithIconTestFixture'));
+		});
+
+		it('should have the correct icon property', ()=> {
+			const el = element.shadowRoot.querySelector('d2l-icon');
+			expect(el).to.have.attribute('icon');
+			expect(el).attribute('icon').to.equal('d2l-tier1:discussions');
+		});
+	});
+
+	describe('for an activity that does not have an icon', ()=>{
+		let element;
+		beforeEach(async() => {
+			element = await SirenFixture.load('data/activity3.json', fixture('ActivityWithoutIconTestFixture'));
+		});
+
+		it('should not have a d2l-icon element', ()=> {
+			const el = element.shadowRoot.querySelector('d2l-icon');
+			expect(el).not.to.exist;
+		});
+	});
+});
+</script>
 	</body>
 </html>
