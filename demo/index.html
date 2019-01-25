@@ -9,6 +9,7 @@
 		<script type="module" src="../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
 		<script type="module" src="../d2l-sequence-navigator.js"></script>
 		<script type="module" src="../../d2l-typography/d2l-typography.js"></script>
+		<script type="module" src="../components/d2l-lesson-header.js"></script>
 		<!-- FIXME(polymer-modulizer):
 		These imperative modules that innerHTML your HTML are
 		a hacky way to be sure that any mixins in included style
@@ -66,7 +67,10 @@ $_documentContainer.innerHTML = `<div class="vertical-section-container centered
 				<template>
 					<h4>Sequence navigator in a sidebar</h4>
 					<div class="sidebar">
-						<d2l-sequence-navigator href="data/m2-activity2.json" token="foozleberries" current-activity="data/m2-activity2.json"></d2l-sequence-navigator>
+						<d2l-sequence-navigator href="data/m2-activity2.json" token="foozleberries" current-activity="data/m2-activity2.json">
+							<d2l-lesson-header slot="lesson-header" href="data/lesson1.json" token="token">
+							</d2l-lesson-header>
+						</d2l-sequence-navigator>
 					</div>
 				</template>
 			</demo-snippet>
