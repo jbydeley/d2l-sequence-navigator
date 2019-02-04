@@ -1,5 +1,6 @@
 import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
 import { PolymerASVLaunchMixin } from '../utility/polymer-asv-launch-mixin.js';
+import { ASVFocusWithinMixin } from '../utility/asv-focus-within-mixin.js';
 import './d2l-completion-status.js';
 import './d2l-completion-requirement.js';
 import 'd2l-colors/d2l-colors.js';
@@ -10,7 +11,7 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 @mixes CompletionStatusMixin
 @mixes PolymerASVLaunchMixin
 */
-class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
+class D2LActivityLink extends ASVFocusWithinMixin(PolymerASVLaunchMixin(CompletionStatusMixin())) {
 	static get template() {
 		return html`
 		<style>
@@ -27,8 +28,8 @@ class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				border: 2px solid var(--d2l-activity-link-border-color, transparent);
 				border-width: 2px 0;
 			}
-			
-			
+
+
 			:host(.d2l-asv-current:not(:hover)) {
 				--d2l-activity-link-background-color: var(--d2l-asv-primary-color);
 				--d2l-activity-link-text-color: var(--d2l-asv-selected-text-color);
@@ -40,18 +41,13 @@ class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				outline: none;
 			}
 
+			:host(.d2l-asv-focus-within),
 			:host(:focus:not(.d2l-asv-current)),
 			:host(:hover) {
 				--d2l-activity-link-background-color: var(--d2l-asv-hover-color);
 				--d2l-activity-link-subtext-color: var(--d2l-asv-selected-text-color);
 				--d2l-activity-link-border-color: var(--d2l-asv-border-color);
 				--d2l-activity-link-text-color: var(--d2l-asv-text-color);
-			}
-
-			:host(:focus-within) {
-				--d2l-activity-link-background-color: var(--d2l-asv-hover-color);
-				--d2l-activity-link-subtext-color: var(--d2l-asv-selected-text-color);
-				--d2l-activity-link-border-color: var(--d2l-asv-border-color);
 			}
 
 			:host > div {
@@ -98,7 +94,7 @@ class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				width: 6%;
 				color: var(--d2l-activity-link-text-color);
 			}
-			
+
 			d2l-icon {
 				padding-top: 3px;
 				color: var(--d2l-activity-link-text-color);
@@ -142,7 +138,7 @@ class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 			},
 			class: {
 				type: String,
-				computed: '_getIsSelected(currentActivity, entity)',
+				computed: '_getIsSelected(currentActivity, entity, focusWithin)',
 				reflectToAttribute: true
 			}
 		};
@@ -195,12 +191,12 @@ class D2LActivityLink extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 		}
 		return '';
 	}
-	_getIsSelected(currentActivity, entity) {
+	_getIsSelected(currentActivity, entity, focusWithin) {
 		const selected = entity && entity.getLinkByRel('self').href === currentActivity;
 		if (selected) {
 			this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-activity-link-current-activity', {detail: { href: this.href}}));
 		}
-		return (selected) ? 'd2l-asv-current' : '';
+		return this._getTrueClass(focusWithin, selected);
 	}
 }
 customElements.define(D2LActivityLink.is, D2LActivityLink);

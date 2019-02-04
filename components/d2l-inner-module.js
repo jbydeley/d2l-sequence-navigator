@@ -1,6 +1,7 @@
 import './d2l-activity-link.js';
 import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
 import { PolymerASVLaunchMixin } from '../utility/polymer-asv-launch-mixin.js';
+import { ASVFocusWithinMixin } from '../utility/asv-focus-within-mixin.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-icons/d2l-icons.js';
 import 'd2l-offscreen/d2l-offscreen.js';
@@ -9,8 +10,9 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 @memberOf window.D2L.Polymer.Mixins;
 @mixes D2L.Polymer.Mixins.CompletionStatusMixin
 @mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
+@mixes D2L.Polymer.Mixins.ASVFocusWithinMixin
 */
-class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
+class D2LInnerModule extends ASVFocusWithinMixin(PolymerASVLaunchMixin(CompletionStatusMixin())) {
 	static get template() {
 		return html`
 		<style>
@@ -27,13 +29,9 @@ class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				background-color: var(--d2l-color-sylvite);
 			}
 
+			#header-container.d2l-asv-focus-within,
 			#header-container:focus,
 			#header-container:hover {
-				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
-				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
-			}
-
-			#header-container:focus-within {
 				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
@@ -69,7 +67,7 @@ class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
 
-			.module-title {	
+			.module-title {
 				@apply --d2l-body-small-text;
 				color: var(--d2l-inner-module-text-color);
 
@@ -93,7 +91,7 @@ class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 		</style>
 
 		<div id="header-container">
-			<div id="module-header" class$="[[_getIsSelected(currentActivity, entity)]]" on-click="_onHeaderClicked">
+			<div id="module-header" class$="[[_getIsSelected(currentActivity, entity, focusWithin)]]" on-click="_onHeaderClicked">
 				<a on-click="_onHeaderClicked" href="javascript:void(0)">
 					<span class="module-title">[[entity.properties.title]]</span>
 				</a>
@@ -141,12 +139,12 @@ class D2LInnerModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 		return entity && entity.getLinkByRel && entity.getLinkByRel('self') || entity || '';
 	}
 
-	_getIsSelected(currentActivity, entity) {
+	_getIsSelected(currentActivity, entity, focusWithin) {
 		const selected = entity && entity.getLinkByRel('self').href === currentActivity;
 		if (selected) {
 			this.dispatchEvent(new CustomEvent('sequencenavigator-d2l-inner-module-current-activity', {detail: { href: this.href}}));
 		}
-		return (selected) ? 'd2l-asv-current' : '';
+		this._getTrueClass(focusWithin, selected);
 	}
 
 	_onHeaderClicked() {

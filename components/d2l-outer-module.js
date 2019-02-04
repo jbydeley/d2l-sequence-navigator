@@ -2,6 +2,7 @@ import './d2l-inner-module.js';
 import './d2l-activity-link.js';
 import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
 import { PolymerASVLaunchMixin } from '../utility/polymer-asv-launch-mixin.js';
+import { ASVFocusWithinMixin } from '../utility/asv-focus-within-mixin.js';
 import 'd2l-accordion/d2l-accordion.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-icons/d2l-icons.js';
@@ -11,8 +12,9 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 @memberOf window.D2L.Polymer.Mixins;
 @mixes D2L.Polymer.Mixins.CompletionStatusMixin
 @mixes D2L.Polymer.Mixins.PolymerASVLaunchMixin
+@mixes D2L.Polymer.Mixins.ASVFocusWithinMixin
 */
-class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
+class D2LOuterModule extends ASVFocusWithinMixin(PolymerASVLaunchMixin(CompletionStatusMixin())) {
 	static get template() {
 		return html`
 		<style>
@@ -37,13 +39,7 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				border-color:	var(--d2l-outer-module-border-color);
 			}
 
-			d2l-accordion-collapse:focus-within {
-				--d2l-outer-module-background-color: var(--d2l-asv-hover-color);
-				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
-				--d2l-outer-module-text-color: var(--d2l-asv-text-color);
-				outline: none;
-			}
-
+			#header-container.d2l-asv-focus-within,
 			#header-container:hover {
 				--d2l-outer-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-outer-module-border-color: var(--d2l-asv-border-color);
@@ -62,7 +58,7 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 				width: 100%;
 			}
 
-			.module-title {	
+			.module-title {
 				@apply --d2l-body-compact-text;
 				font-weight: 700;
 				width: calc(100% - 2rem);
@@ -106,11 +102,14 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 			d2l-icon {
 				color: var(--d2l-outer-module-text-color);
 			}
+			d2l-accordion-collapse > a {
+				outline: none;
+			}
 
 		</style>
 
-		<d2l-accordion-collapse no-icons="" flex="" on-keyup="_keyUpListener">
-			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity)]]" on-click="_onHeaderClicked">
+		<d2l-accordion-collapse no-icons="" flex="">
+			<div slot="header" id="header-container" class$="[[_getIsSelected(currentActivity, focusWithin)]]" on-click="_onHeaderClicked">
 				<div class="module-header">
 					<span class="module-title">[[entity.properties.title]]</span>
 					<span class="module-completion-count">
@@ -192,10 +191,8 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 		};
 	}
 
-	_keyUpListener(event) {
-		if (event.keyCode === 13) {
-			this._onHeaderClicked();
-		}
+	_accordionCollapseClass(focusWithin) {
+		return this._focusWithinClass(focusWithin);
 	}
 
 	_disableAccordions(disabled) {
@@ -269,9 +266,9 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 		return entity && entity.getSubEntities().length !== 0;
 	}
 
-	_getIsSelected(currentActivity) {
+	_getIsSelected(currentActivity, focusWithin) {
 		const selected = this.entity && this.entity.getLinkByRel('self').href === currentActivity;
-		return (selected) ? 'd2l-asv-current' : '';
+		return this._getTrueClass(focusWithin, selected);
 	}
 
 	_padOnActivity(childLink) {
@@ -295,5 +292,6 @@ class D2LOuterModule extends PolymerASVLaunchMixin(CompletionStatusMixin()) {
 	childIsActiveEvent() {
 		this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('opened', '');
 	}
+
 }
 customElements.define(D2LOuterModule.is, D2LOuterModule);
