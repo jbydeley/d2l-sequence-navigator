@@ -9,7 +9,7 @@
 	then delete this comment!
 */
 import { CompletionStatusMixin } from '../utility/completion-status-mixin.js';
-
+import { ASVFocusWithinMixin } from '../utility/asv-focus-within-mixin.js';
 import 'd2l-offscreen/d2l-offscreen.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
@@ -18,8 +18,9 @@ import { html } from '@polymer/polymer/lib/utils/html-tag.js';
 /*
 @memberOf D2L.Polymer.Mixins;
 @mixes CompletionStatusMixin
+@mixes D2L.Polymer.Mixins.ASVFocusWithinMixin
 */
-class D2LLessonHeader extends CompletionStatusMixin() {
+class D2LLessonHeader extends ASVFocusWithinMixin(CompletionStatusMixin()) {
 	static get template() {
 		return html`
 		<style>
@@ -48,24 +49,19 @@ class D2LLessonHeader extends CompletionStatusMixin() {
 			outline: none;
 		}
 
+		:host(.d2l-asv-focus-within),
 		:host(:hover) {
 			--d2l-lesson-header-background-color: var(--d2l-asv-hover-color);
 			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
 			--d2l-lesson-header-text-color: var(--d2l-asv-text-color);
 		}
 
-		:host(:focus-within){
-			--d2l-lesson-header-background-color: var(--d2l-asv-hover-color);
-			--d2l-lesson-header-border-color: var(--d2l-asv-border-color);
-			--d2l-lesson-header-text-color: var(--d2l-asv-text-color);
-		}
-
 		.module-title {
-			@apply --d2l-heading-3;		
+			@apply --d2l-heading-3;
 
 			overflow: hidden;
 			text-overflow: ellipsis;
-			
+
 			display: -webkit-box;
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: 2; /* number of lines to show */
@@ -140,7 +136,7 @@ class D2LLessonHeader extends CompletionStatusMixin() {
 			class: {
 				type: String,
 				reflectToAttribute: true,
-				computed:'_getHeaderClass(currentActivity, entity)'
+				computed:'_getHeaderClass(currentActivity, entity, focusWithin)'
 			},
 			currentActivity: {
 				type: String,
@@ -150,12 +146,10 @@ class D2LLessonHeader extends CompletionStatusMixin() {
 		};
 	}
 
-	_getHeaderClass(currentActivity, entity) {
+	_getHeaderClass(currentActivity, entity, focusWithin) {
 		const selfLink = entity && entity.getLinkByRel('self').href;
-		if (currentActivity === selfLink) {
-			return 'd2l-asv-current';
-		}
-		return '';
+		const selected = currentActivity === selfLink;
+		return this._getTrueClass(focusWithin, selected);
 	}
 
 	_onHeaderClicked() {
