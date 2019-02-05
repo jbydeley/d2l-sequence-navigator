@@ -59,6 +59,11 @@ PolymerElement
 			outline: none;
 		}
 
+		#sidebarContent {
+			position: relative;
+			overflow-y: auto;
+		}
+
 		</style>
 		<siren-entity href="[[rootHref]]" token="[[token]]" entity="{{_lessonEntity}}"></siren-entity>
 		<slot name="lesson-header"></slot>
