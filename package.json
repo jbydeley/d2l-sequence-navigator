@@ -34,7 +34,7 @@
     "lint-staged": "^4.3.0",
     "plop": "^2.0.0",
     "polymer-cli": "^1.9.5",
-    "polymer-siren-test-helpers": "^1.0.0",
+    "polymer-siren-test-helpers": "^2.0.0",
     "sinon": "^5.0.7",
     "wct-browser-legacy": "^1.0.1"
   },

@@ -12,7 +12,7 @@
 		<script src="../node_modules/polymer-siren-test-helpers/dist/index.js"></script>
 		<script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
 		<script type="module" src="../components/d2l-lesson-header.js"></script>
-		
+
 	</head>
 	<body>
 		<test-fixture id="LessonFixture">
@@ -29,13 +29,14 @@
 		<script type="module">
 import '@polymer/polymer/polymer-legacy.js';
 import '../components/d2l-lesson-header.js';
-/* global SirenFixture */
+import SirenFixture from 'polymer-siren-test-helpers';
+
 describe('d2l-lesson-header', () => {
 	describe('for a lesson', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/lesson1.json', fixture('LessonFixture'));
+			element = await SirenFixture('data/lesson1.json', fixture('LessonFixture'));
 		});
 
 		it('should instantiate the element with default properties', () => {
@@ -86,7 +87,7 @@ describe('d2l-lesson-header', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/lesson5.json', fixture('BadLessonFixture'));
+			element = await SirenFixture('data/lesson5.json', fixture('BadLessonFixture'));
 		});
 
 		it('should create default completion count label', () => {

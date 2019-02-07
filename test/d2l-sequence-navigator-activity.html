@@ -26,12 +26,14 @@
 <script type="module">
 import '@polymer/polymer/polymer-legacy.js';
 import '../d2l-sequence-navigator.js';
+import SirenFixture from 'polymer-siren-test-helpers';
+
 /* global SirenFixture */
 describe('d2l-sequence-navigator-activity for an activity', () => {
 	let element;
 
 	beforeEach(async() => {
-		element = await SirenFixture.load('data/m2-activity5.json', fixture('ActivityLinked'));
+		element = await SirenFixture('data/m2-activity5.json', fixture('ActivityLinked'));
 	});
 
 	it('should create a d2l-lesson-header child', function() {

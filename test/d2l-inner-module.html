@@ -35,13 +35,14 @@
 		<script type="module">
 import '@polymer/polymer/polymer-legacy.js';
 import '../components/d2l-inner-module.js';
-/* global SirenFixture */
+import SirenFixture from 'polymer-siren-test-helpers';
+
 describe('d2l-inner-module', () => {
 	describe('for module with children', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/lesson1.json', fixture('Empty'));
+			element = await SirenFixture('data/lesson1.json', fixture('Empty'));
 		});
 
 		it('should instantiate the element with default properties', () => {
@@ -66,7 +67,7 @@ describe('d2l-inner-module', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
+			element = await SirenFixture('data/l2-module2.json', fixture('ModuleWithNoChildrenFixture'));
 		});
 
 		it('should not create any child d2l-activity-link elements', () => {
@@ -107,7 +108,7 @@ describe('d2l-inner-module', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l1-module1.json', fixture('Empty'));
+			element = await SirenFixture('data/l1-module1.json', fixture('Empty'));
 		});
 
 		it('should show only the title in the header', () => {
@@ -129,7 +130,7 @@ describe('d2l-inner-module', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l4-optional-completion-module.json', fixture('Empty'));
+			element = await SirenFixture('data/l4-optional-completion-module.json', fixture('Empty'));
 		});
 
 		it('should show only the title in the header', () => {
@@ -151,7 +152,7 @@ describe('d2l-inner-module', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l4-required-completion-module.json', fixture('Empty'));
+			element = await SirenFixture('data/l4-required-completion-module.json', fixture('Empty'));
 		});
 
 		it('should show only the title in the header', () => {
@@ -173,7 +174,7 @@ describe('d2l-inner-module', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l1-module2.json', fixture('Empty'));
+			element = await SirenFixture('data/l1-module2.json', fixture('Empty'));
 		});
 
 		it('should show only the title in the header', () => {

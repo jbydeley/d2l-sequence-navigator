@@ -29,13 +29,14 @@
 		<script type="module">
 import '@polymer/polymer/polymer-legacy.js';
 import '../components/d2l-completion-status.js';
-/* global SirenFixture */
+import SirenFixture from 'polymer-siren-test-helpers';
+
 describe('d2l-completion-status', () => {
 	describe('for a completed activity', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/unit2-activity1.json', fixture('Empty'));
+			element = await SirenFixture('data/unit2-activity1.json', fixture('Empty'));
 		});
 
 		it('should instantiate the element with default properties', () => {
@@ -59,7 +60,7 @@ describe('d2l-completion-status', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/l2-m1-activity1.json', fixture('Empty'));
+			element = await SirenFixture('data/l2-m1-activity1.json', fixture('Empty'));
 		});
 
 		it('should show the entity is incomplete', () => {
@@ -73,7 +74,7 @@ describe('d2l-completion-status', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/m2-activity5.json', fixture('Empty'));
+			element = await SirenFixture('data/m2-activity5.json', fixture('Empty'));
 		});
 
 		it('should show the entity is incomplete', () => {
@@ -87,7 +88,7 @@ describe('d2l-completion-status', () => {
 		let element;
 
 		beforeEach(async() => {
-			element = await SirenFixture.load('data/m2-activity3.json', fixture('Empty'));
+			element = await SirenFixture('data/m2-activity3.json', fixture('Empty'));
 		});
 
 		it('should show the entity is incomplete', () => {
