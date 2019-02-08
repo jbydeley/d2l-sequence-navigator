@@ -203,6 +203,16 @@ class D2LOuterModule extends ASVFocusWithinMixin(PolymerASVLaunchMixin(Completio
 		this.shadowRoot.querySelector('d2l-accordion-collapse').setAttribute('disabled', '');
 	}
 
+	connectedCallback() {
+		super.connectedCallback();
+		this.addEventListener('d2l-accordion-collapse-clicked', this._onHeaderClicked);
+	}
+
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		this.removeEventListener('d2l-accordion-collapse-clicked', this._onHeaderClicked);
+	}
+
 	_isAccordionOpen() {
 		if (!this.shadowRoot || !this.shadowRoot.querySelector('d2l-accordion-collapse')) {
 			return false;
