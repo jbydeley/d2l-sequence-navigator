@@ -85,36 +85,37 @@ class D2LLessonHeader extends ASVFocusWithinMixin(CompletionStatusMixin()) {
 			color: var(--d2l-lesson-header-text-color);
 			text-decoration: none;
 		}
+
 		progress.d2l-progress {
-					@apply --d2l-progress;
-					background-color: var(--d2l-color-gypsum);
-					width: 274px;
-					height:12px;
-				}
-				/* this is necessary to avoid white bleed over rounded corners in chrome and safari */
-				progress.d2l-progress::-webkit-progress-bar {
-					@apply --d2l-progress-webkit-progress-bar;
-				}
-				/* strangely, comma separating the selectors for these pseudo-elements causes them to break */
-				progress.d2l-progress::-webkit-progress-value {
-					@apply --d2l-progress-webkit-progress-value;
-					background-color: var(--d2l-color-celestine);
-					border:none;
-				}
-				/* note: unable to get firefox to animate the width... seems animation is not implemented for progress in FF */
-				progress.d2l-progress::-moz-progress-bar {
-					@apply --d2l-progress-moz-progress-bar;
-					background-color: var(--d2l-color-celestine);
-					border:none;
-				}
-				progress.d2l-progress::-ms-fill {
-					@apply --d2l-progress-ms-fill;
-					border: 1px solid transparent;
-					border-radius: 10px;
-					/*Added default value since --d2l-color-celestine doesn't work on Edge
-					https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12837456/*/
-					background-color: var(--d2l-color-celestine, #006fbf);
-				}
+			@apply --d2l-progress;
+			background-color: var(--d2l-color-gypsum);
+			width: 274px;
+			height:12px;
+		}
+		/* this is necessary to avoid white bleed over rounded corners in chrome and safari */
+		progress.d2l-progress::-webkit-progress-bar {
+			@apply --d2l-progress-webkit-progress-bar;
+		}
+		/* strangely, comma separating the selectors for these pseudo-elements causes them to break */
+		progress.d2l-progress::-webkit-progress-value {
+			@apply --d2l-progress-webkit-progress-value;
+			background-color: var(--d2l-color-celestine);
+			border:none;
+		}
+		/* note: unable to get firefox to animate the width... seems animation is not implemented for progress in FF */
+		progress.d2l-progress::-moz-progress-bar {
+			@apply --d2l-progress-moz-progress-bar;
+			background-color: var(--d2l-color-celestine);
+			border:none;
+		}
+		progress.d2l-progress::-ms-fill {
+			@apply --d2l-progress-ms-fill;
+			border: 1px solid transparent;
+			border-radius: 10px;
+			/*Added default value since --d2l-color-celestine doesn't work on Edge
+			https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12837456/*/
+			background-color: var(--d2l-color-celestine, #006fbf);
+		}
 
 		</style>
 		<a href="javascript:void(0)" class="d2l-header-lesson-link" on-click="_onHeaderClicked">

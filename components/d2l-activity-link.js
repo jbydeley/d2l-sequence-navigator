@@ -29,8 +29,7 @@ class D2LActivityLink extends ASVFocusWithinMixin(PolymerASVLaunchMixin(Completi
 				border-width: 2px 0;
 			}
 
-
-			:host(.d2l-asv-current:not(:hover)) {
+			:host(.d2l-asv-current) {
 				--d2l-activity-link-background-color: var(--d2l-asv-primary-color);
 				--d2l-activity-link-text-color: var(--d2l-asv-selected-text-color);
 				--d2l-activity-link-subtext-color: var(--d2l-asv-selected-text-color);
@@ -42,10 +41,10 @@ class D2LActivityLink extends ASVFocusWithinMixin(PolymerASVLaunchMixin(Completi
 			}
 
 			:host(.d2l-asv-focus-within),
-			:host(:focus:not(.d2l-asv-current)),
+			:host(:focus),
 			:host(:hover) {
 				--d2l-activity-link-background-color: var(--d2l-asv-hover-color);
-				--d2l-activity-link-subtext-color: var(--d2l-asv-selected-text-color);
+				--d2l-activity-link-subtext-color: var(--d2l-asv-text-color);
 				--d2l-activity-link-border-color: var(--d2l-asv-border-color);
 				--d2l-activity-link-text-color: var(--d2l-asv-text-color);
 			}

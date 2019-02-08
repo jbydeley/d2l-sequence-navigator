@@ -29,13 +29,6 @@ class D2LInnerModule extends ASVFocusWithinMixin(PolymerASVLaunchMixin(Completio
 				background-color: var(--d2l-color-sylvite);
 			}
 
-			#header-container.d2l-asv-focus-within,
-			#header-container:focus,
-			#header-container:hover {
-				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
-				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
-			}
-
 			#header-container {
 				--d2l-inner-module-border-color: var(--d2l-inner-module-background-color);
 				display: flex;
@@ -61,9 +54,16 @@ class D2LInnerModule extends ASVFocusWithinMixin(PolymerASVLaunchMixin(Completio
 				outline: none;
 			}
 
-			.d2l-asv-current:not(:hover) {
+			#header-container.d2l-asv-current {
 				--d2l-inner-module-background-color: var(--d2l-asv-primary-color);
 				--d2l-inner-module-text-color: var(--d2l-asv-selected-text-color);
+				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
+			}
+
+			#header-container.d2l-asv-focus-within,
+			#header-container:focus,
+			#header-container:hover {
+				--d2l-inner-module-background-color: var(--d2l-asv-hover-color);
 				--d2l-inner-module-border-color: var(--d2l-asv-border-color);
 			}
 
